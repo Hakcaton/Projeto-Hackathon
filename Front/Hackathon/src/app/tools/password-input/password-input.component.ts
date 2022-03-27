@@ -24,11 +24,13 @@ export class PasswordInputComponent implements ControlValueAccessor {
 
   bPasswordVisible = false;
 
-  onChange: any = () => { };
+  onChange: any = (value: string) => { };
   onTouched: any = () => { };
   disabled = false;
 
-  constructor() {
+  onInput(value: string){
+    this.value = value;
+    this.onChange(this.value);
   }
 
   writeValue(value: string): void {
