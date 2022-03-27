@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/Services/auth/auth.service';
+import { IUsuario } from './login-module.interface';
 
 @Component({
   selector: 'app-login-module',
@@ -7,9 +9,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginModuleComponent implements OnInit {
 
-  constructor() { }
+  blnRecuperarSenha: boolean = false;
+  usuario: IUsuario = new IUsuario();
+  email: string = "";
+
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+     this.usuario.email = "clebinhoXUXUCAO"
+     console.log(this.email);
+     console.log(this.usuario.email);
   }
 
+  ngAfterViewInit(): void{
+    console.log(this.usuario)
+  }
+
+  fazerLogin(){
+    console.log(this.usuario);
+    this.authService.fazerLogin(this.usuario);
+  }
+
+  onRecuperarSenha(){
+
+  }
 }

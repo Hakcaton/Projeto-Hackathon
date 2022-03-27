@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -8,6 +9,7 @@ import { PerfilModuleComponent } from './modules/perfil-module/perfil-module.com
 import { PasswordInputComponent } from './tools/password-input/password-input.component';
 import { ForgotpasswordModuleComponent } from './modules/forgotpassword-module/forgotpassword-module/forgotpassword-module.component';
 import { SetpasswordModuleComponent } from './modules/setpassword-module/setpassword-module/setpassword-module.component';
+import { AuthService } from './Services/auth/auth.service';
 
 
 @NgModule({
@@ -22,9 +24,10 @@ import { SetpasswordModuleComponent } from './modules/setpassword-module/setpass
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
