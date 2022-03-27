@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { AuthService } from 'src/app/tools/auth/auth.service';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/Services/auth.service';
 
 
 import { IUsuario } from './login-module.interface';
@@ -13,9 +14,9 @@ export class LoginModuleComponent implements OnInit {
 
   lembrarSenha: boolean = false;
   usuario: IUsuario = new IUsuario();
+  usuarioAutenticado: boolean = false;
   
-  
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
   
   @Output() onForgotPasswordClick = new EventEmitter();
   
@@ -28,6 +29,7 @@ export class LoginModuleComponent implements OnInit {
   fazerLogin(){
     console.log(this.usuario);
     this.authService.fazerLogin(this.usuario);
+
   }
 
   onRecuperarSenha(){

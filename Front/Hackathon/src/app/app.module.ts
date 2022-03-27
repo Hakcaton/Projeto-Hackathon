@@ -12,7 +12,8 @@ import { ResetPasswordModuleComponent as ResetPasswordModuleComponent } from './
 import { LoginModuleComponent } from './modules/authentication-module/login-module/login-module.component';
 import { ProfileModuleComponent } from './modules/profile-module/profile-module.component';
 import { AuthenticationModuleComponent } from './modules/authentication-module/authentication-module.component';
-import { AuthService } from './tools/auth/auth.service';
+import { MenuModuleComponent } from './tools/menu-module/menu-module.component';
+import { AuthService } from 'src/Services/auth.service';
 
 
 
@@ -26,6 +27,7 @@ import { AuthService } from './tools/auth/auth.service';
     ForgotpasswordModuleComponent,
     ResetPasswordModuleComponent,
     AuthenticationModuleComponent,
+    MenuModuleComponent,
   
   ],
   imports: [
@@ -33,7 +35,10 @@ import { AuthService } from './tools/auth/auth.service';
     AppRoutingModule,
     FormsModule
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    MenuModuleComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

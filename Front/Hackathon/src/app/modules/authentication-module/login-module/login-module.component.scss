@@ -22,12 +22,17 @@ a {
 /* estrutura */
 
 .wrapper {
+  background-image: url("../../../../assets/gestao-de-documentos-2-1280x720.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  opacity: 0.95;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  width: 100%;
-  min-height: 100%;
+  width: 100vw;
+  height: 100vh;
   padding: 100px;
 }
 
