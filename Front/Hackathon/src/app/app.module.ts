@@ -4,11 +4,15 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginModuleComponent } from './modules/login-module/login-module.component';
-import { PerfilModuleComponent } from './modules/perfil-module/perfil-module.component';
+
 import { PasswordInputComponent } from './tools/password-input/password-input.component';
-import { ForgotpasswordModuleComponent } from './modules/forgotpassword-module/forgotpassword-module/forgotpassword-module.component';
-import { SetpasswordModuleComponent } from './modules/setpassword-module/setpassword-module/setpassword-module.component';
+
+import { ForgotpasswordModuleComponent } from './modules/authentication-module/forgot-password-module/forgot-password-module.component';
+import { ResetPasswordModuleComponent as ResetPasswordModuleComponent } from './modules/authentication-module/reset-password-module/reset-password-module.component';
+import { LoginModuleComponent } from './modules/authentication-module/login-module/login-module.component';
+import { ProfileModuleComponent } from './modules/profile-module/profile-module.component';
+import { AuthenticationModuleComponent } from './modules/authentication-module/authentication-module.component';
+
 import { AuthService } from './Services/auth/auth.service';
 
 
@@ -16,10 +20,11 @@ import { AuthService } from './Services/auth/auth.service';
   declarations: [
     AppComponent,
     LoginModuleComponent,
-    PerfilModuleComponent,
+    ProfileModuleComponent,
     PasswordInputComponent,
     ForgotpasswordModuleComponent,
-    SetpasswordModuleComponent,
+    ResetPasswordModuleComponent,
+    AuthenticationModuleComponent,
   
   ],
   imports: [

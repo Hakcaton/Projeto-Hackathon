@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { IUsuario } from 'src/app/modules/login-module/login-module.interface';
+import { IUsuario } from 'src/app/modules/authentication-module/login-module/login-module.interface';
 
 @Injectable({
   providedIn: 'root'

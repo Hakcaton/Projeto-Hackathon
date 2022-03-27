@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ForgotpasswordModuleComponent } from './forgotpassword-module.component';
+import { ForgotpasswordModuleComponent } from './forgot-password-module.component';
 
 describe('ForgotpasswordModuleComponent', () => {
   let component: ForgotpasswordModuleComponent;
