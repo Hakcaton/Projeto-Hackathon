@@ -12,8 +12,9 @@ import { ResetPasswordModuleComponent as ResetPasswordModuleComponent } from './
 import { LoginModuleComponent } from './modules/authentication-module/login-module/login-module.component';
 import { ProfileModuleComponent } from './modules/profile-module/profile-module.component';
 import { AuthenticationModuleComponent } from './modules/authentication-module/authentication-module.component';
+import { AuthService } from './tools/auth/auth.service';
 
-import { AuthService } from './Services/auth/auth.service';
+
 
 
 @NgModule({

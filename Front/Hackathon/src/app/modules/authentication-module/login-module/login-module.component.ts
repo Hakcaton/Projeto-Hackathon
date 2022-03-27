@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/Services/auth/auth.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AuthService } from 'src/app/tools/auth/auth.service';
+
+
 import { IUsuario } from './login-module.interface';
 
 @Component({
@@ -9,20 +11,18 @@ import { IUsuario } from './login-module.interface';
 })
 export class LoginModuleComponent implements OnInit {
 
-  blnRecuperarSenha: boolean = false;
+  lembrarSenha: boolean = false;
   usuario: IUsuario = new IUsuario();
-  email: string = "";
-
+  
+  
   constructor(private authService: AuthService) { }
-
+  
+  @Output() onForgotPasswordClick = new EventEmitter();
+  
   ngOnInit(): void {
-     this.usuario.email = "clebinhoXUXUCAO"
-     console.log(this.email);
-     console.log(this.usuario.email);
-  }
-
-  ngAfterViewInit(): void{
-    console.log(this.usuario)
+    console.log(this.usuario.email);
+    console.log(this.lembrarSenha);
+    
   }
 
   fazerLogin(){
@@ -31,6 +31,6 @@ export class LoginModuleComponent implements OnInit {
   }
 
   onRecuperarSenha(){
-
+    this.onForgotPasswordClick.emit();
   }
 }

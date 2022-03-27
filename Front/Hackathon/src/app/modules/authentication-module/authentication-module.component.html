@@ -1,3 +1,11 @@
-<app-login-module></app-login-module>
-<app-forgot-password-module></app-forgot-password-module>
-<app-reset-password-module></app-reset-password-module>
+<div [hidden]="!blnLoginForm">
+  <app-login-module (onForgotPasswordClick)="onForgotPasswordClick()">
+  </app-login-module>
+</div>
+<div [hidden]="!blnForgotPasswordForm">
+  <app-forgot-password-module></app-forgot-password-module>
+</div>
+<div [hidden]="!blnResetPasswordForm">
+  <app-reset-password-module></app-reset-password-module>
+
+</div>

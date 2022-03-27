@@ -2,10 +2,27 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthenticationModuleComponent } from './modules/authentication-module/authentication-module.component';
 import { ProfileModuleComponent } from './modules/profile-module/profile-module.component';
+import { AuthService } from './tools/auth/auth.service';
+
 
 const routes: Routes = [
-  {path: "autenticacao", component: AuthenticationModuleComponent},
-  {path: "perfil", component: ProfileModuleComponent}
+  { 
+    path: "" , 
+    redirectTo: "/autenticacao",
+    pathMatch: "full"
+  },
+  { 
+    path: "autenticacao", 
+    component: AuthenticationModuleComponent,
+ 
+    canActivateChild: [AuthService],
+    children: [
+      { 
+        path: "perfil",
+        component: ProfileModuleComponent
+      }
+    ]
+  }
 ];
 
 @NgModule({

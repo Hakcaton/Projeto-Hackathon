@@ -1,23 +1,43 @@
 <div class="wrapper">
   <div id="formContent">
     <div class="name">
-      Nome da empresa
+      <h2>
+        Nome da empresa
+      </h2>
       <hr />
     </div>
 
     <form>
-      <label for="login">E-mail</label>
-      <input type="text" id="login" name="login" />
-      <label for="password">Senha</label>
-      <input type="password" id="password" name="password" />
+      <label for="email">E-mail</label>
+      <input class="class-label-login"
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="usuario.email">
 
+      <label for="password">Senha</label>
+      <input class="class-label-login"
+        type="password"
+        id="password"
+        name="password"
+        [(ngModel)]="usuario.senha">
+
+      <!-- <p>VOCE DIGITOU {{usuario.email}} e {{usuario.senha}}</p> -->
       <div id="forgot">
-        Esqueceu sua senha? <a class="underlineHover" href="#">Clique aqui</a>
+        Esqueceu sua senha?
+        <span class="underlineHover" (click)="onRecuperarSenha()">Clique aqui</span>
       </div>
 
-      <div class="check"><input type="checkbox" /> Continuar conectado</div>
+      <div class="check">
+        <input type="checkbox"
+          id="checkBox"
+          name="checkBox"
+          [(ngModel)]="lembrarSenha"> Lembrar Senha
 
-      <button>Entrar</button>
+      </div>
+      <!-- <p>VOCE CLICOU NO CHECK BOX {{lembrarSenha}}</p> -->
+
+      <button (click)="fazerLogin">Entrar</button>
     </form>
   </div>
 </div>

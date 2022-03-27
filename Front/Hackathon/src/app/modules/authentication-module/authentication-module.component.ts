@@ -7,9 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthenticationModuleComponent implements OnInit {
 
+  blnLoginForm: boolean = true;
+  blnForgotPasswordForm: boolean = false;
+  blnResetPasswordForm: boolean = false;
+
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  onForgotPasswordClick(){
+    this.blnForgotPasswordForm = true;
+    this.blnLoginForm = false;
+    this.blnResetPasswordForm = false;
+  }
+  
+  
 
 }
