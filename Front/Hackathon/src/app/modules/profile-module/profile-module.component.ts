@@ -17,7 +17,7 @@ export class ProfileModuleComponent {
       name: [{ value: '', disabled: true }, Validators.required],
       lastName: [{ value: '', disabled: true }, Validators.required],
       email: [{ value: '', disabled: true }, Validators.required, Validators.email],
-      phoneNumber: [{ value: '', disabled: true }, Validators.required, Validators.pattern(/^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$/)],
+      phoneNumber: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(/^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$/)]],
       position: [{ value: '', disabled: true }, Validators.required],
     });
   }
