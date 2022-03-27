@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,7 +14,9 @@ import { ProfileModuleComponent } from './modules/profile-module/profile-module.
 import { AuthenticationModuleComponent } from './modules/authentication-module/authentication-module.component';
 import { MenuModuleComponent } from './tools/menu-module/menu-module.component';
 import { AuthService } from 'src/Services/auth.service';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgxMaskModule } from 'ngx-mask'
+import { format } from 'path';
 
 
 
@@ -33,11 +35,15 @@ import { AuthService } from 'src/Services/auth.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule,
+    NgxMaskModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [
     AuthService,
-    MenuModuleComponent
+    MenuModuleComponent,
+    FormBuilder
   ],
   bootstrap: [AppComponent]
 })
