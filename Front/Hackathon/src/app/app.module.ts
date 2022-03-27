@@ -13,9 +13,7 @@ import { LoginModuleComponent } from './modules/authentication-module/login-modu
 import { ProfileModuleComponent } from './modules/profile-module/profile-module.component';
 import { AuthenticationModuleComponent } from './modules/authentication-module/authentication-module.component';
 import { AuthService } from './tools/auth/auth.service';
-
-
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -26,12 +24,12 @@ import { AuthService } from './tools/auth/auth.service';
     ForgotpasswordModuleComponent,
     ResetPasswordModuleComponent,
     AuthenticationModuleComponent,
-  
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
