@@ -5,6 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginModuleComponent } from './modules/login-module/login-module.component';
 import { PerfilModuleComponent } from './modules/perfil-module/perfil-module.component';
+import { PasswordInputComponent } from './tools/password-input/password-input.component';
+import { ForgotpasswordModuleComponent } from './modules/forgotpassword-module/forgotpassword-module/forgotpassword-module.component';
+import { SetpasswordModuleComponent } from './modules/setpassword-module/setpassword-module/setpassword-module.component';
 
 
 @NgModule({
@@ -12,6 +15,9 @@ import { PerfilModuleComponent } from './modules/perfil-module/perfil-module.com
     AppComponent,
     LoginModuleComponent,
     PerfilModuleComponent,
+    PasswordInputComponent,
+    ForgotpasswordModuleComponent,
+    SetpasswordModuleComponent,
   
   ],
   imports: [
