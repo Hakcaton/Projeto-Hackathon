@@ -16,8 +16,6 @@ import { MenuModuleComponent } from './tools/menu-module/menu-module.component';
 import { AuthService } from 'src/Services/auth.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxMaskModule } from 'ngx-mask'
-import { format } from 'path';
-
 
 
 @NgModule({
