@@ -1,43 +1,61 @@
 <div class="wrapper">
   <div id="formContent">
     <div class="name">
-      <h2>
-        Nome da empresa
-      </h2>
+      <h2>NeoDocs</h2>
       <hr />
     </div>
 
     <form>
-      <label for="email">E-mail</label>
-      <input class="class-label-login"
-        type="email"
-        id="email"
-        name="email"
-        [(ngModel)]="usuario.email">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input
+            class="form-control class-label-login"
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="usuario.email"
+          />
+        </div>
+      </div>
 
-      <label for="password">Senha</label>
-      <input class="class-label-login"
-        type="password"
-        id="password"
-        name="password"
-        [(ngModel)]="usuario.senha">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input
+            class="form-control class-label-login"
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="usuario.senha"
+          />
+        </div>
+      </div>
 
       <!-- <p>VOCE DIGITOU {{usuario.email}} e {{usuario.senha}}</p> -->
       <div id="forgot">
-        Esqueceu sua senha?
-        <span class="underlineHover" (click)="onRecuperarSenha()">Clique aqui</span>
+        <span>Esqueceu a senha?</span>
+        <span class="underlineHover" (click)="onRecuperarSenha()"
+          >Clique aqui</span
+        >
       </div>
 
-      <div class="check">
-        <input type="checkbox"
-          id="checkBox"
-          name="checkBox"
-          [(ngModel)]="lembrarSenha"> Lembrar Senha
-
+      <div class="form-row">
+        <div class="form-group" class="checkbox">
+          <input
+            type="checkbox"
+            id="checkBox"
+            name="checkBox"
+            [(ngModel)]="lembrarSenha"
+          />
+          <label for="checkBox">Continuar conectado</label>
+        </div>
       </div>
       <!-- <p>VOCE CLICOU NO CHECK BOX {{lembrarSenha}}</p> -->
 
-      <button (click)="fazerLogin()">Entrar</button>
+      <button (click)="fazerLogin()" class="btn btn-primary" id="btn-login">
+        Entrar
+      </button>
     </form>
   </div>
 </div>
