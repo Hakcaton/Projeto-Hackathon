@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/Services/auth.service';
 
@@ -13,23 +14,25 @@ import { IUsuario } from './login-module.interface';
 export class LoginModuleComponent implements OnInit {
 
   lembrarSenha: boolean = false;
-  usuario: IUsuario = new IUsuario();
-  usuarioAutenticado: boolean = false;
+  formGroup: FormGroup;
   
-  constructor(private authService: AuthService, private router: Router) { }
+  
+  constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
+    this.formGroup = formBuilder.group({
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(320)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      remember: ['']
+    })
+   }
   
   @Output() onForgotPasswordClick = new EventEmitter();
   
   ngOnInit(): void {
-    console.log(this.usuario.email);
-    console.log(this.lembrarSenha);
     
   }
 
-  fazerLogin(){
-    console.log(this.usuario);
-    this.authService.fazerLogin(this.usuario);
-
+  login(){
+    // this.authService.fazerLogin(this.usuario);
   }
 
   onRecuperarSenha(){

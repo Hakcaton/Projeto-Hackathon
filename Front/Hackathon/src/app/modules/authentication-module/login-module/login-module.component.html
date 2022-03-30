@@ -5,7 +5,7 @@
       <hr />
     </div>
 
-    <form>
+    <form [formGroup] = "formGroup">
       <div class="form-row">
         <div class="form-group">
           <label for="email">E-mail</label>
@@ -14,7 +14,7 @@
             type="email"
             id="email"
             name="email"
-            [(ngModel)]="usuario.email"
+            formControlName = "email"
           />
         </div>
       </div>
@@ -27,7 +27,8 @@
             type="password"
             id="password"
             name="password"
-            [(ngModel)]="usuario.senha"
+            formControlName = "password"
+
           />
         </div>
       </div>
@@ -46,14 +47,14 @@
             type="checkbox"
             id="checkBox"
             name="checkBox"
-            [(ngModel)]="lembrarSenha"
+            formControlName = "remember"
           />
           <label for="checkBox">Continuar conectado</label>
         </div>
       </div>
       <!-- <p>VOCE CLICOU NO CHECK BOX {{lembrarSenha}}</p> -->
 
-      <button (click)="fazerLogin()" class="btn btn-primary" id="btn-login">
+      <button (click)="login()" class="btn btn-primary" id="btn-login">
         Entrar
       </button>
     </form>
