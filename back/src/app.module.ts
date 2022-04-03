@@ -1,13 +1,23 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthModule } from './tools/auth/auth.module';
-import { UsersService } from './tools/auth/users/users.service';
-import { UsersModule } from './tools/auth/users/users.module';
+import { AccountController } from './controllers/account.controller';
+import { UserService } from './services/user.service';
+import { AuthenticationController } from './controllers/authentication.controller';
+import { TokenRefresherMiddleware } from './middlewares/token-refresher.middleware';
 
 @Module({
-  imports: [AuthModule, UsersModule],
-  controllers: [AppController],
-  providers: [AppService, UsersService],
+  imports: [AuthModule],
+  controllers: [AuthenticationController, AccountController],
+  providers: [AppService, UserService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(TokenRefresherMiddleware)
+      .exclude(
+        'authentication/(.*)'
+      )
+      .forRoutes("/");
+  }
+}
