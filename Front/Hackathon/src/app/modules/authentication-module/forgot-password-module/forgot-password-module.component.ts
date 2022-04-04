@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-forgot-password-module',
@@ -6,10 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./forgot-password-module.component.scss']
 })
 export class ForgotpasswordModuleComponent implements OnInit {
-
-  constructor() { }
+  
+  @Output() onBackClick = new EventEmitter();
+  formGroup: FormGroup;
+  
+  constructor(private formBuilder: FormBuilder) { 
+    this.formGroup = formBuilder.group({
+      email: ["", Validators.email] 
+    })
+  }
 
   ngOnInit(): void {
+  }
+
+  back(){
+    this.onBackClick.emit();
   }
 
 }

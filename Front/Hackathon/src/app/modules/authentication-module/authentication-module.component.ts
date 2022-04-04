@@ -21,6 +21,12 @@ export class AuthenticationModuleComponent implements OnInit {
     this.blnLoginForm = false;
     this.blnResetPasswordForm = false;
   }
+
+  onBackClick() {
+    this.blnForgotPasswordForm = false;
+    this.blnLoginForm = true;
+    this.blnResetPasswordForm = false;
+  }
   
   
 
