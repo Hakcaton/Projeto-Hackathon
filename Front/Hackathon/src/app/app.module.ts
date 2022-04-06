@@ -16,6 +16,7 @@ import { MenuModuleComponent } from './tools/menu-module/menu-module.component';
 import { AuthService } from 'src/Services/auth.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxMaskModule } from 'ngx-mask'
+import { CompanyRegistrationModuleComponent } from './modules/company-registration-module/company-registration-module.component';
 
 
 @NgModule({
@@ -28,7 +29,7 @@ import { NgxMaskModule } from 'ngx-mask'
     ResetPasswordModuleComponent,
     AuthenticationModuleComponent,
     MenuModuleComponent,
-  
+    CompanyRegistrationModuleComponent
   ],
   imports: [
     BrowserModule,
