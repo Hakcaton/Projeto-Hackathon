@@ -1,96 +1,103 @@
-:focus {
-  outline: none;
-}
-
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  height: 100vh;
-}
-
 a {
-  color: #645fff;
-  display: inline-block;
-  text-decoration: none;
-  font-weight: 400;
+    color: #645fff;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 400;
 }
 
 .wrapper {
-  background-image: url("../../../../assets/gestao-de-documentos-2-1280x720.jpg");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  opacity: 0.95;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  padding: 100px;
+    background-image: url("../../../../assets/gestao-de-documentos-2-1280x720.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    opacity: 0.95;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
 }
 
-#formContent {
-  -webkit-border-radius: 10px 10px 10px 10px;
-  border-radius: 10px 10px 10px 10px;
-  background: #fff;
-  padding: 10px 25px 25px 25px;
-  width: fit-content;
-  position: relative;
-  -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-  text-align: center;
+.main-card {
+    width: fit-content;
+    height: fit-content;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 2px 8px 4px rgba($color: #000000, $alpha: .25);
+    padding: 25px 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    display: flex;
+    flex-grow: 1;
+}
+
+.header {
+    flex-grow: 0;
+    margin-bottom: 25px;
+}
+
+.footer {
+    margin-top: 25px;
+    flex-grow: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #forgot {
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: left;
-  font-size: small;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    font-size: small;
 }
 
 input:not(input[type=checkbox]) {
-  min-width:300px;
-  width: 100%;
+    min-width: 300px;
+    width: 100%;
 }
 
 div.form-row {
-  width: 100%;
+    width: 100%;
 }
 
 .checkbox {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .checkbox>* {
-  margin: 5px;
+    margin: 5px;
 }
 
 .checkbox>label {
-  margin: 0px;
+    margin: 0px;
 }
 
 .checkbox>input {
-  width: auto;
+    width: auto;
 }
 
 label {
-  width: 100%;
-  text-align: left;
+    width: 100%;
+    text-align: left;
 }
 
 #btn-login {
-  width: 125px;
-  margin-top: 25px;
+    width: 125px;
+    margin-top: 25px;
 }
 
 .underlineHover {
-  text-decoration: none;
-  color: #4c46fa;
+    text-decoration: none;
+    color: #4c46fa;
 }
 
 .underlineHover:hover {
-  cursor: pointer;
-  text-decoration: underline;
+    cursor: pointer;
+    text-decoration: underline;
 }
