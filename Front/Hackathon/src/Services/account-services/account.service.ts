@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IUsuario } from 'src/app/modules/authentication-module/login-module/login-module.interface';
 
@@ -6,14 +7,18 @@ import { IUsuario } from 'src/app/modules/authentication-module/login-module/log
 })
 export class AccountService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-   login(user: IUsuario){
-    console.log(`objeto recebido no service userLogin: ${user}`)
-    return new Promise((resolve) => {
-      window.localStorage.setItem('token', 'meu-token');
-      resolve(true);
+  async login(user: IUsuario){
+    // Refazer essa requisição.
+
+    this.http.post<any>('/api/authentication/login', {
+      email: 'adm@adm.com',
+      password: 'a'
+    }).subscribe((data: any) =>{
+      console.log(data);
     });
+    return false;
   }
 
   resetPassword(newPassword: any){

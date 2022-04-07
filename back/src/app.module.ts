@@ -16,7 +16,7 @@ export class AppModule {
     consumer
       .apply(TokenRefresherMiddleware)
       .exclude(
-        'authentication/(.*)'
+        'api/authentication/(.*)'
       )
       .forRoutes("/");
   }
