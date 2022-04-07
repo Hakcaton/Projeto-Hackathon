@@ -2,11 +2,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AccountService } from 'src/Services/account-services/account.service';
-
-
-
-import { IUsuario } from './login-module.interface';
+import { AccountService } from 'src/services/account-services/account.service';
 
 @Component({
   selector: 'app-login-module',

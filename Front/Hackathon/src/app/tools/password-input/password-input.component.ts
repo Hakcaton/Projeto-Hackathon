@@ -1,6 +1,4 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -18,9 +16,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class PasswordInputComponent implements ControlValueAccessor {
 
   @Input() value: string = '';
-
-  faEye = faEye;
-  faEyeSlash = faEyeSlash;
 
   bPasswordVisible = false;
 
