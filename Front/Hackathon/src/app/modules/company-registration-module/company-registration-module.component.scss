@@ -50,3 +50,19 @@
 .form-row>div:nth-child(2) {
     margin-left: 5px;
 }
+
+img {
+    width: 18px;
+    height: auto;
+    opacity: 50%;
+    transition: 25ms;
+}
+
+img:hover {
+    opacity: 90%;
+    transition: 25ms;
+}
+
+.form-group>div> :first-child {
+    margin-right: 5px;
+}

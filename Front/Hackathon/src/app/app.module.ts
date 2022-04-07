@@ -13,7 +13,7 @@ import { LoginModuleComponent } from './modules/authentication-module/login-modu
 import { ProfileModuleComponent } from './modules/profile-module/profile-module.component';
 import { AuthenticationModuleComponent } from './modules/authentication-module/authentication-module.component';
 import { MenuModuleComponent } from './tools/menu-module/menu-module.component';
-import { AuthService } from 'src/Services/auth.service';
+import { AuthService } from 'src/services/auth.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxMaskModule } from 'ngx-mask'
 import { CompanyRegistrationModuleComponent } from './modules/company-registration-module/company-registration-module.component';

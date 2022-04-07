@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/Services/auth.service';
+import { AuthService } from 'src/services/auth.service';
 
 
 import { IUsuario } from './login-module.interface';

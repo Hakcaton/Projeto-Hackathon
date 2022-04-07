@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './company-registration-module.component.html',
   styleUrls: ['./company-registration-module.component.scss']
 })
-export class CompanyRegistrationModuleComponent {
+export class CompanyRegistrationModuleComponent implements OnInit {
+
+  @ViewChild('tooltip-razao-social') tooltip_razao_social: HTMLElement;
 
   companyForm: FormGroup;
   profileImageSource: string = 'assets/images/default-profile.svg';
@@ -20,6 +22,9 @@ export class CompanyRegistrationModuleComponent {
       email: ['', Validators.required],
       celular: ['', [Validators.required, Validators.pattern(/^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$/)]],
     });
+  }
+  ngOnInit(): void {
+    
   }
 
   btnConfrmiClick() {
