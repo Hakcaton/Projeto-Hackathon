@@ -9,16 +9,8 @@ export class AccountService {
 
   constructor(private http: HttpClient) { }
 
-  async login(user: IUsuario){
-    // Refazer essa requisição.
-
-    this.http.post<any>('/api/authentication/login', {
-      email: 'adm@adm.com',
-      password: 'a'
-    }).subscribe((data: any) =>{
-      console.log(data);
-    });
-    return false;
+  login(user: IUsuario){
+    return this.http.post<any>('/api/authentication/login', user);
   }
 
   resetPassword(newPassword: any){

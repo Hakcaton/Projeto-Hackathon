@@ -9,38 +9,36 @@ import { AccountService } from 'src/services/account-services/account.service';
   templateUrl: './login-module.component.html',
   styleUrls: ['./login-module.component.scss']
 })
-export class LoginModuleComponent implements OnInit  {
+export class LoginModuleComponent implements OnInit {
 
   lembrarSenha: boolean = false;
   formGroup: FormGroup;
-  
-  
+
+
   constructor(private accountService: AccountService, private router: Router, private formBuilder: FormBuilder) {
     this.formGroup = formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.maxLength(320)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       remember: ['']
     })
-   }
-  
-  @Output() onForgotPasswordClick = new EventEmitter();
-  
-  ngOnInit(): void {
-    
   }
 
-  login(){
-    try{
-      console.log(this.formGroup.value);
-      let x = this.accountService.login(this.formGroup.value);
-      console.log(x);
+  @Output() onForgotPasswordClick = new EventEmitter();
 
-      this.router.navigate(['']);
-    }catch(error){
+  ngOnInit(): void {
+
+  }
+
+  login() {
+    try {
+      this.accountService.login(this.formGroup.value).subscribe(data => {
+        this.router.navigate(['']);
+      });
+    } catch (error) {
       console.log(error);
     }
   }
 
-  onRecuperarSenha(){
+  onRecuperarSenha() {
   }
 }
