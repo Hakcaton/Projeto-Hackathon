@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-reset-password-module',
@@ -9,7 +9,13 @@ export class ResetPasswordModuleComponent implements OnInit {
 
   constructor() { }
 
+  @Output() onConfirmPasswordChange = new EventEmitter();
+
+
   ngOnInit(): void {
   }
 
+  onClickConfirmChange(){
+    this.onConfirmPasswordChange.emit();
+  }
 }

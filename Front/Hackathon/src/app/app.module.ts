@@ -13,11 +13,26 @@ import { LoginModuleComponent } from './modules/authentication-module/login-modu
 import { ProfileModuleComponent } from './modules/profile-module/profile-module.component';
 import { AuthenticationModuleComponent } from './modules/authentication-module/authentication-module.component';
 import { MenuModuleComponent } from './tools/menu-module/menu-module.component';
-import { AuthService } from 'src/Services/auth.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgxMaskModule } from 'ngx-mask'
 import { CompanyRegistrationModuleComponent } from './modules/company-registration-module/company-registration-module.component';
 
+import { NgxMaskModule } from 'ngx-mask';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DocumentsModuleComponent } from './modules/documents-module/documents-module.component';
+import { MenuNavComponent } from './tools/menu-nav/menu-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatListModule } from '@angular/material/list';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
+import { HomeComponent } from './layout/home/home.component';
+import { AuthenticationLayoutComponent } from './layout/authentication-layout/authentication-layout.component';
+import { DashboardComponent } from './modules/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +44,13 @@ import { CompanyRegistrationModuleComponent } from './modules/company-registrati
     ResetPasswordModuleComponent,
     AuthenticationModuleComponent,
     MenuModuleComponent,
-    CompanyRegistrationModuleComponent
+    CompanyRegistrationModuleComponent,
+    DocumentsModuleComponent,
+    MenuNavComponent,
+    HomeComponent,
+    AuthenticationLayoutComponent,
+    DashboardComponent,
+  
   ],
   imports: [
     BrowserModule,
@@ -37,10 +58,20 @@ import { CompanyRegistrationModuleComponent } from './modules/company-registrati
     FormsModule,
     FontAwesomeModule,
     NgxMaskModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule,
+    LayoutModule,
+    MatListModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
   ],
   providers: [
-    AuthService,
     MenuModuleComponent,
     FormBuilder
   ],

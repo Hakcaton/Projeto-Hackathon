@@ -1,7 +1,9 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/Services/auth.service';
+import { AccountService } from 'src/Services/account-services/account.service';
+
 
 
 import { IUsuario } from './login-module.interface';
@@ -11,13 +13,13 @@ import { IUsuario } from './login-module.interface';
   templateUrl: './login-module.component.html',
   styleUrls: ['./login-module.component.scss']
 })
-export class LoginModuleComponent implements OnInit {
+export class LoginModuleComponent implements OnInit  {
 
   lembrarSenha: boolean = false;
   formGroup: FormGroup;
   
   
-  constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private accountService: AccountService, private router: Router, private formBuilder: FormBuilder) {
     this.formGroup = formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.maxLength(320)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -32,10 +34,17 @@ export class LoginModuleComponent implements OnInit {
   }
 
   login(){
-    // this.authService.fazerLogin(this.usuario);
+    try{
+      console.log(this.formGroup.value);
+      let x = this.accountService.login(this.formGroup.value);
+      console.log(x);
+
+      this.router.navigate(['']);
+    }catch(error){
+      console.log(error);
+    }
   }
 
   onRecuperarSenha(){
-    this.onForgotPasswordClick.emit();
   }
 }

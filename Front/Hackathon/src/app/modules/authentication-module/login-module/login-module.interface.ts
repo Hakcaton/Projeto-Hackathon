@@ -1,4 +1,5 @@
 export class IUsuario {
-    email?: string;
-    senha?: string;
+    email: string;
+    senha: string;
+    remember: string;
 }

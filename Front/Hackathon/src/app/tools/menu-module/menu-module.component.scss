@@ -1,0 +1,31 @@
+.menu-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 1rem;
+    background: #002b5c;
+    color: white;
+    
+    mat-icon {
+      margin-right: 8px;
+    }
+}
+
+.menu-button:hover{
+  background: #2c7dda;
+  border: none;
+  
+}
+
+.name {
+  margin-top: 8px;
+  font-weight: normal;
+}
+
+
+mat-divider {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
