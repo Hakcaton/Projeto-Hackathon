@@ -30,13 +30,11 @@ export class LoginModuleComponent implements OnInit {
   }
 
   login() {
-    try {
-      this.accountService.login(this.formGroup.value).subscribe(data => {
-        this.router.navigate(['']);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  
+    this.accountService.login(this.formGroup.value).subscribe(data => {
+      this.router.navigate(['']);
+    });
+  
   }
 
   onRecuperarSenha() {
