@@ -1,0 +1,19 @@
+.wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    padding: 5em;
+}
+
+.cards {
+    margin: 25px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.cards>* {
+    margin-bottom: 25px;
+}

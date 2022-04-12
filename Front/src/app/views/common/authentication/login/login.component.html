@@ -1,0 +1,39 @@
+<div class="wrapper">
+    <div class="main-card">
+        <div class="header">
+            <h2>Autenticação</h2>
+            <hr>
+        </div>
+        <div class="content">
+            <form [formGroup]="formGroup">
+                <div class="form-group row">
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input class="form-control class-label-login" type="email" id="email" name="email" formControlName="email" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <input class="form-control class-label-login" type="password" id="password" name="password" formControlName="password" />
+                    </div>
+                </div>
+                <div class="form-group row" id="forgot">
+                    <div class="form-group">
+                        <span>Esqueceu a senha?</span>
+                        <span class="underlineHover" (click)="onRecoverClick()">Clique aqui</span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-group" class="checkbox">
+                        <input type="checkbox" id="checkBox" name="checkBox" formControlName="remember" />
+                        <label for="checkBox">Continuar conectado</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="footer">
+            <button (click)="onLoginClick()" class="btn btn-primary" id="btn-login">Entrar</button>
+        </div>
+    </div>
+</div>

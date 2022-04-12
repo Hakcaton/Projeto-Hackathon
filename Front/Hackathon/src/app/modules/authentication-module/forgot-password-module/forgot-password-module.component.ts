@@ -20,7 +20,7 @@ export class ForgotpasswordModuleComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  back(){
+  btnBackClick(){
     this.onBackClick.emit();
   }
 

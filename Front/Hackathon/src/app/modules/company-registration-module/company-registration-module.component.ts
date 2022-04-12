@@ -7,9 +7,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./company-registration-module.component.scss']
 })
 export class CompanyRegistrationModuleComponent implements OnInit {
-
-  @ViewChild('tooltip-razao-social') tooltip_razao_social: HTMLElement;
-
   companyForm: FormGroup;
   profileImageSource: string = 'assets/images/default-profile.svg';
 
@@ -28,7 +25,7 @@ export class CompanyRegistrationModuleComponent implements OnInit {
   }
 
   btnConfrmiClick() {
-    console.log(this.companyForm.value);
+    
   }
 
 }

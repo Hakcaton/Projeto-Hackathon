@@ -1,0 +1,67 @@
+<div class="wrapper">
+    <div class="main-card">
+        <div class="header">
+            <h2>Dados da Empresa</h2>
+            <hr>
+        </div>
+        <div class="content">
+            <div>
+                <form [formGroup]="companyForm">
+                    <div class="form-group row">
+                        <div class="form-group col">
+                            <div>
+                                <label for="inputRazaoSocial">Razão Social</label>
+                                <span tooltip="Nome registrado da empresa"><img
+                                        src="/assets/icons/info.svg"></span>
+                            </div>
+                            <input type="text" class="form-control" id="inputRazaoSocial" formControlName="razaoSocial">
+                        </div>
+                        <div class="form-group col">
+                            <div>
+                                <label for="inputNomeFantasia">Nome Fantasia</label>
+                                <span tooltip="Nome comercial da empresa"><img
+                                        src="/assets/icons/info.svg"></span>
+                            </div>
+                            <input type="text" class="form-control" id="inputNomeFantasia" formControlName="nomeFantasia">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="form-group col">
+                            <label for="inputCNPJ">CNPJ</label>
+                            <input type="text" mask="00.000.000/0000-00" class="form-control" id="inputCNPJ" formControlName="CNPJ">
+                        </div>
+                        <div class="form-group col">
+                            <div>
+                                <label for="inputInscricaoEstadual">Inscrição Estadual</label>
+                                <span tooltip="Registro do contribuinte no cadastro do ICMS" id='tooltip_razao_social'><img
+                                        src="/assets/icons/info.svg"></span>
+                            </div>
+                            <input type="text" mask="000.000.000.000" class="form-control" id="inputInscricaoEstadual" formControlName="inscricaoEstadual">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="form-group col">
+                            <div>
+                                <label for="inputEmail">E-Mail do Responsável</label>
+                                <span tooltip="Email do responável pelo envio de documetos da empresa"><img
+                                        src="/assets/icons/info.svg"></span>
+                            </div>
+                            <input type="email" class="form-control" id="inputEmail" formControlName="email">
+                        </div>
+                        <div class="form-group col">
+                            <div>
+                                <label for="inputCelular">Celular do Responsável</label>
+                                <span tooltip="Celular do responável pelo envio de documetos da empresa"><img
+                                        src="/assets/icons/info.svg"></span>
+                            </div>
+                            <input type="text" mask="(00) 00000-0000" class="form-control" id="inputCelular" formControlName="celular">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="footer">
+            <button type="button" class="btn btn-primary" (click)="btnConfrmiClick()">Confirmar</button>
+        </div>
+    </div>
+</div>

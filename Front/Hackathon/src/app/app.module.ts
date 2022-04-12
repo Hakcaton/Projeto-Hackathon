@@ -32,6 +32,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { PendingDocsModuleComponent } from './modules/pending-docs-module/pending-docs-module.component';
+import { SendDocCardComponent } from './tools/send-doc-card/send-doc-card.component';
+import { DocTagComponent } from './tools/doc-tag/doc-tag.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +51,9 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     AuthenticationLayoutComponent,
     DashboardComponent,
+    PendingDocsModuleComponent,
+    SendDocCardComponent,
+    DocTagComponent,
   
   ],
   imports: [
@@ -67,7 +73,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
-    HttpClientModule
+    HttpClientModule    
   ],
   providers: [
     FormBuilder

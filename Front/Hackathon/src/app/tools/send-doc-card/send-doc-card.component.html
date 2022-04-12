@@ -1,0 +1,22 @@
+<div class="main-card">
+    <header>
+        <div>
+            <h3>{{ data.title }}</h3>
+            <div>
+                <h6>{{ data.subtitle}}</h6>
+            </div>
+        </div>
+        <div>
+            <app-doc-tag [text]="tags[data.state].text" [color]="tags[data.state].color" [font_color]="tags[data.state].font_color" [font_weight]="tags[data.state].font_weight"></app-doc-tag>
+        </div>
+    </header>
+    <div>
+        <div>
+            <button class="btn btn-outline-secondary" id="btn-upload"><img
+                    src="../../../assets/icons/upload.svg">Carregar</button>
+        </div>
+        <div>
+            <button class="btn btn-primary" id="btn-send">Enviar</button>
+        </div>
+    </div>
+</div>

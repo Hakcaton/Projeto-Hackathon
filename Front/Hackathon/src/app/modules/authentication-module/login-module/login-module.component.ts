@@ -34,7 +34,6 @@ export class LoginModuleComponent implements OnInit {
     this.accountService.login(this.formGroup.value).subscribe(data => {
       this.router.navigate(['']);
     });
-  
   }
 
   onRecuperarSenha() {

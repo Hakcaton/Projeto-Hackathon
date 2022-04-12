@@ -5,11 +5,12 @@ import { AccountController } from './controllers/account.controller';
 import { UserService } from './services/user.service';
 import { AuthenticationController } from './controllers/authentication.controller';
 import { TokenRefresherMiddleware } from './middlewares/token-refresher.middleware';
+import { AccountService } from './services/account.service';
 
 @Module({
   imports: [AuthModule],
   controllers: [AuthenticationController, AccountController],
-  providers: [AppService, UserService],
+  providers: [AppService, UserService, AccountService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
