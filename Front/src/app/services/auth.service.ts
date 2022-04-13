@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { Router } from '@angular/router';
+import {Md5} from 'ts-md5/dist/md5'
 
 @Injectable({
   providedIn: 'root'
@@ -74,6 +75,9 @@ export class AuthService {
   }
 
   login(loginData: LoginModel) {
+
+    let encryptedPassword = this.encryptPassword(loginData.password);
+    loginData.password = encryptedPassword;
     let url = '/api/authentication/login'
     return this.http.post(url, loginData).pipe(
       map((res: any) => {
@@ -82,6 +86,9 @@ export class AuthService {
     );
   }
 
+  encryptPassword(password: string){
+    return Md5.hashStr(password);
+  }
 
 
 }
