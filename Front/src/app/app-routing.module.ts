@@ -9,21 +9,39 @@ import { ProfileComponent } from './views/internal/profile/profile.component';
 import { PendingDocsComponent } from './views/outsourced/pending-docs/pending-docs.component';
 
 const routes: Routes = [
+  {
+    path: 'empresas/cadastrar',
+    component: CompanyRegistrationComponent,
+    canActivate: [InternalAuthGuard],
+  },
+  {
+    path: 'empresas/profile',
+    component: CompanyRegistrationComponent,
+    canActivate: [InternalAuthGuard],
+  },
+  {
+    path: 'perfil',
+    component: ProfileComponent,
+    canActivate: [InternalAuthGuard],
+  },
 
-  { path: 'empresas/cadastrar', component: CompanyRegistrationComponent, canActivate: [InternalAuthGuard] },
-  { path: 'perfil', component: ProfileComponent, canActivate: [InternalAuthGuard] },
+  {
+    path: 'documentos/pendentes',
+    component: PendingDocsComponent,
+    canActivate: [OutsourcedAuthGuard],
+  },
 
-  { path: 'documentos/pendentes', component: PendingDocsComponent, canActivate: [OutsourcedAuthGuard] },
-
-  { path: 'autenticacao', component: AuthenticationComponent, canActivate: [DefaultAuthGuard] },
+  {
+    path: 'autenticacao',
+    component: AuthenticationComponent,
+    canActivate: [DefaultAuthGuard],
+  },
 
   { path: '**', redirectTo: '/perfil', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule {
-
-}
+export class AppRoutingModule {}
