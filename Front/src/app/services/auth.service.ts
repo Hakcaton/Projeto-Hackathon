@@ -1,22 +1,20 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { LoginModel } from '../models/login.model';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { Router } from '@angular/router';
-import {Md5} from 'ts-md5/dist/md5'
-
+import { Md5 } from 'ts-md5/dist/md5';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   public isAuthenticated = false;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.refresh()
+    this.refresh();
     setInterval(() => {
-      this.refresh()
+      this.refresh();
     }, 100);
   }
 
@@ -42,7 +40,7 @@ export class AuthService {
       try {
         const decoded = jwtDecode<JwtPayload>(token);
 
-        if (typeof (decoded.exp) === 'number') {
+        if (typeof decoded.exp === 'number') {
           this.isAuthenticated = decoded.exp > new Date().getTime() / 1000;
         }
 
@@ -51,44 +49,39 @@ export class AuthService {
           alert('Sua sessão expirou');
           this.router.navigateByUrl('/autenticacao');
         }
-      }
-      catch {
+      } catch {
         localStorage.removeItem('token');
         alert('Sua sessão expirou');
         this.router.navigateByUrl('/autenticacao');
       }
-    }
-    else {
+    } else {
       try {
         const decoded = jwtDecode<JwtPayload>(token);
-        if (typeof (decoded.exp) === 'number') {
+        if (typeof decoded.exp === 'number') {
           this.isAuthenticated = decoded.exp > new Date().getTime() / 1000;
         }
         if (!this.isAuthenticated) {
           localStorage.removeItem('token');
         }
-      }
-      catch {
+      } catch {
         localStorage.removeItem('token');
       }
     }
   }
 
   login(loginData: LoginModel) {
-
     let encryptedPassword = this.encryptPassword(loginData.password);
     loginData.password = encryptedPassword;
-    let url = '/api/authentication/login'
+    let url = '/api/authentication/login';
     return this.http.post(url, loginData).pipe(
       map((res: any) => {
+        console.log(res);
         window.localStorage.setItem('token', res.authToken);
       })
     );
   }
 
-  encryptPassword(password: string){
+  encryptPassword(password: string) {
     return Md5.hashStr(password);
   }
-
-
 }

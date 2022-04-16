@@ -7,33 +7,39 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
   formGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) { 
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.formGroup = formBuilder.group({
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(320)]],
+      email: [
+        '',
+        [Validators.required, Validators.email, Validators.maxLength(320)],
+      ],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      remember: ['']
-    })
+      remember: [''],
+    });
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  onLoginClick() {
+    this.authService
+      .login(this.formGroup.value)
+      .pipe(
+        map((data) => {
+          console.log(data);
+          this.router.navigateByUrl('');
+        })
+      )
+      .subscribe();
   }
 
-  onLoginClick(){
-    this.authService.login(this.formGroup.value)
-    .pipe(map(data=>{
-      this.router.navigateByUrl('/perfil');
-    }))
-    .subscribe();
-  }
-
-  onRecoverClick(){
-
-  }
-
+  onRecoverClick() {}
 }

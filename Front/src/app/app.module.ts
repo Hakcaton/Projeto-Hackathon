@@ -19,7 +19,14 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenRefresherInterceptor } from './interceptors/token-refresher.interceptor';
 import { TokenSenderInterceptor } from './interceptors/token-sender.interceptor';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
-
+import { SidebarComponent } from './components/menu/sidebar/sidebar.component';
+import { NavbarComponent } from './components/menu/navbar/navbar.component';
+import { FooterComponent } from './components/menu/footer/footer.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { ToastrModule } from 'ngx-toastr';
+import { UnauthenticatedLayoutComponent } from './layouts/unauthenticated-layout/unauthenticated-layout.component';
+import { AuthenticatedLayoutComponent } from './layouts/authenticated-layout/authenticated-layout.component';
+import { HomePageComponent } from './views/internal/home-page/home-page.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +38,13 @@ import { AuthenticationInterceptor } from './interceptors/authentication.interce
     DocTagComponent,
     SendDocCardComponent,
     PendingDocsComponent,
-    ProfileComponent
+    ProfileComponent,
+    SidebarComponent,
+    NavbarComponent,
+    FooterComponent,
+    UnauthenticatedLayoutComponent,
+    AuthenticatedLayoutComponent,
+    HomePageComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,26 +53,28 @@ import { AuthenticationInterceptor } from './interceptors/authentication.interce
     TooltipModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CollapseModule.forRoot(),
+    ToastrModule.forRoot(),
   ],
   providers: [
     FormBuilder,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenRefresherInterceptor,
-      multi: true   
+      multi: true,
     },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenSenderInterceptor,
-      multi: true   
+      multi: true,
     },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,
-      multi: true   
-    }
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
