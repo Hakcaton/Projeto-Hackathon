@@ -1,9 +1,14 @@
-import { Controller, Get, Request, Post, UseGuards, HttpException, HttpStatus } from '@nestjs/common';
-import { AuthService } from './tools/auth/auth.service';
-import { UserService } from './services/user.service';
+import { Controller, Get } from '@nestjs/common';
+import { Public } from './tools/auth/constants';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private authService: AuthService, private userService: UserService) { }
+  constructor(private appService: AppService) {}
 
+  @Public()
+  @Get('')
+  getAccess(): string {
+   return this.appService.getHello()
+  }
 }
