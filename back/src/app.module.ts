@@ -1,20 +1,32 @@
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './tools/auth/auth.module';
 import { JwtAuthGuard } from './tools/auth/jwt-auth.guard';
-import { PermissionModule } from './modules/permission/permission.module';
 import { UserModule } from './modules/user/users.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './modules/user/entities/user.entity';
-import { Permission } from './modules/permission/entities/permission.entity';
+import { CompanyModule } from './modules/company/company.module';
+import { ContractModule } from './modules/contract/contract.module';
+import { EmployeeModule } from './modules/employee/employee.module';
+import { FormFieldModule } from './modules/form-field/form-field.module';
+import { DocumentsModule } from './modules/document/document.module';
+import { Company } from './modules/company/entities/company.entity';
+import { Contract } from './modules/contract/entities/contract.entity';
+import { Employee } from './modules/employee/entities/employee.entity';
+import { FormField } from './modules/form-field/entities/form-field.entity';
+import { Document } from './modules/document/entities/document.entities';
 
 @Module({
   imports: [
     AuthModule, 
     UserModule,
-    PermissionModule,
+    CompanyModule,
+    ContractModule,
+    EmployeeModule,
+    FormFieldModule,
+    DocumentsModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -22,7 +34,14 @@ import { Permission } from './modules/permission/entities/permission.entity';
       username: 'root',
       password: '',
       database: 'test',
-      entities: [User, Permission],
+      entities: [
+        User, 
+        Company,
+        Contract,
+        Employee,
+        FormField,
+        Document,
+      ],
       synchronize: true,
     }),
   ],

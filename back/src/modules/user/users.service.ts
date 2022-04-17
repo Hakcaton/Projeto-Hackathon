@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IResult } from 'src/tools/helpers/result.interface';
-import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { Cryptography } from 'src/tools/cryptography/cryptography.class';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
@@ -27,7 +26,8 @@ export class UserService {
 
   async addUser(data: CreateUserDto): Promise<User> {
     try {
-      const userExists = await this.findOne(data.email);
+      //
+      const userExists = await this.userRepository.findOne(data.email);
 
       if(userExists) throw new Error ("User Already Exists!")
 
