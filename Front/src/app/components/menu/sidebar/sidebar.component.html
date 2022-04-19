@@ -18,7 +18,7 @@
     </div>
     <nav class="sidebar-menu pt-3 pb-3">
       <div class="menu-header mt-3 mb-2">
-        Components
+        Menu
       </div>
       <ul class="menu-items">
         <li>
@@ -34,38 +34,55 @@
             <span>Perfil</span>
           </a>
         </li>
-        <li>
-          <a routerLink="/empresas/cadastrar" routerLinkActive="active">
+        <li *ngIf="userPermission === 1">
+          <a routerLink="/empresas" (click)="isCollapsedEmpresas = !isCollapsedEmpresas" routerLinkActive="active"
+            [attr.aria-expanded]="!isCollapsedEmpresas" aria-controls="collapseBasic">
             <i class="fa fa-table"></i>
-            <span>Cadastro Empresas</span>
+            <span>Empresas</span>
+            <i class="fa fa-caret-down collapse-icon"></i>
           </a>
-        </li>
+          <div class="sub-menu" id="subMenuEmpresas" [collapse]="isCollapsedEmpresas" [isAnimated]="true">
         <li>
-          <a href="#" routerLink="/typography" routerLinkActive="active">
-            <i class="fa fa-align-center"></i>
-            <span>Typography</span>
+          <a routerLink="/empresas/cadastrar" routerLinkActive="">
+            <span>Cadastro</span>
           </a>
         </li>
-        <li>
-          <a href="#" routerLink="/maps" routerLinkActive="active">
-            <i class="fa fa-globe"></i>
-            <span>Maps</span>
-          </a>
-        </li>
-        <li>
-          <a href="#" routerLink="/notifications" routerLinkActive="active">
-            <i class="fas fa-bell"></i>
-            <span>Notifications</span>
-          </a>
-        </li>
-      </ul>
-      <div class="menu-header mt-4 mb-4">
-        Github Repo
-      </div>
-      <div class="view-source mb-3">
-        <a href="https://github.com/azouaoui-med/lightning-admin-angular" target="_blank"
-          class="btn btn-block btn-lightning rounded-0">View Source</a>
-      </div>
-    </nav>
-  </aside>
+</div>
+</li>
+<li>
+  <a routerLink="/documentos" (click)="isCollapsedDocumentos = !isCollapsedDocumentos" routerLinkActive="active"
+    [attr.aria-expanded]="!isCollapsedDocumentos" aria-controls="collapseBasic">
+    <i class="fa fa-table"></i>
+    <span>Documentos</span>
+    <i class="fa fa-caret-down collapse-icon"></i>
+  </a>
+  <div class="sub-menu" id="subMenuDocumentos" [collapse]="isCollapsedDocumentos" [isAnimated]="true">
+<li>
+  <a routerLink="/documentos/pendentes" routerLinkActive="">
+    <span>Documentos Pentes</span>
+  </a>
+</li>
+</div>
+<li>
+  <a href="#" routerLink="/maps" routerLinkActive="active">
+    <i class="fa fa-globe"></i>
+    <span>Maps</span>
+  </a>
+</li>
+<li>
+  <a href="#" routerLink="/notifications" routerLinkActive="active">
+    <i class="fas fa-bell"></i>
+    <span>Notifications</span>
+  </a>
+</li>
+</ul>
+<div class="menu-header mt-4 mb-4">
+  Github Repo
+</div>
+<div class="view-source mb-3">
+  <a href="https://github.com/azouaoui-med/lightning-admin-angular" target="_blank"
+    class="btn btn-block btn-lightning rounded-0">View Source</a>
+</div>
+</nav>
+</aside>
 </div>

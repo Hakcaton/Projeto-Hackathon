@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { IUserModel } from 'src/app/models/user.model';
 import { AccountService } from 'src/app/services/account.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,14 +13,23 @@ import { AccountService } from 'src/app/services/account.service';
 export class SidebarComponent implements OnInit {
   @Input() userLogged = '';
 
+  isCollapsedEmpresas: boolean = true;
+  isCollapsedDocumentos: boolean = true;
+  userPermission: number = -1;
+
   user: IUserModel = {
     nome: '',
     funcao: '',
   };
 
-  constructor(private accountService: AccountService) {}
+  constructor(
+    private accountService: AccountService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.userPermission = this.authService.getPermission();
+
     this.load();
     console.log(this.userLogged);
   }

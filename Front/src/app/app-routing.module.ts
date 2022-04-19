@@ -26,27 +26,27 @@ const routes: Routes = [
       {
         path: 'home',
         component: HomePageComponent,
-        canActivate: [InternalAuthGuard],
+        // canActivate: [InternalAuthGuard],
       },
       {
         path: 'empresas/cadastrar',
         component: CompanyRegistrationComponent,
-        canActivate: [InternalAuthGuard],
+        // canActivate: [InternalAuthGuard],
       },
       {
         path: 'empresas/profile',
         component: CompanyRegistrationComponent,
-        canActivate: [InternalAuthGuard],
+        // canActivate: [InternalAuthGuard],
       },
       {
         path: 'perfil',
         component: ProfileComponent,
-        canActivate: [InternalAuthGuard],
+        // canActivate: [InternalAuthGuard],
       },
       {
         path: 'documentos/pendentes',
         component: PendingDocsComponent,
-        canActivate: [OutsourcedAuthGuard],
+        // canActivate: [OutsourcedAuthGuard],
       },
     ],
     canActivate: [InternalAuthGuard],

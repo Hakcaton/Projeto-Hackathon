@@ -70,18 +70,30 @@ export class AuthService {
   }
 
   login(loginData: LoginModel) {
-    let encryptedPassword = this.encryptPassword(loginData.password);
-    loginData.password = encryptedPassword;
     let url = '/api/authentication/login';
     return this.http.post(url, loginData).pipe(
       map((res: any) => {
         console.log(res);
-        window.localStorage.setItem('token', res.authToken);
+        window.localStorage.setItem('token', res.access_token);
       })
     );
   }
 
   encryptPassword(password: string) {
     return Md5.hashStr(password);
+  }
+
+  getPermission(): number {
+    try {
+      let token = this.getToken();
+      if (!token) {
+        throw new Error('No token found');
+      }
+      const decoded = jwtDecode<any>(token);
+      let permission = decoded.permission;
+      return permission;
+    } catch {
+      return -1;
+    }
   }
 }
