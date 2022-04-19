@@ -17,8 +17,10 @@ export class AuthService {
     if (user) {
       const match = await Cryptography.compare(pass, user.password);
       if(match) {
-        const { password, ...result } = user;
-        return result;
+        return {
+          userId: user.id,
+          permission: user.permission
+        };
       }
     }
     return null;

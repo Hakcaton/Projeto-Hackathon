@@ -1,4 +1,5 @@
 
+import { ePermission } from 'src/tools/data-definition/permission.definition';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -11,6 +12,9 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column()
+  permission: ePermission;
 
   @Column({ default: true })
   isActive?: boolean;
