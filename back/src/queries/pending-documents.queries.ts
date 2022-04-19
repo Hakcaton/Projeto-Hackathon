@@ -5,6 +5,7 @@ FROM
     form_field
 WHERE 
 (form_field.contract_id = ?)
+AND (form_field.individual = 0)
 AND (
 	(
 	NOT EXISTS(
@@ -85,6 +86,20 @@ FROM
 	INNER JOIN
 		form_field 
 	ON (form_field.id = document.form_field_id)
-		AND (form_field.contract_id = '0123456')
+		AND (form_field.contract_id = ?)
+		AND (form_field.individual = 0)
+WHERE
+	(document.status in (0, 2))`
+
+export const SELECT_EMPLOYEES_PENDING_DOCUMENTS_FROM_CONTRACT = `
+SELECT 
+    document.*, form_field.contract_id, form_field.title, form_field.subtitle
+FROM
+    document
+	INNER JOIN
+		form_field 
+	ON (form_field.id = document.form_field_id)
+		AND (form_field.contract_id = ?)
+		AND (form_field.individual = 1)
 WHERE
 	(document.status in (0, 2))`

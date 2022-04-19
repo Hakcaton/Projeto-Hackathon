@@ -1,7 +1,7 @@
 
 import { Contract } from 'src/modules/contract/entities/contract.entity';
+import { eDocumentRecurrence } from 'src/tools/data-definition/document-recurrence.definition';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { eRecurrence } from '../dto/enum.eRecurrence';
 
 @Entity()
 export class FormField {
@@ -15,7 +15,7 @@ export class FormField {
   subtitle: string;
 
   @Column()
-  recurrence: eRecurrence;
+  recurrence: eDocumentRecurrence;
 
   @Column()
   individual: boolean;

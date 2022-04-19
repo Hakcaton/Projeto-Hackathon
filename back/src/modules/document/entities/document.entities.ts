@@ -1,8 +1,8 @@
 
 import { Employee } from 'src/modules/employee/entities/employee.entity';
 import { FormField } from 'src/modules/form-field/entities/form-field.entity';
+import { eDocumentStatus } from 'src/tools/data-definition/document-status.definition';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { eDocumentStatus } from '../dto/enum.documentStatus'
 
 @Entity()
 export class Document {

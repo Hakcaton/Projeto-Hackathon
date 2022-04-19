@@ -1,10 +1,9 @@
 import { Controller, Request, Post, UseGuards, Body, HttpCode, HttpException, HttpStatus } from '@nestjs/common';
 import { AuthService } from 'src/tools/auth/auth.service';
 import { Public } from 'src/tools/auth/constants';
-import { IResult } from '../helpers/result.interface';
 import { IForgotPassoword, ILogin } from './auth.interface';
 
-@Controller('auth')
+@Controller('authentication')
 export class AuthController {
   constructor(
     private authService: AuthService,
@@ -23,6 +22,7 @@ export class AuthController {
   @HttpCode(200)
   @Post('forgot-passoword')
   async forgotPassoword(@Body() email: string): Promise<void> {
+
     return await this.authService.forgotPassoword(email);
   }
 

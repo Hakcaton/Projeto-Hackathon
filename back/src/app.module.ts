@@ -17,6 +17,7 @@ import { Contract } from './modules/contract/entities/contract.entity';
 import { Employee } from './modules/employee/entities/employee.entity';
 import { FormField } from './modules/form-field/entities/form-field.entity';
 import { Document } from './modules/document/entities/document.entities';
+import { EmployeeMovement } from './modules/employee-movement/entities/employee-movement.entity';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { Document } from './modules/document/entities/document.entities';
         Employee,
         FormField,
         Document,
+        EmployeeMovement
       ],
       synchronize: true,
     }),

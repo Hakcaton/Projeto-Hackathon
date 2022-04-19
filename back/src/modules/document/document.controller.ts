@@ -1,21 +1,26 @@
-import { Controller, Get, Param, Req } from '@nestjs/common';
-import { Public } from 'src/tools/auth/constants';
+import { Controller, Get, Param } from '@nestjs/common';
 import { DocumentService } from './document.service';
+import { PendingEmployeeDocumentDto } from './dto/pending-employee-document.dto';
 import { Document } from './entities/document.entities';
 
 @Controller('documents')
 export class DocumentController {
   constructor(private documentService: DocumentService) { }
 
-  @Public()
   @Get('pending/:contractId')
   async getPendingDocuments(@Param() params: any): Promise<Document[]> {
-
     // FALTA VERIFICAR SE O USUÁRIO QUE FEZ A REQUISIÇÃO É FUNCIONÁRIO DA ESTIVA (permission = 1) OU RESPONSÁVEL PELO CONTRATO.
 
     await this.documentService.generatePendingDocuments(params.contractId);
-    return await this.documentService.getPendingDocuments(params.contract_id);
+    return await this.documentService.getPendingDocuments(params.contractId);
+  }
 
+  @Get('employees/pending/:contractId')
+  async getEmployeesPendingDocuments(@Param() params: any): Promise<PendingEmployeeDocumentDto[]> {
+    // FALTA VERIFICAR SE O USUÁRIO QUE FEZ A REQUISIÇÃO É FUNCIONÁRIO DA ESTIVA (permission = 1) OU RESPONSÁVEL PELO CONTRATO.
+
+    await this.documentService.generateEmployeesPendingDocuments(params.contractId);
+    return this.documentService.getEmployeesPendingDocuments(params.contractId);
   }
 
 }

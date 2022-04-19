@@ -3,49 +3,43 @@ import { getConnection, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FormField } from '../form-field/entities/form-field.entity';
 import { Document } from './entities/document.entities';
-import { SELECT_LATEST_DOCUMENTS_FROM_CONTRACT, SELECT_PENDING_DOCUMENTS_FROM_CONTRACT, SELECT_PENDING_FORM_FIELDS_FROM_CONTRACT } from 'src/queries/pending-documents.queries';
-import { eRecurrence } from '../form-field/dto/enum.eRecurrence';
+import { SELECT_EMPLOYEES_PENDING_DOCUMENTS_FROM_CONTRACT, SELECT_LATEST_DOCUMENTS_FROM_CONTRACT, SELECT_PENDING_DOCUMENTS_FROM_CONTRACT, SELECT_PENDING_FORM_FIELDS_FROM_CONTRACT } from 'src/queries/pending-documents.queries';
+import { addDays, addMonths, addWeeks, addYears, removeHours } from 'src/tools/helpers/date-math.healper';
+import { Employee } from '../employee/entities/employee.entity';
+import { PendingEmployeeDocumentDto } from './dto/pending-employee-document.dto';
+import { PendingDocumentDto } from './dto/pending-document.dto';
+import { eDocumentRecurrence } from 'src/tools/data-definition/document-recurrence.definition';
 
 @Injectable()
 export class DocumentService {
 
-  removeHours(date: Date): Date {
-    return new Date(date.setHours(0, 0, 0, 0));
-  }
-
-  addDays(date: Date, days: number = 1): Date {
-    return new Date(date.setDate(date.getDate() + days));
-  }
-  addWeeks(date: Date, weeks: number = 1): Date {
-    return new Date(date.setDate(date.getDate() + weeks * 7));
-  }
-  addMonths(date: Date, months: number = 1): Date {
-    return new Date(date.setMonth(date.getMonth() + months));
-  }
-  addYears(date: Date, years: number = 1): Date {
-    return new Date(date.setFullYear(date.getFullYear() + years));
-  }
-
   constructor(
     @InjectRepository(Document) private documentRepository: Repository<Document>,
     @InjectRepository(FormField) private formFieldRepository: Repository<FormField>,
+    @InjectRepository(Employee) private employeeRepository: Repository<Employee>
 
   ) { }
 
   async generatePendingDocuments(contractId: string): Promise<void> {
+    // Seleciona todos os form_fields do contrato que precisam ter pelo menos um documento gerado.
     const pendingFormFields: FormField[] = await this.formFieldRepository.query(SELECT_PENDING_FORM_FIELDS_FROM_CONTRACT, [contractId]);
-    const latestRequestedDocuments: Document[] = await this.documentRepository.query(SELECT_LATEST_DOCUMENTS_FROM_CONTRACT, [contractId]);
 
-    const today = this.removeHours(new Date());
+    // Seleciona o último documento gerado de cada form_field do contrato.
+    const latestRequestedDocuments: Document[] = await this.documentRepository.query(SELECT_LATEST_DOCUMENTS_FROM_CONTRACT);
 
+    // salva o dia atual sem o horário.
+    const today = removeHours(new Date());
+
+    // Lista de documentos a serem gerados.
     let newDocuments: any = [];
 
+    // Gera os novos documentos gerais pendentes.
     pendingFormFields.map(pendingFormField => {
       const latestDocument: Document = latestRequestedDocuments.find(doc => doc.form_field_id == pendingFormField.id);
 
       if (latestDocument) {
-        if (pendingFormField.recurrence == eRecurrence.annually) {
-          let nextRequestDate: Date = this.addYears(latestDocument.request_date);
+        if (pendingFormField.recurrence == eDocumentRecurrence.annually) {
+          let nextRequestDate: Date = addYears(latestDocument.request_date);
           while (nextRequestDate <= today) {
             let newDocument: any = {
               status: 0,
@@ -54,11 +48,11 @@ export class DocumentService {
             }
 
             newDocuments.push(newDocument);
-            nextRequestDate = this.addYears(nextRequestDate);
+            nextRequestDate = addYears(nextRequestDate);
           }
         }
-        else if (pendingFormField.recurrence == eRecurrence.monthly) {
-          let nextRequestDate: Date = this.addMonths(latestDocument.request_date);
+        else if (pendingFormField.recurrence == eDocumentRecurrence.monthly) {
+          let nextRequestDate: Date = addMonths(latestDocument.request_date);
           while (nextRequestDate <= today) {
             let newDocument: any = {
               status: 0,
@@ -67,11 +61,11 @@ export class DocumentService {
             }
 
             newDocuments.push(newDocument);
-            nextRequestDate = this.addMonths(nextRequestDate);
+            nextRequestDate = addMonths(nextRequestDate);
           }
         }
-        else if (pendingFormField.recurrence == eRecurrence.weekly) {
-          let nextRequestDate: Date = this.addWeeks(latestDocument.request_date);
+        else if (pendingFormField.recurrence == eDocumentRecurrence.weekly) {
+          let nextRequestDate: Date = addWeeks(latestDocument.request_date);
           while (nextRequestDate <= today) {
             let newDocument: any = {
               status: 0,
@@ -80,11 +74,11 @@ export class DocumentService {
             }
 
             newDocuments.push(newDocument);
-            nextRequestDate = this.addWeeks(nextRequestDate);
+            nextRequestDate = addWeeks(nextRequestDate);
           }
         }
-        else if (pendingFormField.recurrence == eRecurrence.daily) {
-          let nextRequestDate: Date = this.addDays(latestDocument.request_date);
+        else if (pendingFormField.recurrence == eDocumentRecurrence.daily) {
+          let nextRequestDate: Date = addDays(latestDocument.request_date);
           while (nextRequestDate <= today) {
             let newDocument: any = {
               status: 0,
@@ -93,12 +87,12 @@ export class DocumentService {
             }
 
             newDocuments.push(newDocument);
-            nextRequestDate = this.addDays(nextRequestDate);
+            nextRequestDate = addDays(nextRequestDate);
           }
         }
       }
       else {
-        if (pendingFormField.recurrence == eRecurrence.once) {
+        if (pendingFormField.recurrence == eDocumentRecurrence.once) {
           let nextRequestDate: Date = new Date(pendingFormField.first_request_date);
           let newDocument: any = {
             status: 0,
@@ -107,9 +101,9 @@ export class DocumentService {
           }
 
           newDocuments.push(newDocument);
-          nextRequestDate = this.addYears(nextRequestDate);
+          nextRequestDate = addYears(nextRequestDate);
         }
-        else if (pendingFormField.recurrence == eRecurrence.annually) {
+        else if (pendingFormField.recurrence == eDocumentRecurrence.annually) {
           let nextRequestDate: Date = new Date(pendingFormField.first_request_date);
           while (nextRequestDate <= today) {
             let newDocument: any = {
@@ -119,10 +113,10 @@ export class DocumentService {
             }
 
             newDocuments.push(newDocument);
-            nextRequestDate = this.addYears(nextRequestDate);
+            nextRequestDate = addYears(nextRequestDate);
           }
         }
-        else if (pendingFormField.recurrence == eRecurrence.monthly) {
+        else if (pendingFormField.recurrence == eDocumentRecurrence.monthly) {
           let nextRequestDate: Date = new Date(pendingFormField.first_request_date);
           while (nextRequestDate <= today) {
             let newDocument: any = {
@@ -132,10 +126,10 @@ export class DocumentService {
             }
 
             newDocuments.push(newDocument);
-            nextRequestDate = this.addMonths(nextRequestDate);
+            nextRequestDate = addMonths(nextRequestDate);
           }
         }
-        else if (pendingFormField.recurrence == eRecurrence.weekly) {
+        else if (pendingFormField.recurrence == eDocumentRecurrence.weekly) {
           let nextRequestDate: Date = new Date(pendingFormField.first_request_date);
           while (nextRequestDate <= today) {
             let newDocument: any = {
@@ -145,10 +139,10 @@ export class DocumentService {
             }
 
             newDocuments.push(newDocument);
-            nextRequestDate = this.addWeeks(nextRequestDate);
+            nextRequestDate = addWeeks(nextRequestDate);
           }
         }
-        else if (pendingFormField.recurrence == eRecurrence.daily) {
+        else if (pendingFormField.recurrence == eDocumentRecurrence.daily) {
           let nextRequestDate: Date = new Date(pendingFormField.first_request_date);
           while (nextRequestDate <= today) {
             let newDocument: any = {
@@ -158,17 +152,48 @@ export class DocumentService {
             }
 
             newDocuments.push(newDocument);
-            nextRequestDate = this.addDays(nextRequestDate);
+            nextRequestDate = addDays(nextRequestDate);
           }
         }
       }
     });
 
-
     await getConnection().createQueryBuilder().insert().into(Document).values(newDocuments).execute();
   }
 
-  async getPendingDocuments(contractId: any): Promise<Document[]> {
-    return await this.documentRepository.query(SELECT_PENDING_DOCUMENTS_FROM_CONTRACT);
+  async generateEmployeesPendingDocuments(contractId: string): Promise<void> {
+    // PRECISA FAZER ESSA LÓGICA.
+  }
+
+  async getPendingDocuments(contractId: string): Promise<Document[]> {
+    return await this.documentRepository.query(SELECT_PENDING_DOCUMENTS_FROM_CONTRACT, [contractId]);
+  }
+
+  async getEmployeesPendingDocuments(contractId: string): Promise<PendingEmployeeDocumentDto[]> {
+    const employees: Employee[] = await this.employeeRepository.find({ contract_id: contractId });
+
+    const rawDocuments = await getConnection().query(SELECT_EMPLOYEES_PENDING_DOCUMENTS_FROM_CONTRACT, [contractId]);
+
+    let documents: PendingEmployeeDocumentDto[] = [];
+
+    employees.forEach(employee => {
+      const newEmployeePendingDoc: PendingEmployeeDocumentDto = new PendingEmployeeDocumentDto();
+      newEmployeePendingDoc.id = employee.id;
+      newEmployeePendingDoc.cpf = employee.cpf;
+      newEmployeePendingDoc.fullName = employee.fullName;
+      rawDocuments.filter(doc => doc.contract_id == contractId && doc.employee_id == employee.id)
+        .map(rawDoc => {
+          const newDoc: PendingDocumentDto = new PendingDocumentDto();
+          newDoc.id = rawDoc.id;
+          newDoc.status = rawDoc.status;
+          newDoc.subtitle = rawDoc.subtitle;
+          newDoc.tag_description = 'Tag';
+          newDoc.title = rawDoc.title;
+          newEmployeePendingDoc.documents.push(newDoc);
+        })
+      documents.push(newEmployeePendingDoc);
+    })
+
+    return documents;
   }
 }

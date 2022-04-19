@@ -13,6 +13,9 @@ export class Employee {
   @Column()
   fullName: string;
 
+  @Column()
+  contract_id: string;
+
   @ManyToOne(() => Contract, contract =>  contract.id)
   @JoinColumn({name: 'contract_id'})
   contract: Contract;

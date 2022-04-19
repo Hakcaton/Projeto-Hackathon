@@ -1,4 +1,4 @@
-export enum eRecurrence {
+export enum eDocumentRecurrence {
     once,
     annually,
     monthly,
