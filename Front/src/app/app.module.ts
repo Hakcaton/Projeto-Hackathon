@@ -9,6 +9,7 @@ import { ForgotPasswordComponent } from './views/common/authentication/forgot-pa
 import { ResetPasswordComponent } from './views/common/authentication/reset-password/reset-password.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CompanyRegistrationComponent } from './views/internal/company-registration/company-registration.component';
 import { DocTagComponent } from './components/doc-tag/doc-tag.component';
@@ -22,11 +23,15 @@ import { AuthenticationInterceptor } from './interceptors/authentication.interce
 import { SidebarComponent } from './components/menu/sidebar/sidebar.component';
 import { NavbarComponent } from './components/menu/navbar/navbar.component';
 import { FooterComponent } from './components/menu/footer/footer.component';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ToastrModule } from 'ngx-toastr';
 import { UnauthenticatedLayoutComponent } from './layouts/unauthenticated-layout/unauthenticated-layout.component';
 import { AuthenticatedLayoutComponent } from './layouts/authenticated-layout/authenticated-layout.component';
 import { HomePageComponent } from './views/internal/home-page/home-page.component';
+import { EmployeeSendDocCardComponent } from './components/employee-send-doc-card/employee-send-doc-card.component';
+import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
+import { AddEmployeeComponent } from './components/add-employee/add-employee.component';
+import { NgxMaskModule } from 'ngx-mask';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +50,9 @@ import { HomePageComponent } from './views/internal/home-page/home-page.componen
     UnauthenticatedLayoutComponent,
     AuthenticatedLayoutComponent,
     HomePageComponent,
+    EmployeeSendDocCardComponent,
+    ModalConfirmComponent,
+    AddEmployeeComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +64,7 @@ import { HomePageComponent } from './views/internal/home-page/home-page.componen
     HttpClientModule,
     CollapseModule.forRoot(),
     ToastrModule.forRoot(),
+    NgxMaskModule.forRoot()
   ],
   providers: [
     FormBuilder,

@@ -3,10 +3,19 @@
     height: 150px;
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0px 2px 8px 4px rgba($color: #000000, $alpha: .25);
+    box-shadow: 0px 2px 4px 4px rgba($color: #000000, $alpha: .15);
     padding: 15px;
     display: flex;
     flex-direction: column;
+}
+
+.main-card.sent {
+    height: auto;
+}
+
+.main-card.sent>header {
+    display: flex;
+    align-items: center;
 }
 
 .main-card>header {
@@ -45,6 +54,11 @@
     justify-content: left;
 }
 
+.main-card>div>div {
+    display: flex;
+    align-items: center;
+}
+
 .main-card>div>div:nth-child(1) {
     flex-grow: 1;
 }
@@ -53,9 +67,20 @@
     flex-grow: 0;
 }
 
+.fileload {
+    display: flex;
+    vertical-align: center;
+}
+
+.fileload>span {
+    max-width: 400px;
+    margin-left: 15px;
+    font-size: 11px;
+    padding-top: 5px;
+}
+
 #btn-upload>img {
-    filter: invert(28%) sepia(0%) saturate(3726%) hue-rotate(141deg) brightness(102%) contrast(82%);
-    margin-right: 5px;
+    margin-bottom: .19em;
     transition: .25s;
 }
 
@@ -70,4 +95,22 @@
 
 #btn-send {
     width: 85px;
+}
+
+.btn-cancel {
+    display: flex;
+    justify-content: left;
+    border: none;
+    background: none;
+    width: 115px;
+}
+
+button>span {
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+#btn-upload:hover>span {
+    color: white;
+    transition: .25s;
 }

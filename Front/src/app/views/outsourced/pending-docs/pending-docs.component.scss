@@ -1,14 +1,14 @@
 .wrapper {
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    width: 100vw;
-    height: 100vh;
-    padding: 5em;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    padding-top: 25px;
 }
 
 .cards {
-    margin: 25px;
+    margin-top: 30px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -16,4 +16,28 @@
 
 .cards>* {
     margin-bottom: 25px;
+}
+
+.filter {
+    display: flex;
+    height: fit-content;
+    margin-top: 25px;
+    width: 100%;
+    input {
+        flex-grow: 1;
+        margin-left: 10px;
+        margin-right: 10px;
+        background-image: url('/assets/icons/search.svg');
+        background-repeat: no-repeat;
+        background-position: 5px 6px;
+        text-indent: 20px;
+    }
+     :not(:nth-child(2)) {
+        flex-grow: 0;
+        width: 200px;
+    }
+}
+
+#employees-doc {
+    width: 700px;
 }

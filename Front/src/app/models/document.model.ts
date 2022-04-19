@@ -2,6 +2,7 @@ export interface DocumentModel{
     id: number,
     title: string,
     subtitle: string,
-    tag_description: string,
-    state: number
+    tooltip_text: string,
+    state: number,
+    
 }

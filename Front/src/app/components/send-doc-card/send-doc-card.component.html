@@ -1,22 +1,77 @@
-<div class="main-card">
-    <header>
-        <div>
-            <h3>{{ data.title }}</h3>
-            <div>
-                <h6>{{ data.subtitle}}</h6>
-            </div>
-        </div>
-        <div>
-            <app-doc-tag [text]="tags[data.state].text" [color]="tags[data.state].color" [font_color]="tags[data.state].font_color" [font_weight]="tags[data.state].font_weight"></app-doc-tag>
-        </div>
-    </header>
+<input
+  type="file"
+  name=""
+  #inputFile
+  hidden="true"
+  (change)="fileChange($event)"
+/>
+
+<div class="main-card" *ngIf="data.state === 0 || data.state === 2">
+  <header>
     <div>
-        <div>
-            <button class="btn btn-outline-secondary" id="btn-upload"><img
-                    src="/assets/icons/upload.svg">Carregar</button>
-        </div>
-        <div>
-            <button class="btn btn-primary" id="btn-send">Enviar</button>
-        </div>
+      <h3>{{ data.title }}</h3>
+      <div>
+        <h6>{{ data.subtitle }}</h6>
+      </div>
     </div>
+    <div>
+      <app-doc-tag
+        [text]="tags[data.state].text"
+        [color]="tags[data.state].color"
+        [font_color]="tags[data.state].font_color"
+        [font_weight]="tags[data.state].font_weight"
+        [tooltip_text]="data.tooltip_text"
+      ></app-doc-tag>
+    </div>
+  </header>
+  <div>
+    <div *ngIf="!file">
+      <button
+        class="btn btn-outline-secondary"
+        id="btn-upload"
+        (click)="inputFile.click()"
+      >
+        <img src="/assets/icons/upload.svg" class="icon" /><span>Carregar</span>
+      </button>
+    </div>
+    <div class="fileload" *ngIf="file">
+      <button class="btn-cancel" (click)="btnCancelClick()" (mouseover)="btnCancelHover()"
+      (mouseout)="btnCancelUnhover()">
+        <img src="/assets/icons/check.svg" class="icon" #imgCancel/><span #spanCancel>Carregado</span>
+      </button>
+      <span>{{ file ? file.name : "" }}</span>
+    </div>
+    <div>
+      <button
+        class="btn btn-primary"
+        id="btn-send"
+        [disabled]="!file"
+        (click)="btnSendClick()"
+      >
+        Enviar
+      </button>
+    </div>
+  </div>
 </div>
+
+<div class="main-card sent" *ngIf="data.state === 1 || data.state === 3">
+  <header>
+    <div>
+      <h3>{{ data.title }}</h3>
+    </div>
+    <div>
+      <button
+        class="btn-cancel"
+        (mouseover)="btnSendCancelHover()"
+        (mouseout)="btnSendCancelUnhover()"
+        (click)="btnSendCancelClick()"
+      >
+        <img src="/assets/icons/check.svg" class="icon" #imgSendCancel /><span
+          #spanSendCancel
+          >Enviado</span
+        >
+      </button>
+    </div>
+  </header>
+</div>
+

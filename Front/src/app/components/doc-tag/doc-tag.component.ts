@@ -11,6 +11,7 @@ export class DocTagComponent implements OnInit {
   @Input() color: string = '#E1E1E1';
   @Input() font_color: string = '#535353';
   @Input() font_weight: number = 200;
+  @Input() tooltip_text: string = '';
 
   @ViewChild('tag') tag: any;
 
@@ -18,10 +19,6 @@ export class DocTagComponent implements OnInit {
 
   ngOnInit(): void {
     
-  }
-
-  teste(){
-    this.tag.tooltip();
   }
 
 }
