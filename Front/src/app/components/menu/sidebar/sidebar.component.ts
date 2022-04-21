@@ -31,14 +31,12 @@ export class SidebarComponent implements OnInit {
     this.userPermission = this.authService.getPermission();
 
     this.load();
-    console.log(this.userLogged);
   }
 
   async load() {
     const resultUserLogged = await lastValueFrom(
       this.accountService.getProfile()
     );
-    console.log(resultUserLogged);
     this.user = {
       nome: resultUserLogged.name,
       funcao: resultUserLogged.lastName,

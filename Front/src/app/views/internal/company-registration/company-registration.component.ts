@@ -65,7 +65,6 @@ export class CompanyRegistrationComponent implements OnInit {
       .registerCompanyData(body)
       .pipe(
         map((result: any) => {
-          console.log(result);
         })
       )
       .subscribe();

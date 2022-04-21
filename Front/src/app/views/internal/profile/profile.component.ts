@@ -61,7 +61,6 @@ export class ProfileComponent implements OnInit {
 
   async load() {
     const profile = await lastValueFrom(this.accountService.getProfile());
-    console.log(profile);
     this.profileForm.setValue({
       name: profile.name,
       lastName: profile.lastName,

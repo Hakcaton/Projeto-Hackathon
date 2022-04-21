@@ -31,6 +31,7 @@ import { EmployeeSendDocCardComponent } from './components/employee-send-doc-car
 import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
 import { AddEmployeeComponent } from './components/add-employee/add-employee.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { RegisteredCompaniesComponent } from './views/internal/company/registered-companies/registered-companies.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { NgxMaskModule } from 'ngx-mask';
     HomePageComponent,
     EmployeeSendDocCardComponent,
     ModalConfirmComponent,
-    AddEmployeeComponent
+    AddEmployeeComponent,
+    RegisteredCompaniesComponent
   ],
   imports: [
     BrowserModule,

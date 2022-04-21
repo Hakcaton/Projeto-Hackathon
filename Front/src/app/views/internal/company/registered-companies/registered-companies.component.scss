@@ -1,0 +1,39 @@
+.wrapper {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    >div {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+}
+
+.table-card {
+    width: 1080px;
+}
+
+.filter {
+    display: flex;
+    height: fit-content;
+    margin-top: 25px;
+    width: 100%;
+    margin-bottom: 20px;
+    input {
+        flex-grow: 1;
+        margin-left: 10px;
+        margin-right: 10px;
+        background-image: url('/assets/icons/search.svg');
+        background-repeat: no-repeat;
+        background-position: 5px 6px;
+        text-indent: 20px;
+    }
+     :not(:nth-child(2)) {
+        flex-grow: 0;
+        width: 200px;
+    }
+}

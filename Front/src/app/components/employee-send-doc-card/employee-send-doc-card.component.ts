@@ -59,8 +59,6 @@ export class EmployeeSendDocCardComponent implements OnInit {
     this.employeeForm.controls['cpf'].enable();
   }
   btnSaveCPFClick() {
-    console.log(this.employeeForm.controls['cpf'].value);
-
     if (!this.employeeForm.controls['cpf'].valid) {
       alert('CPF inválido');
       return;

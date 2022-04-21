@@ -1,16 +1,16 @@
-export interface ICompanyDataModel {
+export interface CompanyModel {
   companyData: {
-    id: number;
-    razaoSocial: string;
-    nomeFantasia: string;
     cnpj: string;
-    inscricaoEstadual: string;
+    corporateName: string;
+    fantasyName: string;
+    stateRegistration: string;
   };
   responsibleData: {
-    nome: string;
-    sobreNome: string;
+    id: string;
+    name: string;
+    lastName: string;
     cpf: string;
     email: string;
-    celular: string;
+    phoneNumber: string;
   };
 }

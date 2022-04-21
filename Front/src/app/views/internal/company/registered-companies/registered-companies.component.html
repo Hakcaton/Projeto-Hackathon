@@ -1,0 +1,59 @@
+<div class="wrapper">
+    <div>
+        <div class="filter">
+            <button class="btn btn-primary" (click)="btnAddCompanyClick()">Adicionar</button>
+            <input class="form-control" type="text" placeholder="Filtre por Razão Social, CNPJ ou IE" [(ngModel)]="filter" />
+            <button class="btn btn-outline-secondary" (click)="clearFilter()" [disabled]="!filter">Limpar
+                filtro</button>
+        </div>
+        <div class="table-card">
+            <div class="content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 400px;">Razão Social</th>
+                            <th style="width: 200px;">CNPJ</th>
+                            <th style="width: 200px;">Inscrição Estadual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let company of filteredCompanies.slice(pageIndex*10, pageIndex*10+10)">
+                            <tr>
+                                <td>{{ company.companyData.corporateName }}</td>
+                                <td>{{ company.companyData.cnpj }}</td>
+                                <td>{{ company.companyData.stateRegistration }}</td>
+                                <td class="td-btn">
+                                    <button class="no-style" (click)="onEditClick(company)" tooltip="Editar dados da empresa">
+                                        <img src="/assets/icons/edit-square.svg" class="icon">
+                                    </button><button class="no-style" tooltip="Visualizar contratos da empresa">
+                                        <img src="/assets/icons/edit-contract.svg" class="icon">
+                                    </button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+            <div class="footer">
+                <div class="table-resume">
+                    <span>{{ "Total: " + filteredCompanies.length }}</span>
+                </div>
+                <div class="page-selector">
+                    <button class="no-style" (click)="firstPage()">
+                        <img src="/assets/icons/first_page.svg" class="icon">
+                    </button>
+                    <button class="no-style" (click)="previousPage()">
+                        <img src="/assets/icons/left_arrow.svg" class="icon">
+                    </button>
+                    <span>{{ pageIndex + 1 }}</span>
+                    <button class="no-style" (click)="nextPage()">
+                        <img src="/assets/icons/right_arrow.svg" class="icon">
+                    </button>
+                    <button class="no-style" (click)="lastPage()">
+                        <img src="/assets/icons/last_page.svg" class="icon">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -18,28 +18,24 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {
     this.formGroup = formBuilder.group({
-      email: [
-        '',
-        [Validators.required, Validators.email, Validators.maxLength(320)],
-      ],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(320)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       remember: [''],
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onLoginClick() {
     this.authService
       .login(this.formGroup.value)
       .pipe(
         map((data) => {
-          console.log(data);
           this.router.navigateByUrl('');
         })
       )
       .subscribe();
   }
 
-  onRecoverClick() {}
+  onRecoverClick() { }
 }

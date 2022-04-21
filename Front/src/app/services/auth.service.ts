@@ -73,7 +73,6 @@ export class AuthService {
     let url = '/api/authentication/login';
     return this.http.post(url, loginData).pipe(
       map((res: any) => {
-        console.log(res);
         window.localStorage.setItem('token', res.access_token);
       })
     );
