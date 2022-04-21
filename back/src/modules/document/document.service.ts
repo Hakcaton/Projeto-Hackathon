@@ -8,7 +8,7 @@ import { addDays, addMonths, addWeeks, addYears, removeHours } from 'src/tools/h
 import { Employee } from '../employee/entities/employee.entity';
 import { PendingEmployeeDocumentDto } from './dto/pending-employee-document.dto';
 import { PendingDocumentDto } from './dto/pending-document.dto';
-import { eDocumentRecurrence } from 'src/tools/data-definition/document-recurrence.definition';
+import { eDocumentRecurrence } from 'src/tools/enum/document-recurrence.definition';
 
 @Injectable()
 export class DocumentService {

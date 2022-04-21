@@ -1,5 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -18,10 +18,12 @@ import { Employee } from './modules/employee/entities/employee.entity';
 import { FormField } from './modules/form-field/entities/form-field.entity';
 import { Document } from './modules/document/entities/document.entities';
 import { EmployeeMovement } from './modules/employee-movement/entities/employee-movement.entity';
+import { TokenRefresherMiddleware } from './tools/auth/auth.middleware';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    AuthModule, 
+    AuthModule,
     UserModule,
     CompanyModule,
     ContractModule,
@@ -55,4 +57,14 @@ import { EmployeeMovement } from './modules/employee-movement/entities/employee-
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(TokenRefresherMiddleware)
+      .exclude(
+        'api/authentication/(.*)',
+        'api/user/create'
+      )
+      .forRoutes("/");
+  }
+}

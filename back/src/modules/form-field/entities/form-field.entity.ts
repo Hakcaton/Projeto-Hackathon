@@ -1,6 +1,6 @@
 
 import { Contract } from 'src/modules/contract/entities/contract.entity';
-import { eDocumentRecurrence } from 'src/tools/data-definition/document-recurrence.definition';
+import { eDocumentRecurrence } from 'src/tools/enum/document-recurrence.definition';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity()

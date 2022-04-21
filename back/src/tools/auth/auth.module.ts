@@ -7,6 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { UserModule } from 'src/modules/user/users.module';
 import { AuthController } from './auth.controller';
+import { TokenRefresherMiddleware } from './auth.middleware';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { AuthController } from './auth.controller';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, TokenRefresherMiddleware],
   exports: [AuthService],
 })
 export class AuthModule {}
