@@ -32,6 +32,7 @@ import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.
 import { AddEmployeeComponent } from './components/add-employee/add-employee.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { RegisteredCompaniesComponent } from './views/internal/company/registered-companies/registered-companies.component';
+import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,7 @@ import { RegisteredCompaniesComponent } from './views/internal/company/registere
     EmployeeSendDocCardComponent,
     ModalConfirmComponent,
     AddEmployeeComponent,
-    RegisteredCompaniesComponent
+    RegisteredCompaniesComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,7 +67,8 @@ import { RegisteredCompaniesComponent } from './views/internal/company/registere
     HttpClientModule,
     CollapseModule.forRoot(),
     ToastrModule.forRoot(),
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    AlifeFileToBase64Module,
   ],
   providers: [
     FormBuilder,

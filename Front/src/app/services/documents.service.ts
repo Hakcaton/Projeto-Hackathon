@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { DocumentModel } from '../models/document.model';
 import { EmployeeDocumentModel } from '../models/employee-document.model';
 
@@ -6,144 +8,60 @@ import { EmployeeDocumentModel } from '../models/employee-document.model';
   providedIn: 'root',
 })
 export class DocumentsService {
-
-  pendingDocs =  [
+  employeesPendingDocs: EmployeeDocumentModel[] = [
     {
-      id: 1,
-      title: 'Documento A',
-      subtitle: '20/01/2001',
-      tooltip_text: '',
-      state: 0,
-    },
-    {
-      id: 2,
-      title: 'Documento B',
-      subtitle: '20/01/2001',
-      tooltip_text: '',
-      state: 1,
-    },
-    {
-      id: 3,
-      title: 'Documento C',
-      subtitle: '20/01/2001',
-      tooltip_text: '',
-      state: 2,
-    },
-    {
-      id: 4,
-      title: 'Documento D',
-      subtitle: '20/01/2001',
-      tooltip_text: '',
-      state: 3,
-    },
-  ];
-
-  employeesPendingDocs =  [
-    {
-      id: 1,
+      id: '1',
       fullName: 'livis',
       cpf: '123.456.789-10',
       documents: [
         {
-          id: 1,
+          id: '1',
           title: 'Documento A',
           subtitle: '20/01/2001',
           tooltip_text: '',
           state: 0,
-        },
-        {
-          id: 2,
-          title: 'Documento B',
-          subtitle: '20/01/2001',
-          tooltip_text: '',
-          state: 1,
-        },
-        {
-          id: 3,
-          title: 'Documento C',
-          subtitle: '20/01/2001',
-          tooltip_text: '',
-          state: 2,
-        },
-        {
-          id: 4,
-          title: 'Documento D',
-          subtitle: '20/01/2001',
-          tooltip_text: '',
-          state: 3,
-        },
-      ],
-      active: true,
-    },
-    {
-      id: 2,
-      fullName: 'gustavo',
-      cpf: '109.876.543-21',
-      documents: [
-        {
-          id: 1,
-          title: 'macaco',
-          subtitle: '20/01/2001',
-          tooltip_text: '',
-          state: 0,
-        },
-        {
-          id: 2,
-          title: 'Documento B',
-          subtitle: '20/01/2001',
-          tooltip_text: '',
-          state: 1,
-        },
-        {
-          id: 3,
-          title: 'Documento C',
-          subtitle: '20/01/2001',
-          tooltip_text: '',
-          state: 2,
-        },
-        {
-          id: 4,
-          title: 'Documento D',
-          subtitle: '20/01/2001',
-          tooltip_text: '',
-          state: 3,
+          file: null,
         },
       ],
       active: true,
     },
   ];
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  public getPendingDocuments(): DocumentModel[] {
-    return this.pendingDocs;
+  public getPendingDocuments(contractId: string): Observable<any> {
+    const url = `/api/documents/pending/${contractId}`;
+    return this.http.get<any>(url);
   }
 
   public getEmployeesPendingDocuments(): EmployeeDocumentModel[] {
     return this.employeesPendingDocs;
   }
 
-  updateDocument(doc: DocumentModel):DocumentModel{
-    let oldDocIndex = this.pendingDocs.findIndex(x => {
-      return x.id === doc.id;
-    });
-    this.pendingDocs[oldDocIndex] = doc;
-    return this.pendingDocs[oldDocIndex];
+  updateDocument(doc: DocumentModel): any {}
+
+  insertFile(doc: DocumentModel): Observable<any> {
+    const url = `/api/documents/${doc.id}`;
+    return this.http.patch(url, doc.file);
   }
 
-  updateEmployee(employee: EmployeeDocumentModel):EmployeeDocumentModel{
-    let oldEmployeeIndex = this.employeesPendingDocs.findIndex(x => {
+  updateEmployee(employee: EmployeeDocumentModel): EmployeeDocumentModel {
+    let oldEmployeeIndex = this.employeesPendingDocs.findIndex((x) => {
       return x.id === employee.id;
     });
     this.employeesPendingDocs[oldEmployeeIndex] = employee;
     return this.employeesPendingDocs[oldEmployeeIndex];
   }
 
-  addEmployee(employee: EmployeeDocumentModel): EmployeeDocumentModel{
-    if(this.employeesPendingDocs.find(x => {return x.cpf === employee.cpf})){
-      throw new Error("CPF já cadastrado!");
+  addEmployee(employee: EmployeeDocumentModel): EmployeeDocumentModel {
+    if (
+      this.employeesPendingDocs.find((x) => {
+        return x.cpf === employee.cpf;
+      })
+    ) {
+      throw new Error('CPF já cadastrado!');
     }
     this.employeesPendingDocs.push(employee);
-    return this.employeesPendingDocs[this.employeesPendingDocs.length-1];
+    return this.employeesPendingDocs[this.employeesPendingDocs.length - 1];
   }
 }

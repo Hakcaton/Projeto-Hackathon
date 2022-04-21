@@ -3,8 +3,8 @@
   name=""
   #inputFile
   hidden="true"
-  (change)="fileChange($event)"
-/>
+  alife-file-to-base64
+  (onFileChanged)="onFileChanges($event)" />
 
 <div class="main-card" *ngIf="data.state === 0 || data.state === 2">
   <header>
@@ -20,34 +20,31 @@
         [color]="tags[data.state].color"
         [font_color]="tags[data.state].font_color"
         [font_weight]="tags[data.state].font_weight"
-        [tooltip_text]="data.tooltip_text"
-      ></app-doc-tag>
+        [tooltip_text]="data.tooltip_text"></app-doc-tag>
     </div>
   </header>
   <div>
-    <div *ngIf="!file">
+    <div *ngIf="!data.file">
       <button
         class="btn btn-outline-secondary"
         id="btn-upload"
-        (click)="inputFile.click()"
-      >
+        (click)="inputFile.click()">
         <img src="/assets/icons/upload.svg" class="icon" /><span>Carregar</span>
       </button>
     </div>
-    <div class="fileload" *ngIf="file">
+    <div class="fileload" *ngIf="data.file">
       <button class="btn-cancel" (click)="btnCancelClick()" (mouseover)="btnCancelHover()"
-      (mouseout)="btnCancelUnhover()">
-        <img src="/assets/icons/check.svg" class="icon" #imgCancel/><span #spanCancel>Carregado</span>
+        (mouseout)="btnCancelUnhover()">
+        <img src="/assets/icons/check.svg" class="icon" #imgCancel /><span #spanCancel>Carregado</span>
       </button>
-      <span>{{ file ? file.name : "" }}</span>
+      <span>{{ data.file ? data.file.name : "" }}</span>
     </div>
     <div>
       <button
         class="btn btn-primary"
         id="btn-send"
-        [disabled]="!file"
-        (click)="btnSendClick()"
-      >
+        [disabled]="!data.file"
+        (click)="btnSendClick()">
         Enviar
       </button>
     </div>
@@ -64,14 +61,10 @@
         class="btn-cancel"
         (mouseover)="btnSendCancelHover()"
         (mouseout)="btnSendCancelUnhover()"
-        (click)="btnSendCancelClick()"
-      >
+        (click)="btnSendCancelClick()">
         <img src="/assets/icons/check.svg" class="icon" #imgSendCancel /><span
-          #spanSendCancel
-          >Enviado</span
-        >
+          #spanSendCancel>Enviado</span>
       </button>
     </div>
   </header>
 </div>
-

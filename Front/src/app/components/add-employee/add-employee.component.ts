@@ -35,12 +35,12 @@ export class AddEmployeeComponent implements OnInit {
   ngOnInit(): void {}
 
   btnConfirmClick() {
-    if(!this.employeeForm.controls['cpf'].valid){
+    if (!this.employeeForm.controls['cpf'].valid) {
       alert('CPF inválido');
       return;
     }
     let newEmployee: EmployeeDocumentModel = {
-      id: -1,
+      id: '',
       fullName: this.employeeForm.controls['fullName'].value,
       cpf: this.employeeForm.controls['cpf'].value,
       documents: [],

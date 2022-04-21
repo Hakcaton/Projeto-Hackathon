@@ -10,7 +10,7 @@ import { DocumentsService } from 'src/app/services/documents.service';
 })
 export class EmployeeSendDocCardComponent implements OnInit {
   @Input() data: EmployeeDocumentModel = {
-    id: -1,
+    id: '1',
     fullName: '',
     cpf: '',
     documents: [],
@@ -25,11 +25,20 @@ export class EmployeeSendDocCardComponent implements OnInit {
 
   bRemoveModal: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private documentsService: DocumentsService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private documentsService: DocumentsService
+  ) {
     this.employeeForm = formBuilder.group({
-      fullName: [{ value: '', disabled: true },[Validators.required]],
-      cpf: [{ value: '', disabled: true },[Validators.required, Validators.pattern(/^[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}$/)]]
-    })
+      fullName: [{ value: '', disabled: true }, [Validators.required]],
+      cpf: [
+        { value: '', disabled: true },
+        [
+          Validators.required,
+          Validators.pattern(/^[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}$/),
+        ],
+      ],
+    });
   }
 
   ngOnInit(): void {
@@ -39,7 +48,7 @@ export class EmployeeSendDocCardComponent implements OnInit {
 
   headerClick() {
     this.isCollapsed = !this.isCollapsed;
-    this.cardArrow.nativeElement.classList.toggle("collapsed");
+    this.cardArrow.nativeElement.classList.toggle('collapsed');
   }
 
   btnEditFullNameClick() {

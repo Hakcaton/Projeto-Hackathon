@@ -1,7 +1,7 @@
 import { DocumentModel } from './document.model';
 
 export interface EmployeeDocumentModel {
-  id: number,
+  id: string;
   fullName: string;
   cpf: string;
   documents: DocumentModel[];

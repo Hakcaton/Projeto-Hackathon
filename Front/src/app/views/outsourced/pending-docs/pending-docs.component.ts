@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { map } from 'rxjs';
 import { DocumentModel } from 'src/app/models/document.model';
 import { EmployeeDocumentModel } from 'src/app/models/employee-document.model';
 import { DocumentsService } from 'src/app/services/documents.service';
@@ -11,30 +12,59 @@ import { DocumentsService } from 'src/app/services/documents.service';
 export class PendingDocsComponent implements OnInit {
   filter: string = '';
 
+  contractId: string = '1';
+
   bAddEmployee: boolean = false;
 
-  generalDocuments: DocumentModel[];
+  generalDocuments: DocumentModel[] = [];
 
-  employeesDocuments: EmployeeDocumentModel[];
+  employeesDocuments: EmployeeDocumentModel[] = [];
 
   constructor(private documentsService: DocumentsService) {
-    this.generalDocuments = documentsService.getPendingDocuments();
     this.employeesDocuments = documentsService.getEmployeesPendingDocuments();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    console.log(this.generalDocuments);
+    this.documentsService
+      .getPendingDocuments(this.contractId)
+      .pipe(
+        map((response: any) => {
+          this.generalDocuments = response;
+        })
+      )
+      .subscribe();
+  }
 
   checkFilter(employeeDoc: EmployeeDocumentModel) {
-    let formattedFilter = this.filter.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/[.,\-\s]/g, '');
-    let formattedFullName = employeeDoc.fullName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/[.,\-\s]/g, '');
-    let formattedCPF = employeeDoc.cpf.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/[.,\-\s]/g, '');
+    let formattedFilter = this.filter
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[.,\-\s]/g, '');
+    let formattedFullName = employeeDoc.fullName
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[.,\-\s]/g, '');
+    let formattedCPF = employeeDoc.cpf
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[.,\-\s]/g, '');
 
-    return formattedFullName.includes(formattedFilter) ||
+    return (
+      formattedFullName.includes(formattedFilter) ||
       formattedCPF.includes(formattedFilter) ||
       employeeDoc.documents.find((doc: DocumentModel) => {
-        let formattedDocumentTitle = doc.title.toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/[.,\-\s]/g, '');
+        let formattedDocumentTitle = doc.title
+          .toLocaleLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[.,\-\s]/g, '');
         return formattedDocumentTitle.includes(formattedFilter);
-      });
+      })
+    );
   }
 
   clearFilter() {
