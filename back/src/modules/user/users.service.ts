@@ -7,11 +7,12 @@ import * as jwt from 'jsonwebtoken';
 import { Repository } from 'typeorm';
 import { Response } from 'express';
 import { jwtConstants } from 'src/tools/auth/constants';
+import { eError } from 'src/tools/enum/error.definition';
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async findAll(): Promise<User[]> {
     return await this.userRepository.find();
@@ -25,33 +26,48 @@ export class UserService {
     await this.userRepository.delete(id);
   }
 
-  async addUser(data: CreateUserDto, res: Response): Promise<void> {
+  async addUser(data: CreateUserDto, res?: Response): Promise<void> {
     try {
-      const userExists = await this.userRepository.findOne({
-        email: data.email,
-      });
+      if (data.email == null || data.password == null || data.permission == null || data.name == null || data.lastName == null) {
+        throw eError.NOT_ENOUGTH_PARAMETERS;
+      }
 
-      if (userExists) {
-        res.status(HttpStatus.CONFLICT);
+      if (await this.userRepository.findOne({
+        email: data.email,
+      })) {
+        throw eError.USER_ALREADY_EXISTS;
       }
 
       data.password = await Cryptography.encrypt(data.password);
 
       let user = this.userRepository.create(data);
       await this.userRepository.save(user);
-    } catch (err) {
-      res.status(HttpStatus.BAD_REQUEST);
+    }
+    catch (err) {
+      if (!res) {
+        throw err;
+      }
+      switch (err) {
+        case eError.USER_ALREADY_EXISTS: {
+          res.status(HttpStatus.CONFLICT);
+          break;
+        }
+        default: {
+          res.status(HttpStatus.BAD_REQUEST);
+          break;
+        }
+      }
     }
   }
 
   async userProfile(token: string, res: Response): Promise<User> {
-    try{
+    try {
       token = token.replace('Bearer ', '');
       const validate: any = jwt.verify(token, jwtConstants.secret);
-      const user = await this.userRepository.findOne({id: validate.userId});
-      delete  user.password;
+      const user = await this.userRepository.findOne({ id: validate.userId });
+      delete user.password;
       return user;
-    } catch(err) {
+    } catch (err) {
       res.status(HttpStatus.BAD_REQUEST);
     }
 
