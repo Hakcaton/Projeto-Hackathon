@@ -103,3 +103,15 @@ FROM
 		AND (form_field.individual = 1)
 WHERE
 	(document.status in (0, 2))`
+
+
+export const SELECT_EMPLOYEES_DOCUMENTS_FROM_CONTRACT = `
+SELECT
+	document.*
+FROM
+	form_field
+INNER JOIN document ON (document.form_field_id = form_field.id)
+WHERE
+	form_field.contract_id = ?
+AND
+	form_field.individual = 1`
