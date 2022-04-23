@@ -23,12 +23,13 @@ export class AddEmployeeComponent {
     private documentsService: DocumentsService
   ) {
     this.employeeForm = formBuilder.group({
-      fullName: [
-        { value: '', disabled: false },
-        [Validators.required]],
+      fullName: [{ value: '', disabled: false }, [Validators.required]],
       cpf: [
         { value: '', disabled: false },
-        [Validators.required, Validators.pattern(/^[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}$/)],
+        [
+          Validators.required,
+          Validators.pattern(/^[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}$/),
+        ],
       ],
     });
   }
@@ -38,15 +39,16 @@ export class AddEmployeeComponent {
       alert('CPF inválido');
       return;
     }
+    this.documentsService;
+    let body = this.employeeForm.value;
+    body.contractId = '1';
     this.documentsService
-      let body = this.employeeForm.value;
-      body.contractId = '0123456';
-      this.documentsService.addEmployee(body)
+      .addEmployee(body)
       .pipe(
         map((employee: any) => {
           this.onAdded.emit(employee);
         }),
-        catchError(error => {
+        catchError((error) => {
           if (error.status === 409) {
             alert('CPF já cadastrado');
           }

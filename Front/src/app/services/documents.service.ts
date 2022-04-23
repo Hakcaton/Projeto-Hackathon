@@ -8,7 +8,7 @@ import { EmployeeDocumentModel } from '../models/employee-document.model';
   providedIn: 'root',
 })
 export class DocumentsService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getPendingDocuments(contractId: string): Observable<any> {
     const url = `/api/contracts/${contractId}/documents/pending`;
@@ -17,6 +17,16 @@ export class DocumentsService {
 
   getEmployeesPendingDocuments(contractId: string): Observable<any> {
     const url = `/api/contracts/${contractId}/employees/documents/pending`;
+    return this.http.get<any>(url);
+  }
+
+  getSentDocuments(contractId: string): Observable<any> {
+    const url = `/api/contracts/${contractId}/documents/sent`;
+    return this.http.get<any>(url);
+  }
+
+  getEmployeesSentDocuments(contractId: string): Observable<any> {
+    const url = `/api/contracts/${contractId}/employees/documents/sent`;
     return this.http.get<any>(url);
   }
 
@@ -33,19 +43,26 @@ export class DocumentsService {
   sendFile(document: DocumentModel): Observable<any> {
     const url = `/api/documents/${document.id}/file`;
     const headers = new HttpHeaders().set('content-type', 'application/json');
-    return this.http.put(url, document.file, { 'headers': headers });
+    return this.http.put(url, document.file, { headers: headers });
   }
 
-  updateEmployeeFullName(employeeFullName: string, employeeId: string): Observable<any> {
+  updateEmployeeFullName(
+    employeeFullName: string,
+    employeeId: string
+  ): Observable<any> {
     const url = `/api/employees/${employeeId}`;
     const headers = new HttpHeaders().set('content-type', 'application/json');
-    return this.http.patch(url, { fullName: employeeFullName }, { 'headers': headers });
+    return this.http.patch(
+      url,
+      { fullName: employeeFullName },
+      { headers: headers }
+    );
   }
 
   updateEmployeeCPF(employeeCPF: string, employeeId: string): any {
     const url = `/api/employees/${employeeId}`;
     const headers = new HttpHeaders().set('content-type', 'application/json');
-    return this.http.patch(url, { cpf: employeeCPF }, { 'headers': headers });
+    return this.http.patch(url, { cpf: employeeCPF }, { headers: headers });
   }
 
   addEmployee(employee: any): Observable<any> {

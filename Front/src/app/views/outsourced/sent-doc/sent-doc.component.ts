@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs';
 import { DocumentModel } from 'src/app/models/document.model';
 import { EmployeeDocumentModel } from 'src/app/models/employee-document.model';
 import { DocumentsService } from 'src/app/services/documents.service';
 
 @Component({
-  selector: 'app-pending-docs',
-  templateUrl: './pending-docs.component.html',
-  styleUrls: ['./pending-docs.component.scss'],
+  selector: 'app-sent-doc',
+  templateUrl: './sent-doc.component.html',
+  styleUrls: ['./sent-doc.component.scss'],
 })
-export class PendingDocsComponent {
+export class SentDocComponent implements OnInit {
   private _generalDocumentsFilter: string = '';
   get generalDocumentsFilter() {
     return this._generalDocumentsFilter;
@@ -46,7 +46,7 @@ export class PendingDocsComponent {
     private http: HttpClient
   ) {
     this.documentsService
-      .getPendingDocuments('1')
+      .getSentDocuments('1')
       .pipe(
         map((generalDocuments: DocumentModel[]) => {
           generalDocuments.forEach((doc) => {
@@ -62,7 +62,7 @@ export class PendingDocsComponent {
       )
       .subscribe();
     this.documentsService
-      .getEmployeesPendingDocuments('1')
+      .getEmployeesSentDocuments('1')
       .pipe(
         map((employeesDocuments: EmployeeDocumentModel[]) => {
           employeesDocuments.forEach((employee) => {
@@ -153,5 +153,6 @@ export class PendingDocsComponent {
     this.bAddEmployee = false;
   }
 
+  ngOnInit(): void {}
   // onEmployeeRemoved()
 }

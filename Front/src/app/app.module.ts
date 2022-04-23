@@ -33,6 +33,7 @@ import { AddEmployeeComponent } from './components/add-employee/add-employee.com
 import { NgxMaskModule } from 'ngx-mask';
 import { RegisteredCompaniesComponent } from './views/internal/company/registered-companies/registered-companies.component';
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+import { SentDocComponent } from './views/outsourced/sent-doc/sent-doc.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { AlifeFileToBase64Module } from 'alife-file-to-base64';
     ModalConfirmComponent,
     AddEmployeeComponent,
     RegisteredCompaniesComponent,
+    SentDocComponent,
   ],
   imports: [
     BrowserModule,

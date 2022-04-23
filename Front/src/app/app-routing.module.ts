@@ -12,6 +12,7 @@ import { CompanyRegistrationComponent } from './views/internal/company-registrat
 import { HomePageComponent } from './views/internal/home-page/home-page.component';
 import { ProfileComponent } from './views/internal/profile/profile.component';
 import { PendingDocsComponent } from './views/outsourced/pending-docs/pending-docs.component';
+import { SentDocComponent } from './views/outsourced/sent-doc/sent-doc.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,11 @@ const routes: Routes = [
       {
         path: 'documentos/pendentes',
         component: PendingDocsComponent,
+        // canActivate: [OutsourcedAuthGuard],
+      },
+      {
+        path: 'documentos/enviados',
+        component: SentDocComponent,
         // canActivate: [OutsourcedAuthGuard],
       },
     ],
