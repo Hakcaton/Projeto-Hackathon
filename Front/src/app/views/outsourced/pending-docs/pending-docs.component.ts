@@ -139,10 +139,15 @@ export class PendingDocsComponent {
   }
 
   onEmployeeAdded(employee: any) {
+    employee.documents = [];
     this.bAddEmployee = false;
+    this.employees.push(employee);
+    this.employeesFilter = this.employeesFilter;
   }
 
   onEmployeeCancel() {
     this.bAddEmployee = false;
   }
+
+  // onEmployeeRemoved()
 }
