@@ -91,6 +91,19 @@ FROM
 WHERE
 	(document.status in (0, 2))`
 
+export const SELECT_SENT_DOCUMENTS_FROM_CONTRACT: string = `
+SELECT 
+	document.*
+FROM
+	document
+	INNER JOIN
+		form_field 
+	ON (form_field.id = document.form_field_id)
+		AND (form_field.contract_id = ?)
+		AND (form_field.individual = 0)
+WHERE
+	(document.status in (1, 3))`
+
 export const SELECT_EMPLOYEES_PENDING_DOCUMENTS_FROM_CONTRACT = `
 SELECT 
     document.*, form_field.contract_id, form_field.title, form_field.subtitle
@@ -103,6 +116,19 @@ FROM
 		AND (form_field.individual = 1)
 WHERE
 	(document.status in (0, 2))`
+
+export const SELECT_EMPLOYEES_SENT_DOCUMENTS_FROM_CONTRACT = `
+SELECT 
+	document.*, form_field.contract_id, form_field.title, form_field.subtitle
+FROM
+	document
+	INNER JOIN
+		form_field 
+	ON (form_field.id = document.form_field_id)
+		AND (form_field.contract_id = ?)
+		AND (form_field.individual = 1)
+WHERE
+	(document.status in (1, 3))`
 
 
 export const SELECT_EMPLOYEES_DOCUMENTS_FROM_CONTRACT = `

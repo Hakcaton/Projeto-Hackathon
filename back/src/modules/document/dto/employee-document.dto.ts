@@ -1,6 +1,6 @@
 import { DocumentDto } from "./pending-document.dto";
 
-export class PendingEmployeeDocumentDto {
+export class EmployeeDocumentDto {
     id: string;
     fullName: string;
     cpf: string;

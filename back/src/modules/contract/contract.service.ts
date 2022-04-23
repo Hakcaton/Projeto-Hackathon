@@ -1,11 +1,11 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SELECT_PENDING_FORM_FIELDS_FROM_CONTRACT, SELECT_LATEST_DOCUMENTS_FROM_CONTRACT, SELECT_EMPLOYEES_DOCUMENTS_FROM_CONTRACT, SELECT_EMPLOYEES_PENDING_DOCUMENTS_FROM_CONTRACT, SELECT_PENDING_DOCUMENTS_FROM_CONTRACT } from 'src/queries/pending-documents.queries';
+import { SELECT_PENDING_FORM_FIELDS_FROM_CONTRACT, SELECT_LATEST_DOCUMENTS_FROM_CONTRACT, SELECT_EMPLOYEES_DOCUMENTS_FROM_CONTRACT, SELECT_EMPLOYEES_PENDING_DOCUMENTS_FROM_CONTRACT, SELECT_PENDING_DOCUMENTS_FROM_CONTRACT, SELECT_SENT_DOCUMENTS_FROM_CONTRACT, SELECT_EMPLOYEES_SENT_DOCUMENTS_FROM_CONTRACT } from 'src/queries/pending-documents.queries';
 import { eDocumentRecurrence } from 'src/tools/enum/document-recurrence.definition';
 import { removeHours, addYears, addMonths, addWeeks, addDays, DateToString } from 'src/tools/helpers/date.helper';
 import { getConnection, QueryFailedError, Repository } from 'typeorm';
 import { DocumentDto } from '../document/dto/pending-document.dto';
-import { PendingEmployeeDocumentDto } from '../document/dto/pending-employee-document.dto';
+import { EmployeeDocumentDto } from '../document/dto/employee-document.dto';
 import { Employee } from '../employee/entities/employee.entity';
 import { FormField } from '../form-field/entities/form-field.entity';
 import { Document } from '../document/entities/document.entities';
@@ -20,7 +20,7 @@ export class ContractService {
         @InjectRepository(FormField) private formFieldRepository: Repository<FormField>,
         @InjectRepository(Employee) private employeeRepository: Repository<Employee>
     ) { }
-    
+
     async generatePendingDocuments(contractId: string): Promise<void> {
         // Seleciona todos os form_fields do contrato que precisam ter pelo menos um documento gerado.
         const pendingFormFields: FormField[] = await this.formFieldRepository.query(SELECT_PENDING_FORM_FIELDS_FROM_CONTRACT, [contractId]);
@@ -333,15 +333,37 @@ export class ContractService {
         return formattedDocuments;
     }
 
-    async getEmployeesPendingDocuments(contractId: string): Promise<PendingEmployeeDocumentDto[]> {
+    async getSentDocuments(contractId: string): Promise<DocumentDto[]> {
+        const documents: Document[] = await this.documentRepository.query(SELECT_SENT_DOCUMENTS_FROM_CONTRACT, [contractId]);
+        const formFields: FormField[] = await this.formFieldRepository.find({ contract_id: contractId });
+        let formattedDocuments: DocumentDto[] = []
+        documents.forEach(rawDoc => {
+            const formField: FormField = formFields.find(field => field.id == rawDoc.form_field_id);
+            let newDoc: DocumentDto = new DocumentDto();
+            newDoc.id = rawDoc.id;
+            newDoc.title = formField.title;
+            newDoc.subtitle = formField.subtitle;
+            newDoc.subtitle = newDoc.subtitle.replace('<request-date>', DateToString(rawDoc.request_date));
+            newDoc.status = rawDoc.status;
+            newDoc.tooltipText = rawDoc.comment;
+            newDoc.requestDate = rawDoc.request_date;
+            newDoc.file.base64 = Buffer.from(rawDoc.file_stream).toString('base64');
+            newDoc.file.name = rawDoc.file_name;
+            formattedDocuments.push(newDoc);
+        })
+
+        return formattedDocuments;
+    }
+
+    async getEmployeesPendingDocuments(contractId: string): Promise<EmployeeDocumentDto[]> {
         const employees: Employee[] = await this.employeeRepository.find({ contractId: contractId });
 
         const rawDocuments = await getConnection().query(SELECT_EMPLOYEES_PENDING_DOCUMENTS_FROM_CONTRACT, [contractId]);
 
-        let documents: PendingEmployeeDocumentDto[] = [];
+        let documents: EmployeeDocumentDto[] = [];
 
         employees.forEach(employee => {
-            const newEmployeePendingDoc: PendingEmployeeDocumentDto = new PendingEmployeeDocumentDto();
+            const newEmployeePendingDoc: EmployeeDocumentDto = new EmployeeDocumentDto();
             newEmployeePendingDoc.id = employee.id;
             newEmployeePendingDoc.cpf = employee.cpf;
             newEmployeePendingDoc.fullName = employee.fullName;
@@ -364,6 +386,39 @@ export class ContractService {
         return documents;
     }
 
+    async getEmployeesSentDocuments(contractId: string): Promise<EmployeeDocumentDto[]> {
+        const employees: Employee[] = await this.employeeRepository.find({ contractId: contractId });
+
+        const rawDocuments = await getConnection().query(SELECT_EMPLOYEES_SENT_DOCUMENTS_FROM_CONTRACT, [contractId]);
+
+        let documents: EmployeeDocumentDto[] = [];
+
+        employees.forEach(employee => {
+            const newEmployeeSentDoc: EmployeeDocumentDto = new EmployeeDocumentDto();
+            newEmployeeSentDoc.id = employee.id;
+            newEmployeeSentDoc.cpf = employee.cpf;
+            newEmployeeSentDoc.fullName = employee.fullName;
+            newEmployeeSentDoc.active = employee.active;
+            rawDocuments.filter(doc => doc.contract_id == contractId && doc.employee_id == employee.id)
+                .forEach(rawDoc => {
+                    const newDoc: DocumentDto = new DocumentDto();
+                    newDoc.id = rawDoc.id;
+                    newDoc.title = rawDoc.title;
+                    newDoc.subtitle = rawDoc.subtitle;
+                    newDoc.subtitle = newDoc.subtitle.replace('<request-date>', DateToString(rawDoc.request_date));
+                    newDoc.status = rawDoc.status;
+                    newDoc.tooltipText = rawDoc.comment;
+                    newDoc.requestDate = rawDoc.request_date;
+                    newDoc.file.base64 = Buffer.from(rawDoc.file_stream).toString('base64');
+                    newDoc.file.name = rawDoc.file_name;
+                    newEmployeeSentDoc.documents.push(newDoc);
+                })
+            documents.push(newEmployeeSentDoc);
+        })
+
+        return documents;
+    }
+
     async addEmployee(employee: AddEmployeeDto, res?: Response): Promise<Employee> {
         try {
             const newEmployee: Employee = this.employeeRepository.create(employee);
@@ -375,7 +430,7 @@ export class ContractService {
                 throw err;
             }
             if (err instanceof QueryFailedError) {
-                const error = err.driverError as DatabaseError; 
+                const error = err.driverError as DatabaseError;
                 switch (error.code) {
                     case 'ER_DUP_ENTRY': {
                         res.status(HttpStatus.CONFLICT);

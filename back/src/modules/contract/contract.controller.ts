@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { DocumentDto } from '../document/dto/pending-document.dto';
-import { PendingEmployeeDocumentDto } from '../document/dto/pending-employee-document.dto';
+import { EmployeeDocumentDto } from '../document/dto/employee-document.dto';
 import { ContractService } from './contract.service';
 import { AddEmployeeDto } from './dto/add-employee.dto';
 
@@ -17,12 +17,26 @@ export class ContractController {
     return await this.contractService.getPendingDocuments(params.contractId);
   }
 
+  @Get(':contractId/documents/sent')
+  async getSentDocuments(@Param() params: any): Promise<DocumentDto[]> {
+    // FALTA VERIFICAR SE O USUÁRIO QUE FEZ A REQUISIÇÃO É FUNCIONÁRIO DA ESTIVA (permission = 1) OU RESPONSÁVEL PELO CONTRATO.
+
+    return await this.contractService.getSentDocuments(params.contractId);
+  }
+
   @Get(':contractId/employees/documents/pending')
-  async getEmployeesPendingDocuments(@Param() params: any): Promise<PendingEmployeeDocumentDto[]> {
+  async getEmployeesPendingDocuments(@Param() params: any): Promise<EmployeeDocumentDto[]> {
     // FALTA VERIFICAR SE O USUÁRIO QUE FEZ A REQUISIÇÃO É FUNCIONÁRIO DA ESTIVA (permission = 1) OU RESPONSÁVEL PELO CONTRATO.
 
     await this.contractService.generateEmployeesPendingDocuments(params.contractId);
     return this.contractService.getEmployeesPendingDocuments(params.contractId);
+  }
+
+  @Get(':contractId/employees/documents/sent')
+  async getEmployeesSentDocuments(@Param() params: any): Promise<EmployeeDocumentDto[]> {
+    // FALTA VERIFICAR SE O USUÁRIO QUE FEZ A REQUISIÇÃO É FUNCIONÁRIO DA ESTIVA (permission = 1) OU RESPONSÁVEL PELO CONTRATO.
+
+    return this.contractService.getEmployeesSentDocuments(params.contractId);
   }
 
   @Post(':contractId/employees')
