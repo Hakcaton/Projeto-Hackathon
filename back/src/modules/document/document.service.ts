@@ -1,18 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { getConnection, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FormField } from '../form-field/entities/form-field.entity';
 import { Document } from './entities/document.entities';
-import { SELECT_EMPLOYEES_DOCUMENTS_FROM_CONTRACT, SELECT_EMPLOYEES_PENDING_DOCUMENTS_FROM_CONTRACT, SELECT_LATEST_DOCUMENTS_FROM_CONTRACT, SELECT_PENDING_DOCUMENTS_FROM_CONTRACT, SELECT_PENDING_FORM_FIELDS_FROM_CONTRACT } from 'src/queries/pending-documents.queries';
-import { addDays, addMonths, addWeeks, addYears, removeHours } from 'src/tools/helpers/date-math.healper';
 import { Employee } from '../employee/entities/employee.entity';
-import { PendingEmployeeDocumentDto } from './dto/pending-employee-document.dto';
-import { PendingDocumentDto } from './dto/pending-document.dto';
-import { eDocumentRecurrence } from 'src/tools/enum/document-recurrence.definition';
+import { DocumentDto } from './dto/pending-document.dto';
+import { FileDto } from './dto/file.dto';
+import { Response } from 'express';
+import { eError } from 'src/tools/enum/error.definition';
+import { DateToString } from 'src/tools/helpers/date.helper';
 
 @Injectable()
 export class DocumentService {
-
   constructor(
     @InjectRepository(Document) private documentRepository: Repository<Document>,
     @InjectRepository(FormField) private formFieldRepository: Repository<FormField>,
@@ -20,327 +19,117 @@ export class DocumentService {
 
   ) { }
 
-  async generatePendingDocuments(contractId: string): Promise<void> {
-    // Seleciona todos os form_fields do contrato que precisam ter pelo menos um documento gerado.
-    const pendingFormFields: FormField[] = await this.formFieldRepository.query(SELECT_PENDING_FORM_FIELDS_FROM_CONTRACT, [contractId]);
+  async updateDocumentFile(documentId: string, file: FileDto, res?: Response) {
+    try {
+      if (file.base64 == null || file.name == null) {
+        throw eError.NOT_ENOUGTH_PARAMETERS;
+      }
 
-    // Seleciona o último documento gerado de cada form_field do contrato.
-    const latestRequestedDocuments: Document[] = await this.documentRepository.query(SELECT_LATEST_DOCUMENTS_FROM_CONTRACT);
+      if (file.base64 == "" || file.name == "") {
+        throw eError.INVALID_PARAMETERS;
+      }
 
-    // salva o dia atual sem o horário.
-    const today = removeHours(new Date());
+      const document = await this.documentRepository.findOne({ id: documentId });
 
-    // Lista de documentos a serem gerados.
-    let newDocuments: any = [];
+      if (document == null) {
+        throw eError.RESOURCE_NOT_FOUND;
+      }
 
-    // Gera os novos documentos gerais pendentes.
-    pendingFormFields.forEach(pendingFormField => {
-      const latestDocument: Document = latestRequestedDocuments.find(doc => doc.form_field_id == pendingFormField.id);
+      document.file_name = file.name;
+      document.file_stream = Buffer.from(file.base64.split(',')[1], 'base64');
+      document.status = 1;
 
-      if (latestDocument) {
-        if (pendingFormField.recurrence == eDocumentRecurrence.annually) {
-          let nextRequestDate: Date = addYears(latestDocument.request_date);
-          while (nextRequestDate <= today) {
-            let newDocument: any = {
-              status: 0,
-              request_date: new Date(nextRequestDate),
-              form_field_id: pendingFormField.id
-            }
-
-            newDocuments.push(newDocument);
-            nextRequestDate = addYears(nextRequestDate);
-          }
+      await this.documentRepository.save(document);
+    }
+    catch (err) {
+      if (!res) {
+        throw err;
+      }
+      switch (err) {
+        case eError.RESOURCE_NOT_FOUND: {
+          res.status(HttpStatus.NOT_FOUND);
+          break;
         }
-        else if (pendingFormField.recurrence == eDocumentRecurrence.monthly) {
-          let nextRequestDate: Date = addMonths(latestDocument.request_date);
-          while (nextRequestDate <= today) {
-            let newDocument: any = {
-              status: 0,
-              request_date: new Date(nextRequestDate),
-              form_field_id: pendingFormField.id
-            }
 
-            newDocuments.push(newDocument);
-            nextRequestDate = addMonths(nextRequestDate);
-          }
+        default:
+          res.status(HttpStatus.BAD_REQUEST);
+          break;
+      }
+    }
+  }
+
+  async deleteDocumentFile(documentId: string, res?: Response) {
+    try {
+      const document = await this.documentRepository.findOne({ id: documentId });
+
+      if (document == null) {
+        throw eError.RESOURCE_NOT_FOUND;
+      }
+
+      document.file_name = null;
+      document.file_stream = null;
+      document.status = 0;
+
+      await this.documentRepository.save(document);
+    }
+    catch (err) {
+      if (!res) {
+        throw err;
+      }
+      switch (err) {
+        case eError.RESOURCE_NOT_FOUND: {
+          res.status(HttpStatus.NOT_FOUND);
+          break;
         }
-        else if (pendingFormField.recurrence == eDocumentRecurrence.weekly) {
-          let nextRequestDate: Date = addWeeks(latestDocument.request_date);
-          while (nextRequestDate <= today) {
-            let newDocument: any = {
-              status: 0,
-              request_date: new Date(nextRequestDate),
-              form_field_id: pendingFormField.id
-            }
 
-            newDocuments.push(newDocument);
-            nextRequestDate = addWeeks(nextRequestDate);
-          }
+        default:
+          res.status(HttpStatus.BAD_REQUEST);
+          break;
+      }
+    }
+  }
+
+  async getDocument(documentId: string, res: Response): Promise<DocumentDto> {
+    try {
+      const rawDoc: Document = await this.documentRepository.findOne({ id: documentId });
+      const formField: FormField = await this.formFieldRepository.findOne({ id: rawDoc.form_field_id });
+
+      if (rawDoc == null || formField == null) {
+        throw eError.RESOURCE_NOT_FOUND;
+      }
+
+      let newDoc: DocumentDto = new DocumentDto();
+
+      newDoc.id = rawDoc.id;
+      newDoc.title = formField.title;
+      newDoc.subtitle = formField.subtitle;
+      newDoc.subtitle = newDoc.subtitle.replace('<request-date>', DateToString(rawDoc.request_date));
+      newDoc.status = rawDoc.status;
+      newDoc.tooltipText = rawDoc.comment;
+      newDoc.requestDate = rawDoc.request_date;
+
+      if (rawDoc.file_name != null && rawDoc.file_stream != null) {
+        const fileFormat: string = rawDoc.file_name.split('.')[rawDoc.file_name.split('.').length - 1];
+        newDoc.file.base64 = 'data:application/' + fileFormat + ';base64,' + Buffer.from(rawDoc.file_stream).toString('base64');
+        newDoc.file.name = rawDoc.file_name;
+      }
+      return newDoc;
+    }
+    catch (err) {
+      if (!res) {
+        throw err;
+      }
+      switch (err) {
+        case eError.RESOURCE_NOT_FOUND: {
+          res.status(HttpStatus.NOT_FOUND);
+          break;
         }
-        else if (pendingFormField.recurrence == eDocumentRecurrence.daily) {
-          let nextRequestDate: Date = addDays(latestDocument.request_date);
-          while (nextRequestDate <= today) {
-            let newDocument: any = {
-              status: 0,
-              request_date: new Date(nextRequestDate),
-              form_field_id: pendingFormField.id
-            }
 
-            newDocuments.push(newDocument);
-            nextRequestDate = addDays(nextRequestDate);
-          }
+        default: {
+          res.status(HttpStatus.BAD_REQUEST);
+          break;
         }
       }
-      else {
-        if (pendingFormField.recurrence == eDocumentRecurrence.once) {
-          let nextRequestDate: Date = new Date(pendingFormField.first_request_date);
-          let newDocument: any = {
-            status: 0,
-            request_date: new Date(nextRequestDate),
-            form_field_id: pendingFormField.id
-          }
-
-          newDocuments.push(newDocument);
-          nextRequestDate = addYears(nextRequestDate);
-        }
-        else if (pendingFormField.recurrence == eDocumentRecurrence.annually) {
-          let nextRequestDate: Date = new Date(pendingFormField.first_request_date);
-          while (nextRequestDate <= today) {
-            let newDocument: any = {
-              status: 0,
-              request_date: new Date(nextRequestDate),
-              form_field_id: pendingFormField.id
-            }
-
-            newDocuments.push(newDocument);
-            nextRequestDate = addYears(nextRequestDate);
-          }
-        }
-        else if (pendingFormField.recurrence == eDocumentRecurrence.monthly) {
-          let nextRequestDate: Date = new Date(pendingFormField.first_request_date);
-          while (nextRequestDate <= today) {
-            let newDocument: any = {
-              status: 0,
-              request_date: new Date(nextRequestDate),
-              form_field_id: pendingFormField.id
-            }
-
-            newDocuments.push(newDocument);
-            nextRequestDate = addMonths(nextRequestDate);
-          }
-        }
-        else if (pendingFormField.recurrence == eDocumentRecurrence.weekly) {
-          let nextRequestDate: Date = new Date(pendingFormField.first_request_date);
-          while (nextRequestDate <= today) {
-            let newDocument: any = {
-              status: 0,
-              request_date: new Date(nextRequestDate),
-              form_field_id: pendingFormField.id
-            }
-
-            newDocuments.push(newDocument);
-            nextRequestDate = addWeeks(nextRequestDate);
-          }
-        }
-        else if (pendingFormField.recurrence == eDocumentRecurrence.daily) {
-          let nextRequestDate: Date = new Date(pendingFormField.first_request_date);
-          while (nextRequestDate <= today) {
-            let newDocument: any = {
-              status: 0,
-              request_date: new Date(nextRequestDate),
-              form_field_id: pendingFormField.id
-            }
-
-            newDocuments.push(newDocument);
-            nextRequestDate = addDays(nextRequestDate);
-          }
-        }
-      }
-    });
-
-    await getConnection().createQueryBuilder().insert().into(Document).values(newDocuments).execute();
-  }
-
-  async generateEmployeesPendingDocuments(contractId: string): Promise<void> {
-    const formFields: FormField[] = await this.formFieldRepository.find({ contract_id: contractId, individual: true });
-    const employees: Employee[] = await this.employeeRepository.find({ contract_id: contractId });
-    const documents: Document[] = await this.formFieldRepository.query(SELECT_EMPLOYEES_DOCUMENTS_FROM_CONTRACT, [contractId]);
-
-    let newDocuments: any = [];
-
-    // Salva o dia atual sem o horário.
-    const today = removeHours(new Date());
-
-    employees.forEach(employee => {
-      const employeeDocuments: Document[] = documents.filter(doc => doc.employee_id == employee.id);
-      formFields.forEach(formField => {
-        const fieldDocuments: Document[] = employeeDocuments.filter(doc => doc.form_field_id == formField.id);
-        const latestDocument = fieldDocuments.sort((docA, docB) => {
-          return docB.request_date.getTime() - docA.request_date.getTime();
-        })[0] || null;
-
-        // Se não tiver nenhum documento gerado, irá gerar um  novo inicial e seus subsequentes.
-        if (!latestDocument) {
-          if (formField.recurrence == eDocumentRecurrence.once) {
-            let newDocument: any = {
-              status: 0,
-              request_date: new Date(formField.first_request_date),
-              form_field_id: formField.id,
-              employee_id: employee.id
-            }
-            newDocuments.push(newDocument);
-          }
-          else if (formField.recurrence == eDocumentRecurrence.annually) {
-            let nextRequestDate: Date = new Date(formField.first_request_date);
-            while (nextRequestDate <= today) {
-              let newDocument: any = {
-                status: 0,
-                request_date: new Date(nextRequestDate),
-                form_field_id: formField.id,
-                employee_id: employee.id
-              }
-
-              newDocuments.push(newDocument);
-              nextRequestDate = addYears(nextRequestDate);
-            }
-          }
-          else if (formField.recurrence == eDocumentRecurrence.monthly) {
-            let nextRequestDate: Date = new Date(formField.first_request_date);
-            while (nextRequestDate <= today) {
-              let newDocument: any = {
-                status: 0,
-                request_date: new Date(nextRequestDate),
-                form_field_id: formField.id,
-                employee_id: employee.id
-              }
-
-              newDocuments.push(newDocument);
-              nextRequestDate = addMonths(nextRequestDate);
-            }
-          }
-          else if (formField.recurrence == eDocumentRecurrence.weekly) {
-            let nextRequestDate: Date = new Date(formField.first_request_date);
-            while (nextRequestDate <= today) {
-              let newDocument: any = {
-                status: 0,
-                request_date: new Date(nextRequestDate),
-                form_field_id: formField.id,
-                employee_id: employee.id
-              }
-
-              newDocuments.push(newDocument);
-              nextRequestDate = addWeeks(nextRequestDate);
-            }
-          }
-          else if (formField.recurrence == eDocumentRecurrence.daily) {
-            let nextRequestDate: Date = new Date(formField.first_request_date);
-            while (nextRequestDate <= today) {
-              let newDocument: any = {
-                status: 0,
-                request_date: new Date(nextRequestDate),
-                form_field_id: formField.id,
-                employee_id: employee.id
-              }
-
-              newDocuments.push(newDocument);
-              nextRequestDate = addDays(nextRequestDate);
-            }
-          }
-        }
-        // Se já tiver documento gerado, gera apenas os subsequentes.
-        else {
-          if (formField.recurrence == eDocumentRecurrence.annually) {
-            let nextRequestDate: Date = new Date(addYears(latestDocument.request_date));
-            while (nextRequestDate <= today) {
-              let newDocument: any = {
-                status: 0,
-                request_date: new Date(nextRequestDate),
-                form_field_id: formField.id,
-                employee_id: employee.id
-              }
-
-              newDocuments.push(newDocument);
-              nextRequestDate = addYears(nextRequestDate);
-            }
-          }
-          else if (formField.recurrence == eDocumentRecurrence.monthly) {
-            let nextRequestDate: Date = new Date(addMonths(latestDocument.request_date));
-            while (nextRequestDate <= today) {
-              let newDocument: any = {
-                status: 0,
-                request_date: new Date(nextRequestDate),
-                form_field_id: formField.id,
-                employee_id: employee.id
-              }
-
-              newDocuments.push(newDocument);
-              nextRequestDate = addMonths(nextRequestDate);
-            }
-          }
-          else if (formField.recurrence == eDocumentRecurrence.weekly) {
-            let nextRequestDate: Date = new Date(addWeeks(latestDocument.request_date));
-            while (nextRequestDate <= today) {
-              let newDocument: any = {
-                status: 0,
-                request_date: new Date(nextRequestDate),
-                form_field_id: formField.id,
-                employee_id: employee.id
-              }
-
-              newDocuments.push(newDocument);
-              nextRequestDate = addWeeks(nextRequestDate);
-            }
-          }
-          else if (formField.recurrence == eDocumentRecurrence.daily) {
-            let nextRequestDate: Date = new Date(addDays(latestDocument.request_date));
-            while (nextRequestDate <= today) {
-              let newDocument: any = {
-                status: 0,
-                request_date: new Date(nextRequestDate),
-                form_field_id: formField.id,
-                employee_id: employee.id
-              }
-
-              newDocuments.push(newDocument);
-              nextRequestDate = addDays(nextRequestDate);
-            }
-          }
-        }
-      })
-    })
-
-    await getConnection().createQueryBuilder().insert().into(Document).values(newDocuments).execute();
-  }
-
-  async getPendingDocuments(contractId: string): Promise<Document[]> {
-    return await this.documentRepository.query(SELECT_PENDING_DOCUMENTS_FROM_CONTRACT, [contractId]);
-  }
-
-  async getEmployeesPendingDocuments(contractId: string): Promise<PendingEmployeeDocumentDto[]> {
-    const employees: Employee[] = await this.employeeRepository.find({ contract_id: contractId });
-
-    const rawDocuments = await getConnection().query(SELECT_EMPLOYEES_PENDING_DOCUMENTS_FROM_CONTRACT, [contractId]);
-
-    let documents: PendingEmployeeDocumentDto[] = [];
-
-    employees.forEach(employee => {
-      const newEmployeePendingDoc: PendingEmployeeDocumentDto = new PendingEmployeeDocumentDto();
-      newEmployeePendingDoc.id = employee.id;
-      newEmployeePendingDoc.cpf = employee.cpf;
-      newEmployeePendingDoc.fullName = employee.fullName;
-      rawDocuments.filter(doc => doc.contract_id == contractId && doc.employee_id == employee.id)
-        .forEach(rawDoc => {
-          const newDoc: PendingDocumentDto = new PendingDocumentDto();
-          newDoc.id = rawDoc.id;
-          newDoc.status = rawDoc.status;
-          newDoc.subtitle = rawDoc.subtitle;
-          newDoc.tag_description = 'Tag';
-          newDoc.title = rawDoc.title;
-          newEmployeePendingDoc.documents.push(newDoc);
-        })
-      documents.push(newEmployeePendingDoc);
-    })
-
-    return documents;
+    }
   }
 }

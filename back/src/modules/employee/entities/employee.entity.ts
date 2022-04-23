@@ -7,14 +7,17 @@ export class Employee {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
+  @Column({unique: true})
   cpf: string;
 
-  @Column()
+  @Column({name: 'full_name'})
   fullName: string;
 
-  @Column()
-  contract_id: string;
+  @Column({nullable: false, default: true})
+  active: boolean;
+
+  @Column({name: 'contract_id'})
+  contractId: string;
 
   @ManyToOne(() => Contract, contract =>  contract.id)
   @JoinColumn({name: 'contract_id'})

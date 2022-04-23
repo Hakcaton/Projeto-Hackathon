@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { firstValueFrom, observable, Observable } from 'rxjs';
 import { DocumentModel } from '../models/document.model';
 import { EmployeeDocumentModel } from '../models/employee-document.model';
 
@@ -8,60 +8,53 @@ import { EmployeeDocumentModel } from '../models/employee-document.model';
   providedIn: 'root',
 })
 export class DocumentsService {
-  employeesPendingDocs: EmployeeDocumentModel[] = [
-    {
-      id: '1',
-      fullName: 'livis',
-      cpf: '123.456.789-10',
-      documents: [
-        {
-          id: '1',
-          title: 'Documento A',
-          subtitle: '20/01/2001',
-          tooltip_text: '',
-          state: 0,
-          file: null,
-        },
-      ],
-      active: true,
-    },
-  ];
+  constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient) {}
-
-  public getPendingDocuments(contractId: string): Observable<any> {
-    const url = `/api/documents/pending/${contractId}`;
+  getPendingDocuments(contractId: string): Observable<any> {
+    const url = `/api/contracts/${contractId}/documents/pending`;
     return this.http.get<any>(url);
   }
 
-  public getEmployeesPendingDocuments(): EmployeeDocumentModel[] {
-    return this.employeesPendingDocs;
+  getEmployeesPendingDocuments(contractId: string): Observable<any> {
+    const url = `/api/contracts/${contractId}/employees/documents/pending`;
+    return this.http.get<any>(url);
   }
 
-  updateDocument(doc: DocumentModel): any {}
-
-  insertFile(doc: DocumentModel): Observable<any> {
-    const url = `/api/documents/${doc.id}`;
-    return this.http.patch(url, doc.file);
+  getDocument(document: DocumentModel): Observable<any> {
+    const url = `/api/documents/${document.id}`;
+    return this.http.get(url);
   }
 
-  updateEmployee(employee: EmployeeDocumentModel): EmployeeDocumentModel {
-    let oldEmployeeIndex = this.employeesPendingDocs.findIndex((x) => {
-      return x.id === employee.id;
-    });
-    this.employeesPendingDocs[oldEmployeeIndex] = employee;
-    return this.employeesPendingDocs[oldEmployeeIndex];
+  deleteFile(document: DocumentModel): Observable<any> {
+    const url = `/api/documents/${document.id}/file`;
+    return this.http.delete(url);
   }
 
-  addEmployee(employee: EmployeeDocumentModel): EmployeeDocumentModel {
-    if (
-      this.employeesPendingDocs.find((x) => {
-        return x.cpf === employee.cpf;
-      })
-    ) {
-      throw new Error('CPF já cadastrado!');
-    }
-    this.employeesPendingDocs.push(employee);
-    return this.employeesPendingDocs[this.employeesPendingDocs.length - 1];
+  sendFile(document: DocumentModel): Observable<any> {
+    const url = `/api/documents/${document.id}/file`;
+    const headers = new HttpHeaders().set('content-type', 'application/json');
+    return this.http.put(url, document.file, { 'headers': headers });
+  }
+
+  updateEmployeeFullName(employeeFullName: string, employeeId: string): Observable<any> {
+    const url = `/api/employees/${employeeId}`;
+    const headers = new HttpHeaders().set('content-type', 'application/json');
+    return this.http.patch(url, { fullName: employeeFullName }, { 'headers': headers });
+  }
+
+  updateEmployeeCPF(employeeCPF: string, employeeId: string): any {
+    const url = `/api/employees/${employeeId}`;
+    const headers = new HttpHeaders().set('content-type', 'application/json');
+    return this.http.patch(url, { cpf: employeeCPF }, { 'headers': headers });
+  }
+
+  addEmployee(employee: any): Observable<any> {
+    const url = `/api/contracts/${employee.contractId}/employees`;
+    return this.http.post(url, employee);
+  }
+
+  removeEmployee(employeeId: string): Observable<any> {
+    const url = `/api/employees/${employeeId}`;
+    return this.http.delete(url);
   }
 }

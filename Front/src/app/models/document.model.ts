@@ -2,9 +2,10 @@ export interface DocumentModel {
   id: string;
   title: string;
   subtitle: string;
-  tooltip_text: string;
-  state: number;
-  file: FileModel | null;
+  tooltipText: string;
+  status: number;
+  file: FileModel;
+  requestDate: Date;
 }
 
 export interface FileModel {

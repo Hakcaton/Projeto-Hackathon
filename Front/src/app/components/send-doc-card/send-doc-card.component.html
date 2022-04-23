@@ -1,70 +1,47 @@
-<input
-  type="file"
-  name=""
-  #inputFile
-  hidden="true"
-  alife-file-to-base64
-  (onFileChanged)="onFileChanges($event)" />
+<input type="file" name="" #inputFile hidden="true" alife-file-to-base64 (onFileChanged)="onFileChanges($event)" />
 
-<div class="main-card" *ngIf="data.state === 0 || data.state === 2">
-  <header>
+<div class="main-card" *ngIf="data.status === 0 || data.status === 2">
+    <header>
+        <div>
+            <h3>{{ data.title }}</h3>
+            <div>
+                <h6>{{ data.subtitle }}</h6>
+            </div>
+        </div>
+        <div>
+            <app-doc-tag [text]="tags[data.status].text" [color]="tags[data.status].color" [font_color]="tags[data.status].font_color" [font_weight]="tags[data.status].font_weight" [tooltipText]="data.tooltipText"></app-doc-tag>
+        </div>
+    </header>
     <div>
-      <h3>{{ data.title }}</h3>
-      <div>
-        <h6>{{ data.subtitle }}</h6>
-      </div>
-    </div>
-    <div>
-      <app-doc-tag
-        [text]="tags[data.state].text"
-        [color]="tags[data.state].color"
-        [font_color]="tags[data.state].font_color"
-        [font_weight]="tags[data.state].font_weight"
-        [tooltip_text]="data.tooltip_text"></app-doc-tag>
-    </div>
-  </header>
-  <div>
-    <div *ngIf="!data.file">
-      <button
-        class="btn btn-outline-secondary"
-        id="btn-upload"
-        (click)="inputFile.click()">
+        <div *ngIf="!data.file.base64">
+            <button class="btn btn-outline-secondary" id="btn-upload" (click)="inputFile.click()">
         <img src="/assets/icons/upload.svg" class="icon" /><span>Carregar</span>
       </button>
-    </div>
-    <div class="fileload" *ngIf="data.file">
-      <button class="btn-cancel" (click)="btnCancelClick()" (mouseover)="btnCancelHover()"
-        (mouseout)="btnCancelUnhover()">
+        </div>
+        <div class="fileload" *ngIf="data.file.base64">
+            <button class="btn-cancel" (click)="btnCancelClick()" (mouseover)="btnCancelHover()" (mouseout)="btnCancelUnhover()">
         <img src="/assets/icons/check.svg" class="icon" #imgCancel /><span #spanCancel>Carregado</span>
       </button>
-      <span>{{ data.file ? data.file.name : "" }}</span>
-    </div>
-    <div>
-      <button
-        class="btn btn-primary"
-        id="btn-send"
-        [disabled]="!data.file"
-        (click)="btnSendClick()">
+            <span>{{ data.file.base64 ? data.file.name : "" }}</span>
+        </div>
+        <div>
+            <button class="btn btn-primary" id="btn-send" [disabled]="!data.file.base64" (click)="btnSendClick()">
         Enviar
       </button>
+        </div>
     </div>
-  </div>
 </div>
 
-<div class="main-card sent" *ngIf="data.state === 1 || data.state === 3">
-  <header>
-    <div>
-      <h3>{{ data.title }}</h3>
-    </div>
-    <div>
-      <button
-        class="btn-cancel"
-        (mouseover)="btnSendCancelHover()"
-        (mouseout)="btnSendCancelUnhover()"
-        (click)="btnSendCancelClick()">
+<div class="main-card sent" *ngIf="data.status === 1 || data.status === 3">
+    <header>
+        <div>
+            <h3>{{ data.title }}</h3>
+        </div>
+        <div>
+            <button class="btn-cancel" (mouseover)="btnSendCancelHover()" (mouseout)="btnSendCancelUnhover()" (click)="btnSendCancelClick()">
         <img src="/assets/icons/check.svg" class="icon" #imgSendCancel /><span
           #spanSendCancel>Enviado</span>
       </button>
-    </div>
-  </header>
+        </div>
+    </header>
 </div>

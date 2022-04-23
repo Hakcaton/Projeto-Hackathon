@@ -17,41 +17,47 @@ export class SendDocCardComponent implements OnInit {
   @ViewChild('imgCancel') imgCancel: any;
   @ViewChild('spanCancel') spanCancel: any;
 
-  constructor(private documentService: DocumentsService) {}
+  constructor(private documentService: DocumentsService) { }
 
   @Input() data: DocumentModel = {
     id: '1',
     title: '',
     subtitle: '',
-    tooltip_text: '',
-    state: -1,
-    file: null,
+    tooltipText: '',
+    status: -1,
+    file: {
+      base64: "",
+      name: ""
+    },
+    requestDate: new Date()
   };
 
   tags: any = tags;
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onFileChanges(event: any) {
     this.data.file = {
       base64: event[0].base64,
-      name: event[0].name,
+      name: event[0].name
     };
   }
 
   btnCancelClick() {
-    this.data.file = null;
+    this.data.file.base64 = "";
+    this.data.file.name = "";
   }
 
   btnSendClick() {
-    this.documentService
-      .insertFile(this.data)
-      .pipe(
-        map((response: any) => {
-          this.data = response.document;
-        })
-      )
-      .subscribe();
+    this.documentService.sendFile(this.data).pipe(
+      map(() => {
+        this.documentService.getDocument(this.data).pipe(
+          map((document: DocumentModel) => {
+            this.data = document;
+          })
+        ).subscribe();
+      })
+    ).subscribe();
   }
 
   btnSendCancelHover() {
@@ -71,8 +77,15 @@ export class SendDocCardComponent implements OnInit {
   }
 
   btnSendCancelClick() {
-    this.data.state = 0;
-    this.data = this.documentService.updateDocument(this.data);
+    this.documentService.deleteFile(this.data).pipe(
+      map(() => {
+        this.documentService.getDocument(this.data).pipe(
+          map((document: DocumentModel) => {
+            this.data = document;
+          })
+        ).subscribe();
+      })
+    ).subscribe();
   }
 
   btnCancelHover() {

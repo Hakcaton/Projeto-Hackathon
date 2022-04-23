@@ -19,7 +19,6 @@ import { FormField } from './modules/form-field/entities/form-field.entity';
 import { Document } from './modules/document/entities/document.entities';
 import { EmployeeMovement } from './modules/employee-movement/entities/employee-movement.entity';
 import { TokenRefresherMiddleware } from './tools/auth/auth.middleware';
-import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [

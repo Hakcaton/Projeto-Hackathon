@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { catchError, map, of, throwError } from 'rxjs';
 import { EmployeeDocumentModel } from 'src/app/models/employee-document.model';
 import { DocumentsService } from 'src/app/services/documents.service';
 
@@ -56,12 +57,19 @@ export class EmployeeSendDocCardComponent implements OnInit {
   }
   btnSaveFullNameClick() {
     if (!this.employeeForm.controls['fullName'].valid) {
-      alert('Nenhum nome informado!');
+      alert('Nenhum nome informado');
       return;
     }
     this.employeeForm.controls['fullName'].disable();
-    this.data.fullName = this.employeeForm.controls['fullName'].value;
-    this.data = this.documentsService.updateEmployee(this.data);
+    this.documentsService.updateEmployeeFullName(this.employeeForm.controls['fullName'].value, this.data.id).pipe(
+      map((employee: any) => {
+        this.data.fullName = employee.fullName;
+      }),
+      catchError(err => {
+        this.employeeForm.controls['fullName'].enable();
+        return throwError(() => err);
+      })
+    ).subscribe();
   }
 
   btnEditCPFClick() {
@@ -73,8 +81,15 @@ export class EmployeeSendDocCardComponent implements OnInit {
       return;
     }
     this.employeeForm.controls['cpf'].disable();
-    this.data.cpf = this.employeeForm.controls['cpf'].value;
-    this.data = this.documentsService.updateEmployee(this.data);
+    this.documentsService.updateEmployeeCPF(this.employeeForm.controls['cpf'].value, this.data.id).pipe(
+      map((employee: any) => {
+        this.data.cpf = employee.cpf;
+      }),
+      catchError(err => {
+        this.employeeForm.controls['cpf'].enable();
+        return throwError(() => err);
+      })
+    ).subscribe();
   }
 
   btnRemoveClick() {
@@ -82,8 +97,12 @@ export class EmployeeSendDocCardComponent implements OnInit {
   }
 
   onRemoveConfirm() {
-    this.data.active = false;
-    this.bRemoveModal = false;
+    this.documentsService.removeEmployee(this.data.id).pipe(
+      map(()=>{
+        this.data.active = false;
+        this.bRemoveModal = false;
+      })
+    ).subscribe();
   }
 
   onRemoveCancel() {

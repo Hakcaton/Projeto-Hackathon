@@ -13,7 +13,13 @@ export class Document {
   status: eDocumentStatus;
 
   @Column({ nullable: true })
-  file_stream: string;
+  comment: string
+
+  @Column({ nullable: true, type: 'longblob' })
+  file_stream: Buffer;
+
+  @Column({ nullable: true })
+  file_name: string;
 
   @Column({ nullable: true })
   employee_id: string;

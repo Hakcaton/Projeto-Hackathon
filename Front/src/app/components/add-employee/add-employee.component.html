@@ -1,42 +1,31 @@
 <div class="wrapper">
-  <div class="main-card">
-    <div>
-      <h3>Adicionar Funcionário</h3>
-    </div>
-    <div>
-      <form [formGroup]="employeeForm">
-        <div class="form-group row">
-          <div class="form-group col">
-            <label for="inputFullName">Nome Completo</label>
-            <div>
-              <input
-                type="text"
-                class="form-control"
-                id="inputFullName"
-                formControlName="fullName"
-              />
-            </div>
-          </div>
-          <div class="form-group col">
-            <label for="inputCPF">CPF</label>
-            <div>
-              <input
-                type="text"
-                class="form-control"
-                id="inputCPF"
-                formControlName="cpf"
-                mask="000.000.000-00"
-              />
-            </div>
-          </div>
+    <div class="main-card">
+        <div>
+            <h3>Adicionar Funcionário</h3>
         </div>
-      </form>
-    </div>
-    <div>
-      <button class="btn btn-outline-secondary" (click)="btnCancelClick()">
+        <div>
+            <form [formGroup]="employeeForm">
+                <div class="form-group row">
+                    <div class="form-group col">
+                        <label for="inputFullName">Nome Completo</label>
+                        <div>
+                            <input type="text" class="form-control" id="inputFullName" formControlName="fullName" />
+                        </div>
+                    </div>
+                    <div class="form-group col">
+                        <label for="inputCPF">CPF</label>
+                        <div>
+                            <input type="text" class="form-control" id="inputCPF" formControlName="cpf" mask="000.000.000-00" [dropSpecialCharacters]="false" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div>
+            <button class="btn btn-outline-secondary" (click)="btnCancelClick()">
         Cancelar
       </button>
-      <button class="btn btn-primary" (click)="btnConfirmClick()">Confirmar</button>
+            <button class="btn btn-primary" (click)="btnConfirmClick()">Confirmar</button>
+        </div>
     </div>
-  </div>
 </div>

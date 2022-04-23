@@ -18,6 +18,10 @@
     margin-bottom: 25px;
 }
 
+section {
+    margin-top: 50px;
+}
+
 .filter {
     display: flex;
     height: fit-content;
@@ -32,8 +36,7 @@
         background-position: 5px 6px;
         text-indent: 20px;
     }
-     :not(:nth-child(2)) {
-        flex-grow: 0;
+    button {
         width: 200px;
     }
 }

@@ -13,3 +13,13 @@ export function addMonths(date: Date, months: number = 1): Date {
 export function addYears(date: Date, years: number = 1): Date {
     return new Date(date.setFullYear(date.getFullYear() + years));
 }
+
+export function DateToString(date: Date, format: string = 'dd/mm/yyyy'): string {
+    let formattedDate: string = format;
+
+    formattedDate = formattedDate.replace('dd', ('00' + (date.getDate()).toString()).slice(-2));
+    formattedDate = formattedDate.replace('mm', ('00' + (date.getMonth()+1).toString()).slice(-2));
+    formattedDate = formattedDate.replace('yyyy', ('0000' + (date.getFullYear()).toString()).slice(-4));
+
+    return formattedDate;
+}

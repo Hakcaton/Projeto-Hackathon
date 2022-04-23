@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { map } from 'rxjs';
 import { DocumentModel } from 'src/app/models/document.model';
@@ -9,35 +10,93 @@ import { DocumentsService } from 'src/app/services/documents.service';
   templateUrl: './pending-docs.component.html',
   styleUrls: ['./pending-docs.component.scss'],
 })
-export class PendingDocsComponent implements OnInit {
-  filter: string = '';
+export class PendingDocsComponent {
+  private _generalDocumentsFilter: string = '';
+  get generalDocumentsFilter() {
+    return this._generalDocumentsFilter;
+  }
+  set generalDocumentsFilter(value: string) {
+    this._generalDocumentsFilter = value;
+    this.filteredGeneralDocuments = this.generalDocuments.filter(document => {
+      return this.checkGeneralDocumentsFilter(document);
+    });
+  }
 
-  contractId: string = '1';
+  private _employeesFilter: string = '';
+  get employeesFilter() {
+    return this._employeesFilter;
+  }
+  set employeesFilter(value: string) {
+    this._employeesFilter = value;
+    this.filteredEmployees = this.employees.filter(employee => {
+      return this.checkEmployeesFilter(employee);
+    });
+  }
 
   bAddEmployee: boolean = false;
 
-  generalDocuments: DocumentModel[] = [];
+  private generalDocuments: DocumentModel[] = [];
+  filteredGeneralDocuments: DocumentModel[] = [];
 
-  employeesDocuments: EmployeeDocumentModel[] = [];
 
-  constructor(private documentsService: DocumentsService) {
-    this.employeesDocuments = documentsService.getEmployeesPendingDocuments();
-  }
+  private employees: EmployeeDocumentModel[] = [];
+  filteredEmployees: EmployeeDocumentModel[] = [];
 
-  ngOnInit(): void {
-    console.log(this.generalDocuments);
-    this.documentsService
-      .getPendingDocuments(this.contractId)
+  constructor(private documentsService: DocumentsService, private http: HttpClient) {
+    this.documentsService.getPendingDocuments('0123456')
       .pipe(
-        map((response: any) => {
-          this.generalDocuments = response;
+        map((generalDocuments: DocumentModel[]) => {
+          generalDocuments.forEach((doc) => {
+            doc.requestDate = new Date(doc.requestDate)
+          });
+
+          this.generalDocuments = generalDocuments.sort((docA, docB) => {
+            return docA.requestDate.getTime() - docB.requestDate.getTime();
+          });
+
+          this.filteredGeneralDocuments = this.generalDocuments;
+        })
+      )
+      .subscribe();
+    this.documentsService.getEmployeesPendingDocuments('0123456')
+      .pipe(
+        map((employeesDocuments: EmployeeDocumentModel[]) => {
+          employeesDocuments.forEach((employee) => {
+            employee.documents.forEach((doc) => {
+              doc.requestDate = new Date(doc.requestDate)
+            })
+            employee.documents = employee.documents.sort((docA, docB) => {
+              return docA.requestDate.getTime() - docB.requestDate.getTime();
+            })
+          });
+
+          this.employees = employeesDocuments.sort((employeeA, employeeB) => {
+            return employeeA.fullName.localeCompare(employeeB.fullName)
+          });
+
+          this.filteredEmployees = this.employees;
         })
       )
       .subscribe();
   }
 
-  checkFilter(employeeDoc: EmployeeDocumentModel) {
-    let formattedFilter = this.filter
+  checkGeneralDocumentsFilter(document: DocumentModel) {
+    let formattedFilter = this.generalDocumentsFilter
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[.,\-\s]/g, '');
+    let formattedTitle = document.title
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[.,\-\s]/g, '');
+
+    return formattedTitle.includes(formattedFilter);
+  }
+
+  checkEmployeesFilter(employeeDoc: EmployeeDocumentModel) {
+    let formattedFilter = this.employeesFilter
       .toLowerCase()
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
@@ -67,8 +126,12 @@ export class PendingDocsComponent implements OnInit {
     );
   }
 
-  clearFilter() {
-    this.filter = '';
+  clearGeneralDocumentsFilter() {
+    this.generalDocumentsFilter = '';
+  }
+
+  clearEmployeesFilter() {
+    this.employeesFilter = '';
   }
 
   btnAddEmployeeClick() {
