@@ -11,7 +11,7 @@ import { DocumentsService } from 'src/app/services/documents.service';
 })
 export class EmployeeSendDocCardComponent implements OnInit {
   @Input() data: EmployeeDocumentModel = {
-    id: '1',
+    id: '',
     fullName: '',
     cpf: '',
     documents: [],

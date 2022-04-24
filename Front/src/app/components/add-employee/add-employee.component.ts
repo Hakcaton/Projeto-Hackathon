@@ -41,7 +41,7 @@ export class AddEmployeeComponent {
     }
     this.documentsService;
     let body = this.employeeForm.value;
-    body.contractId = '1';
+    body.contractId = '';
     this.documentsService
       .addEmployee(body)
       .pipe(

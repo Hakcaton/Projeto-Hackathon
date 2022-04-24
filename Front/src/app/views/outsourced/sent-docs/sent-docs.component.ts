@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { DocumentModel } from 'src/app/models/document.model';
 import { EmployeeDocumentModel } from 'src/app/models/employee-document.model';
@@ -7,10 +8,14 @@ import { DocumentsService } from 'src/app/services/documents.service';
 
 @Component({
   selector: 'app-sent-doc',
-  templateUrl: './sent-doc.component.html',
-  styleUrls: ['./sent-doc.component.scss'],
+  templateUrl: './sent-docs.component.html',
+  styleUrls: ['./sent-docs.component.scss'],
 })
-export class SentDocComponent implements OnInit {
+export class SentDocsComponent implements OnInit {
+
+  contractId: string = '';
+
+  //#region generalDocumentsFilter
   private _generalDocumentsFilter: string = '';
   get generalDocumentsFilter() {
     return this._generalDocumentsFilter;
@@ -21,7 +26,8 @@ export class SentDocComponent implements OnInit {
       return this.checkGeneralDocumentsFilter(document);
     });
   }
-
+  //#endregion
+  //#region employeesFilter
   private _employeesFilter: string = '';
   get employeesFilter() {
     return this._employeesFilter;
@@ -32,6 +38,7 @@ export class SentDocComponent implements OnInit {
       return this.checkEmployeesFilter(employee);
     });
   }
+  //#endregion
 
   bAddEmployee: boolean = false;
 
@@ -43,45 +50,53 @@ export class SentDocComponent implements OnInit {
 
   constructor(
     private documentsService: DocumentsService,
-    private http: HttpClient
-  ) {
-    this.documentsService
-      .getSentDocuments('1')
-      .pipe(
-        map((generalDocuments: DocumentModel[]) => {
-          generalDocuments.forEach((doc) => {
-            doc.requestDate = new Date(doc.requestDate);
-          });
+    private route: ActivatedRoute
+  ) { }
 
-          this.generalDocuments = generalDocuments.sort((docA, docB) => {
-            return docA.requestDate.getTime() - docB.requestDate.getTime();
-          });
+  ngOnInit(): void {
+    this.route.params.pipe(
+      map(params => {
+        this.contractId = params['contractId'];
 
-          this.filteredGeneralDocuments = this.generalDocuments;
-        })
-      )
-      .subscribe();
-    this.documentsService
-      .getEmployeesSentDocuments('1')
-      .pipe(
-        map((employeesDocuments: EmployeeDocumentModel[]) => {
-          employeesDocuments.forEach((employee) => {
-            employee.documents.forEach((doc) => {
-              doc.requestDate = new Date(doc.requestDate);
-            });
-            employee.documents = employee.documents.sort((docA, docB) => {
-              return docA.requestDate.getTime() - docB.requestDate.getTime();
-            });
-          });
+        this.documentsService
+          .getSentDocuments(this.contractId)
+          .pipe(
+            map((generalDocuments: DocumentModel[]) => {
+              generalDocuments.forEach((doc) => {
+                doc.requestDate = new Date(doc.requestDate);
+              });
 
-          this.employees = employeesDocuments.sort((employeeA, employeeB) => {
-            return employeeA.fullName.localeCompare(employeeB.fullName);
-          });
+              this.generalDocuments = generalDocuments.sort((docA, docB) => {
+                return docA.requestDate.getTime() - docB.requestDate.getTime();
+              });
 
-          this.filteredEmployees = this.employees;
-        })
-      )
-      .subscribe();
+              this.filteredGeneralDocuments = this.generalDocuments;
+            })
+          )
+          .subscribe();
+        this.documentsService
+          .getEmployeesSentDocuments(this.contractId)
+          .pipe(
+            map((employeesDocuments: EmployeeDocumentModel[]) => {
+              employeesDocuments.forEach((employee) => {
+                employee.documents.forEach((doc) => {
+                  doc.requestDate = new Date(doc.requestDate);
+                });
+                employee.documents = employee.documents.sort((docA, docB) => {
+                  return docA.requestDate.getTime() - docB.requestDate.getTime();
+                });
+              });
+
+              this.employees = employeesDocuments.sort((employeeA, employeeB) => {
+                return employeeA.fullName.localeCompare(employeeB.fullName);
+              });
+
+              this.filteredEmployees = this.employees;
+            })
+          )
+          .subscribe();
+      })
+    ).subscribe();
   }
 
   checkGeneralDocumentsFilter(document: DocumentModel) {
@@ -153,6 +168,4 @@ export class SentDocComponent implements OnInit {
     this.bAddEmployee = false;
   }
 
-  ngOnInit(): void {}
-  // onEmployeeRemoved()
 }

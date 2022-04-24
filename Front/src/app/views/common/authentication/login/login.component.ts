@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
       .login(this.formGroup.value)
       .pipe(
         map((data) => {
-          this.router.navigateByUrl('');
+          window.location.href = '';
         })
       )
       .subscribe();

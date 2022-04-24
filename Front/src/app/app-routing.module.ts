@@ -4,85 +4,66 @@ import { DefaultAuthGuard } from './auth-guards/default-auth.guard';
 import { InternalAuthGuard } from './auth-guards/internal-auth.guard';
 import { OutsourcedAuthGuard } from './auth-guards/outsourced-auth.guard';
 import { AuthenticatedLayoutComponent } from './layouts/authenticated-layout/authenticated-layout.component';
-import { UnauthenticatedLayoutComponent } from './layouts/unauthenticated-layout/unauthenticated-layout.component';
 import { AuthenticationComponent } from './views/common/authentication/authentication.component';
-import { LoginComponent } from './views/common/authentication/login/login.component';
-import { ResetPasswordComponent } from './views/common/authentication/reset-password/reset-password.component';
+import { CompanyContractsComponent } from './views/internal/company-contracts/company-contracts.component';
 import { CompanyRegistrationComponent } from './views/internal/company-registration/company-registration.component';
-import { HomePageComponent } from './views/internal/home-page/home-page.component';
+import { RegisteredCompaniesComponent } from './views/internal/company/registered-companies/registered-companies.component';
 import { ProfileComponent } from './views/internal/profile/profile.component';
 import { PendingDocsComponent } from './views/outsourced/pending-docs/pending-docs.component';
-import { SentDocComponent } from './views/outsourced/sent-doc/sent-doc.component';
+import { SentDocsComponent } from './views/outsourced/sent-docs/sent-docs.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'autenticacao',
+    component: AuthenticationComponent,
+    canActivate: [DefaultAuthGuard]
+  },
+  {
+    path: 'interno',
     component: AuthenticatedLayoutComponent,
     children: [
       {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full',
+        path: 'empresas',
+        component: RegisteredCompaniesComponent,
       },
       {
-        path: 'home',
-        component: HomePageComponent,
-        // canActivate: [InternalAuthGuard],
+        path: 'empresas/:companyId',
+        component: CompanyRegistrationComponent
       },
       {
-        path: 'empresas/cadastrar',
-        component: CompanyRegistrationComponent,
-        // canActivate: [InternalAuthGuard],
-      },
-      {
-        path: 'empresas/profile',
-        component: CompanyRegistrationComponent,
-        // canActivate: [InternalAuthGuard],
+        path: 'empresas/:companyId/contratos',
+        component: CompanyContractsComponent
       },
       {
         path: 'perfil',
-        component: ProfileComponent,
-        // canActivate: [InternalAuthGuard],
-      },
-      {
-        path: 'documentos/pendentes',
-        component: PendingDocsComponent,
-        // canActivate: [OutsourcedAuthGuard],
-      },
-      {
-        path: 'documentos/enviados',
-        component: SentDocComponent,
-        // canActivate: [OutsourcedAuthGuard],
-      },
+        component: ProfileComponent
+      }
     ],
     canActivate: [InternalAuthGuard],
   },
   {
-    path: 'autenticacao',
-    component: UnauthenticatedLayoutComponent,
+    path: 'externo',
+    component: AuthenticatedLayoutComponent,
     children: [
       {
-        path: '',
-        redirectTo: 'login',
-        pathMatch: 'full',
+        path: 'contratos/:contractId/documentos/pendentes',
+        component: PendingDocsComponent,
       },
       {
-        path: 'login',
-        component: LoginComponent,
-      },
-      {
-        path: 'resetpassword',
-        component: ResetPasswordComponent,
-      },
+        path: 'contratos/:contractId/documentos/enviados',
+        component: SentDocsComponent,
+      }
     ],
-    canActivate: [DefaultAuthGuard],
+    canActivate: [OutsourcedAuthGuard]
   },
-
-  { path: '**', redirectTo: 'autenticacao', pathMatch: 'full' },
+  {
+    path: '**',
+    redirectTo: 'autenticacao'
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

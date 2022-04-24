@@ -73,7 +73,7 @@ export class RegisteredCompaniesComponent {
   }
 
   btnAddCompanyClick() {
-    // this.bAddEmployee = true;
+    
   }
 
 }

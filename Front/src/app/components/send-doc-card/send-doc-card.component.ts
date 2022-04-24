@@ -20,7 +20,7 @@ export class SendDocCardComponent implements OnInit {
   constructor(private documentService: DocumentsService) { }
 
   @Input() data: DocumentModel = {
-    id: '1',
+    id: '',
     title: '',
     subtitle: '',
     tooltipText: '',

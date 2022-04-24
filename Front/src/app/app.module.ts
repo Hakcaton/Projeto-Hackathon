@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,7 +32,9 @@ import { AddEmployeeComponent } from './components/add-employee/add-employee.com
 import { NgxMaskModule } from 'ngx-mask';
 import { RegisteredCompaniesComponent } from './views/internal/company/registered-companies/registered-companies.component';
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
-import { SentDocComponent } from './views/outsourced/sent-doc/sent-doc.component';
+import { SentDocsComponent } from './views/outsourced/sent-docs/sent-docs.component';
+import { CompanyContractsComponent } from './views/internal/company-contracts/company-contracts.component';
+import { BadgeComponent } from './components/badge/badge.component';
 
 @NgModule({
   declarations: [
@@ -57,10 +58,11 @@ import { SentDocComponent } from './views/outsourced/sent-doc/sent-doc.component
     ModalConfirmComponent,
     AddEmployeeComponent,
     RegisteredCompaniesComponent,
-    SentDocComponent,
+    SentDocsComponent,
+    CompanyContractsComponent,
+    BadgeComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     TooltipModule.forRoot(),
