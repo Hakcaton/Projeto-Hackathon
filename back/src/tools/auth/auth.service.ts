@@ -2,16 +2,21 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Company } from 'src/modules/company/entities/company.entity';
+import { Contract } from 'src/modules/contract/entities/contract.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 import { UserService } from 'src/modules/user/users.service';
 import { Repository } from 'typeorm';
 import { Cryptography } from '../cryptography/cryptography.class';
+import { ePermission } from '../enum/permission.definition';
 import { IForgotPassoword, ILogin } from './auth.interface';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Contract) private contractRepository: Repository<Contract>,
+    @InjectRepository(Company) private companyRepository: Repository<Company>,
     private usersService: UserService,
     private jwtService: JwtService
   ) {}
@@ -46,5 +51,18 @@ export class AuthService {
     const user = await this.userRepository.findOne({id: userId});
 
     return this.jwtService.sign({userId: user.id, permission: user.permission});
+  }
+
+  async verifyResponsablePermission(userId: string, contractId: string): Promise<boolean> {
+    const user: User = await this.userRepository.findOne({ id: userId });
+
+    if (user.permission == ePermission.internalEmployee) {
+      return true;
+    }
+
+    const contract: Contract = await this.contractRepository.findOne({ id: contractId });
+    const company: Company = await this.companyRepository.findOne({ cnpj: contract.companyCNPJ });
+
+    return company.responsableUserId == user.id;
   }
 }

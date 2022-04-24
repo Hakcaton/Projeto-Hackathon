@@ -8,6 +8,9 @@ import { jwtConstants } from './constants';
 import { UserModule } from 'src/modules/user/users.module';
 import { AuthController } from './auth.controller';
 import { TokenRefresherMiddleware } from './auth.middleware';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Contract } from 'src/modules/contract/entities/contract.entity';
+import { Company } from 'src/modules/company/entities/company.entity';
 
 @Module({
   imports: [
@@ -18,6 +21,8 @@ import { TokenRefresherMiddleware } from './auth.middleware';
       verifyOptions: {},
       signOptions: { expiresIn: '12h' },
     }),
+    forwardRef(() => TypeOrmModule.forFeature([Contract])),
+    forwardRef(() => TypeOrmModule.forFeature([Company]))
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy, TokenRefresherMiddleware],

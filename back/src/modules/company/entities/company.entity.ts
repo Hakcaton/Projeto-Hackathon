@@ -7,16 +7,19 @@ export class Company {
   @PrimaryColumn()
   cnpj: string;
 
-  @Column()
-  comporate_name: string;
+  @Column({ name: 'corportate_name' })
+  comporateName: string;
 
-  @Column()
-  fantasy_name: string;
+  @Column({ name: 'fantasy_name' })
+  fantasyName: string;
 
-  @Column()
-  state_registration: string;
+  @Column({ name: 'state_registration' })
+  stateRegistration: string;
+
+  @Column({ name: 'responsable_user_id' })
+  responsableUserId: string;
 
   @OneToOne(() => User, user => user.id)
-  @JoinColumn({name: 'responsable_user_id'})
-  user: User;
+  @JoinColumn({ name: 'responsable_user_id' })
+  responsableUser: User;
 }

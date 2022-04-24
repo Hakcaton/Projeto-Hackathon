@@ -13,7 +13,10 @@ export class Contract {
   @Column()
   decription: string;
 
+  @Column({ name: 'company_cnpj' })
+  companyCNPJ: string;
+
   @ManyToOne(() => Company, company => company.cnpj)
-  @JoinColumn({name: 'company_cnpj'})
+  @JoinColumn({ name: 'company_cnpj' })
   Company: Company;
 }
