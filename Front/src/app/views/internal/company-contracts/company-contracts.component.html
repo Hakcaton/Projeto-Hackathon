@@ -21,8 +21,9 @@
                         <ng-container *ngFor="let contract of filteredContracts.slice(pageIndex*10, pageIndex*10+10)">
                             <tr>
                                 <td>{{ contract.title }}</td>
-                                <td>{{ contract.initialDate }}</td>
-                                <td>{{ contract.finalDate? contract.finalDate:'--/--/----'}}</td>
+                                <td>{{ dateHelper.DateToString(contract.initialDate) }}</td>
+                                <td>{{ contract.finalDate? dateHelper.DateToString(contract.finalDate):'--/--/----'}}
+                                </td>
                                 <td class="td-btn">
                                     <button class="no-style" (click)="onEditClick(contract)"
                                         tooltip="Editar dados do contrato">

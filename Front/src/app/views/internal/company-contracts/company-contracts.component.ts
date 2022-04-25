@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { ContractModel } from 'src/app/models/contract.model';
 import { ContractService } from 'src/app/services/contract.service';
+import { DateHelper } from 'src/app/tools/helpers/date.helper';
 import { clamp } from 'src/app/tools/helpers/math.helper';
 
 @Component({
@@ -36,12 +37,19 @@ export class CompanyContractsComponent implements OnInit {
     this.pageIndex = this.pageIndex;
   }
 
-  constructor(private contractService: ContractService, private route: ActivatedRoute) { }
+  constructor(private contractService: ContractService, private route: ActivatedRoute, public dateHelper: DateHelper) { }
   ngOnInit(): void {
     this.route.params.pipe(
       map(params => {
         this.contractService.getRegisteredContracts(params['companyCNPJ']).pipe(
-          map((contracts: ContractModel[]) => {
+          map((contracts) => {
+            contracts.forEach(contract => {
+              contract.initialDate = new Date(contract.initialDate);
+              if (contract.finalDate) {
+                contract.finalDate = new Date(contract.finalDate);
+              }
+            });
+
             this.contracts = contracts;
             this.filteredContracts = this.contracts;
           })
