@@ -29,7 +29,6 @@ export class AuthService {
 
     if (!token) {
       if (this.isAuthenticated) {
-        alert('Sua sessão expirou');
         this.isAuthenticated = false;
         this.router.navigateByUrl('/autenticacao');
       }
@@ -76,6 +75,10 @@ export class AuthService {
         window.localStorage.setItem('token', res.access_token);
       })
     );
+  }
+
+  logout() {
+    window.localStorage.clear();
   }
 
   encryptPassword(password: string) {

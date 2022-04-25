@@ -1,31 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ContractModel } from '../models/contract.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ContractService {
 
-  contracts: ContractModel[] = [
-    {
-      title: 'Contrato A',
-      description: 'A Lívia não sai comigo',
-      initialDate: '20/01/2001',
-      companyCNPJ: '12345678910',
-      documentsToValidate: 27
-    },
-    {
-      title: 'Contrato B',
-      description: 'A Lívia só me maltrata',
-      initialDate: '20/01/2001',
-      finalDate: '14/01/2002',
-      companyCNPJ: '12345678910'
-    }
-  ]
+  constructor(private http: HttpClient) { }
 
-  getRegisteredContracts() {
-    return this.contracts;
+  getRegisteredContracts(companyCNPJ: string): Observable<any> {
+    const url = '/api/companies/' + companyCNPJ + '/contracts'
+    return this.http.get(url);
   }
-
-  constructor() { }
 }

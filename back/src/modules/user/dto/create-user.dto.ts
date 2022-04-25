@@ -1,4 +1,4 @@
-import { ePermission } from "src/tools/enum/permission.definition";
+import { ePermission } from 'src/tools/enum/permission.definition';
 
 export class CreateUserDto {
   email: string;

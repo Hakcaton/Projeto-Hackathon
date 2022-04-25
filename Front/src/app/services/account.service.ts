@@ -3,14 +3,13 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AccountService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getProfile() {
-    let url = '/api/account/profile'
+    let url = '/api/user/profile';
     return this.http.get<any>(url);
   }
 }

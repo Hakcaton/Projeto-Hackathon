@@ -1,0 +1,65 @@
+<div class="wrapper">
+  <div>
+    <div class="filter">
+      <button class="btn btn-primary" (click)="btnAddContractClick()">Adicionar</button>
+      <input class="form-control" type="text" placeholder="Filtre por Título ou Data" [(ngModel)]="filter" />
+      <button class="btn btn-outline-secondary" (click)="clearFilter()" [disabled]="!filter">Limpar
+        filtro</button>
+    </div>
+    <div class="table-card">
+      <div class="content">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 400px; min-width: 400px;">Título</th>
+              <th style="width: 150px; min-width: 150px;">Data Inicial</th>
+              <th style="width: 150px; min-width: 150px;">Data Final</th>
+              <th style="width: 170px; min-width: 170px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let contract of filteredContracts.slice(pageIndex*10, pageIndex*10+10)">
+              <tr>
+                <td>{{ contract.title }}</td>
+                <td>{{ contract.initialDate }}</td>
+                <td>{{ contract.finalDate? contract.finalDate:'--/--/----'}}</td>
+                <td class="td-btn">
+                  <button class="no-style" (click)="onClickOpenDocsSent(contract)"
+                    tooltip="Documentos enviados">
+                    <img src="/assets/icons/document_check.svg" class="icon">
+                  </button>
+                  <div class="badge-btn">
+                    <button class="no-style" (click)="onClickOpenPendingDocs(contract)"
+                      tooltip="Documentos pendentes">
+                      <img src="/assets/icons/upload_file.svg" class="icon">
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <div class="footer">
+        <div class="table-resume">
+          <span>{{ "Total: " + filteredContracts.length }}</span>
+        </div>
+        <div class="page-selector">
+          <button class="no-style" (click)="firstPage()">
+            <img src="/assets/icons/first_page.svg" class="icon">
+          </button>
+          <button class="no-style" (click)="previousPage()">
+            <img src="/assets/icons/left_arrow.svg" class="icon">
+          </button>
+          <span>{{ pageIndex + 1 }}</span>
+          <button class="no-style" (click)="nextPage()">
+            <img src="/assets/icons/right_arrow.svg" class="icon">
+          </button>
+          <button class="no-style" (click)="lastPage()">
+            <img src="/assets/icons/last_page.svg" class="icon">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

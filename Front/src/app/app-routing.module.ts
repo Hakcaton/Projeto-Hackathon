@@ -9,6 +9,7 @@ import { CompanyContractsComponent } from './views/internal/company-contracts/co
 import { CompanyRegistrationComponent } from './views/internal/company-registration/company-registration.component';
 import { RegisteredCompaniesComponent } from './views/internal/company/registered-companies/registered-companies.component';
 import { ProfileComponent } from './views/internal/profile/profile.component';
+import { OutsourcedCompanyContractsComponent } from './views/outsourced/outsourced-company-contracts/outsourced-company-contracts.component';
 import { PendingDocsComponent } from './views/outsourced/pending-docs/pending-docs.component';
 import { SentDocsComponent } from './views/outsourced/sent-docs/sent-docs.component';
 
@@ -16,7 +17,7 @@ const routes: Routes = [
   {
     path: 'autenticacao',
     component: AuthenticationComponent,
-    canActivate: [DefaultAuthGuard]
+    canActivate: [DefaultAuthGuard],
   },
   {
     path: 'interno',
@@ -27,17 +28,17 @@ const routes: Routes = [
         component: RegisteredCompaniesComponent,
       },
       {
-        path: 'empresas/:companyId',
-        component: CompanyRegistrationComponent
+        path: 'empresas/cadastrar',
+        component: CompanyRegistrationComponent,
       },
       {
-        path: 'empresas/:companyId/contratos',
-        component: CompanyContractsComponent
+        path: 'empresas/:companyCNPJ/contratos',
+        component: CompanyContractsComponent,
       },
       {
         path: 'perfil',
-        component: ProfileComponent
-      }
+        component: ProfileComponent,
+      },
     ],
     canActivate: [InternalAuthGuard],
   },
@@ -46,24 +47,28 @@ const routes: Routes = [
     component: AuthenticatedLayoutComponent,
     children: [
       {
+        path: 'contratos',
+        component: OutsourcedCompanyContractsComponent,
+      },
+      {
         path: 'contratos/:contractId/documentos/pendentes',
         component: PendingDocsComponent,
       },
       {
         path: 'contratos/:contractId/documentos/enviados',
         component: SentDocsComponent,
-      }
+      },
     ],
-    canActivate: [OutsourcedAuthGuard]
+    canActivate: [OutsourcedAuthGuard],
   },
   {
     path: '**',
-    redirectTo: 'autenticacao'
-  }
+    redirectTo: 'autenticacao',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

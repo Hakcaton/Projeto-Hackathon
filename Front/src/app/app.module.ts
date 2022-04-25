@@ -35,6 +35,7 @@ import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 import { SentDocsComponent } from './views/outsourced/sent-docs/sent-docs.component';
 import { CompanyContractsComponent } from './views/internal/company-contracts/company-contracts.component';
 import { BadgeComponent } from './components/badge/badge.component';
+import { OutsourcedCompanyContractsComponent } from './views/outsourced/outsourced-company-contracts/outsourced-company-contracts.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { BadgeComponent } from './components/badge/badge.component';
     SentDocsComponent,
     CompanyContractsComponent,
     BadgeComponent,
+    OutsourcedCompanyContractsComponent,
   ],
   imports: [
     AppRoutingModule,

@@ -1,8 +1,10 @@
 import { ThisReceiver } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { i18nMetaToJSDoc } from '@angular/compiler/src/render3/view/i18n/meta';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { catchError, lastValueFrom, map } from 'rxjs';
-import { CompanyRegistrationService } from 'src/app/services/company-registration.service';
+import { catchError, lastValueFrom, map, throwError } from 'rxjs';
+import { CreateCompanyModel } from 'src/app/models/create-company.model';
+import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-company-registration',
@@ -10,6 +12,10 @@ import { CompanyRegistrationService } from 'src/app/services/company-registratio
   styleUrls: ['./company-registration.component.scss'],
 })
 export class CompanyRegistrationComponent implements OnInit {
+  // @ViewChild('btnConfirm') btnConfirm: any
+
+  btnConfirmDisabled: boolean = false;
+
   userCompanyForm: FormGroup;
   companyForm: FormGroup;
 
@@ -17,23 +23,23 @@ export class CompanyRegistrationComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private companyService: CompanyRegistrationService
+    private companyService: CompanyService
   ) {
     //form da empresa terceira.
     this.companyForm = this.formBuilder.group({
-      razaoSocial: ['', Validators.required],
-      nomeFantasia: ['', Validators.nullValidator],
-      CNPJ: ['', Validators.required],
-      inscricaoEstadual: [''],
+      cnpj: ['', Validators.required],
+      corporateName: ['', Validators.required],
+      fantasyName: ['', Validators.required],
+      stateRegistration: ['', Validators.required],
     });
 
     //form do responsavel da empresa.
     this.userCompanyForm = this.formBuilder.group({
-      nome: ['', Validators.required],
-      sobreNome: ['', Validators.nullValidator],
-      cpf: ['', Validators.required],
       email: ['', Validators.required],
-      celular: [
+      lastName: ['', Validators.required],
+      name: ['', Validators.required],
+      cpf: ['', Validators.required],
+      phoneNumber: [
         '',
         [
           Validators.required,
@@ -50,21 +56,23 @@ export class CompanyRegistrationComponent implements OnInit {
   }
 
   btnConfrmiClick() {
-    this.registerComapany();
-  }
+    this.btnConfirmDisabled = true;
 
-  registerComapany() {
-    let companyData = this.companyForm.value;
-    let responsibleData = this.userCompanyForm.value;
-    let body = {
-      companyData,
-      responsibleData,
+    const companyCreate: CreateCompanyModel = {
+      companyData: this.companyForm.value,
+      userData: this.userCompanyForm.value,
     };
-
     this.companyService
-      .registerCompanyData(body)
+      .registerCompany(companyCreate)
       .pipe(
         map((result: any) => {
+          alert('Empresa cadastrada com sucesso!');
+          this.btnConfirmDisabled = false;
+        }),
+        catchError((error) => {
+          alert('Não foi possível cadastrar a empresa');
+          this.btnConfirmDisabled = false;
+          return throwError(() => error);
         })
       )
       .subscribe();

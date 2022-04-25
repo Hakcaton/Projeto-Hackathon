@@ -1,4 +1,5 @@
 export interface ContractModel {
+  id: string;
   title: string;
   description: string;
   initialDate: string;

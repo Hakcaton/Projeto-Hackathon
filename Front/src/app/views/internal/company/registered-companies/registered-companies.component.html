@@ -19,13 +19,13 @@
                     <tbody>
                         <ng-container *ngFor="let company of filteredCompanies.slice(pageIndex*10, pageIndex*10+10)">
                             <tr>
-                                <td>{{ company.companyData.corporateName }}</td>
-                                <td>{{ company.companyData.cnpj }}</td>
-                                <td>{{ company.companyData.stateRegistration }}</td>
+                                <td>{{ company.corporateName }}</td>
+                                <td>{{ company.cnpj }}</td>
+                                <td>{{ company.stateRegistration }}</td>
                                 <td class="td-btn">
                                     <button class="no-style" (click)="onEditClick(company)" tooltip="Editar dados da empresa">
                                         <img src="/assets/icons/edit_square.svg" class="icon">
-                                    </button><button class="no-style" tooltip="Visualizar contratos da empresa">
+                                    </button><button class="no-style" (click)="onContractsClick(company)" tooltip="Visualizar contratos da empresa">
                                         <img src="/assets/icons/edit-contract.svg" class="icon">
                                     </button>
                                 </td>

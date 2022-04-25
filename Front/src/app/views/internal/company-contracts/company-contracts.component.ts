@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs';
 import { ContractModel } from 'src/app/models/contract.model';
 import { ContractService } from 'src/app/services/contract.service';
 import { clamp } from 'src/app/tools/helpers/math.helper';
@@ -8,7 +10,7 @@ import { clamp } from 'src/app/tools/helpers/math.helper';
   templateUrl: './company-contracts.component.html',
   styleUrls: ['./company-contracts.component.scss']
 })
-export class CompanyContractsComponent {
+export class CompanyContractsComponent implements OnInit {
 
   private contracts: ContractModel[] = [];
   filteredContracts: ContractModel[] = [];
@@ -34,9 +36,18 @@ export class CompanyContractsComponent {
     this.pageIndex = this.pageIndex;
   }
 
-  constructor(private contractService: ContractService) {
-    this.contracts = this.contractService.getRegisteredContracts();
-    this.filteredContracts = this.contracts;
+  constructor(private contractService: ContractService, private route: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.route.params.pipe(
+      map(params => {
+        this.contractService.getRegisteredContracts(params['companyCNPJ']).pipe(
+          map((contracts: ContractModel[]) => {
+            this.contracts = contracts;
+            this.filteredContracts = this.contracts;
+          })
+        ).subscribe();
+      })
+    ).subscribe();
   }
 
   checkFilter(contract: ContractModel) {

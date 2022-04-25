@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { AppService } from 'src/app/services/menu.service';
 
 @Component({
@@ -7,11 +8,22 @@ import { AppService } from 'src/app/services/menu.service';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private appService: AppService) {}
+  userPermission: number = -1;
 
   isCollapsed: boolean = true;
 
-  ngOnInit() {}
+  constructor(
+    private appService: AppService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    this.userPermission = this.authService.getPermission();
+  }
+
+  onClickLogout() {
+    this.authService.logout();
+  }
 
   toggleSidebarPin() {
     this.appService.toggleSidebarPin();
