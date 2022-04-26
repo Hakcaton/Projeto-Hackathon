@@ -3,6 +3,7 @@ import { Response, Request } from 'express';
 import { ContractService } from './contract.service';
 import { AddEmployeeDto } from './dto/add-employee.dto';
 import { AuthService } from 'src/tools/auth/auth.service';
+import { AddFormFieldDto } from './dto/add-formField.dto';
 
 @Controller('contracts')
 export class ContractController {
@@ -74,5 +75,31 @@ export class ContractController {
 
     employee.contractId = params.contractId;
     res.send(await this.contractService.addEmployee(employee, res));
+  }
+
+  @Get('/contract/:contractId/documents')
+  async getFormField(@Param() params: any, @Req() req: Request, @Res() res: Response): Promise<void> {
+    const userId: string = req.user['userId'];
+    const contractId: string = params.contractId;
+
+    if (await this.authService.verifyResponsablePermission(userId, contractId) == false){
+      res.status(HttpStatus.UNAUTHORIZED).send();
+      return;
+    }
+
+    res.send(this.contractService.getFormField(params.contractId, res));
+  }
+
+  @Post('/contract/:contractId/documents')
+  async addFormField(@Body() formField: AddFormFieldDto, @Param() params: any, @Req() req: Request, @Res() res: Response): Promise<void> {
+    const userId: string = req.user['userId'];
+    const contractId: string = params.contractId;
+
+    if (await this.authService.verifyResponsablePermission(userId, contractId) == false){
+      res.status(HttpStatus.UNAUTHORIZED).send();
+      return;
+    }
+
+    res.send(this.contractService.addFormField(params.contractId, formField, res));
   }
 }
