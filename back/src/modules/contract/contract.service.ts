@@ -598,7 +598,7 @@ export class ContractService {
             const newFormField = await this.formFieldRepository.create({
                 contract_id: contractId,
                 ...formField,
-                required: true,
+                individual: false,
               });
 
              await this.formFieldRepository.save(newFormField);
