@@ -12,6 +12,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+    width: 700px;
 }
 
 .cards>* {
@@ -39,10 +40,6 @@ section {
     button {
         width: 200px;
     }
-}
-
-#general-docs{
-    width: 650px;
 }
 
 #employees-doc {

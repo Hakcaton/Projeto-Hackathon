@@ -1,0 +1,54 @@
+<div class="wrapper">
+    <div class="main-card">
+        <div>
+            <h3>Adicionar Funcionário</h3>
+        </div>
+        <div>
+            <form [formGroup]="formFieldForm">
+                <div class="form-group row">
+                    <div class="form-group col">
+                        <label for="inputTitle">Nome do Documento</label>
+                        <input type="text" class="form-control" id="inputTitle" formControlName="title">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-group col">
+                        <label for="inputSubtitle">Subtítulo</label>
+                        <input type="text" class="form-control" id="inputSubtitle" formControlName="subtitle">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-group col">
+                        <label for="inputRecurrence">Recorrência</label>
+                        <select class="form-control" id="inputRecurrence" formControlName="recurrence">
+                            <option [ngValue]="0">Envio único</option>
+                            <option [ngValue]="1">Anual</option>
+                            <option [ngValue]="2">Mensal</option>
+                            <option [ngValue]="3">Semanal</option>
+                            <option [ngValue]="4">Diário</option>
+                        </select>
+                    </div>
+                    <div class="form-group col">
+                        <label for="inputFirstRequestDate">Primeira Solicitação</label>
+                        <input type="text" class="form-control" id="inputFirstRequestDate" mask="d0/M0/0000"
+                            [dropSpecialCharacters]="false" formControlName="firstRequestDate">
+                    </div>
+                    <div class="form-group col" id="checkboxes">
+                        <div class="checkbox">
+                            <input type="checkbox" id="inputRequired" name="checkBox" formControlName="required" />
+                            <label for="inputRequired">Envio obrigatório</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="inputIndividual" name="checkBox" formControlName="individual" />
+                            <label for="inputIndividual">Entrega individual</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div>
+            <button class="btn btn-outline-secondary" (click)="btnCancelClick()">Cancelar</button>
+            <button class="btn btn-primary" (click)="btnConfirmClick()">Confirmar</button>
+        </div>
+    </div>
+</div>

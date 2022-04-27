@@ -11,23 +11,23 @@ export class FormField {
   @Column()
   title: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   subtitle: string;
 
   @Column()
   recurrence: eDocumentRecurrence;
 
-  @Column()
+  @Column({ default: false })
   individual: boolean;
 
-  @Column()
+  @Column({ default: true })
   required: boolean;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', nullable: false })
-  first_request_date: Date;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', nullable: false, name: 'first_request_date' })
+  firstRequestDate: Date;
 
-  @Column({ nullable: false })
-  contract_id: string;
+  @Column({ nullable: false, name: 'contract_id' })
+  contractId: string;
 
   @ManyToOne(() => Contract, contract => contract.id)
   @JoinColumn({ name: 'contract_id' })

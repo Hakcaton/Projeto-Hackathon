@@ -21,16 +21,14 @@
             <ng-container *ngFor="let contract of filteredContracts.slice(pageIndex*10, pageIndex*10+10)">
               <tr>
                 <td>{{ contract.title }}</td>
-                <td>{{ contract.initialDate }}</td>
-                <td>{{ contract.finalDate? contract.finalDate:'--/--/----'}}</td>
+                <td>{{ dateHelper.DateToString(contract.initialDate) }}</td>
+                <td>{{ contract.finalDate ? dateHelper.DateToString(contract.finalDate) : '--/--/----'}}</td>
                 <td class="td-btn">
-                  <button class="no-style" (click)="onClickOpenDocsSent(contract)"
-                    tooltip="Documentos enviados">
+                  <button class="no-style" (click)="onClickOpenDocsSent(contract)" tooltip="Documentos enviados">
                     <img src="/assets/icons/document_check.svg" class="icon">
                   </button>
                   <div class="badge-btn">
-                    <button class="no-style" (click)="onClickOpenPendingDocs(contract)"
-                      tooltip="Documentos pendentes">
+                    <button class="no-style" (click)="onClickOpenPendingDocs(contract)" tooltip="Documentos pendentes">
                       <img src="/assets/icons/upload_file.svg" class="icon">
                     </button>
                   </div>

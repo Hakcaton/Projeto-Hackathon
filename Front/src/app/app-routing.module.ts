@@ -8,6 +8,7 @@ import { AuthenticationComponent } from './views/common/authentication/authentic
 import { CompanyContractsComponent } from './views/internal/company-contracts/company-contracts.component';
 import { CompanyRegistrationComponent } from './views/internal/company-registration/company-registration.component';
 import { RegisteredCompaniesComponent } from './views/internal/company/registered-companies/registered-companies.component';
+import { ContractFormFieldsComponent } from './views/internal/contract-form-fields/contract-form-fields.component';
 import { ProfileComponent } from './views/internal/profile/profile.component';
 import { OutsourcedCompanyContractsComponent } from './views/outsourced/outsourced-company-contracts/outsourced-company-contracts.component';
 import { PendingDocsComponent } from './views/outsourced/pending-docs/pending-docs.component';
@@ -34,6 +35,10 @@ const routes: Routes = [
       {
         path: 'empresas/:companyCNPJ/contratos',
         component: CompanyContractsComponent,
+      },
+      {
+        path: 'contratos/:contractId/formulario',
+        component: ContractFormFieldsComponent
       },
       {
         path: 'perfil',

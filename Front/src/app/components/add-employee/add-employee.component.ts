@@ -1,7 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { catchError, map, Observable, of, throwError } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 import { EmployeeDocumentModel } from 'src/app/models/employee-document.model';
 import { DocumentsService } from 'src/app/services/documents.service';
 
@@ -18,11 +17,13 @@ export class AddEmployeeComponent {
 
   @Output() onCancel: EventEmitter<void> = new EventEmitter();
 
+  @Input() contractId: string = '';
+
   constructor(
     private formBuilder: FormBuilder,
     private documentsService: DocumentsService
   ) {
-    this.employeeForm = formBuilder.group({
+    this.employeeForm = this.formBuilder.group({
       fullName: [{ value: '', disabled: false }, [Validators.required]],
       cpf: [
         { value: '', disabled: false },
@@ -39,9 +40,8 @@ export class AddEmployeeComponent {
       alert('CPF inválido');
       return;
     }
-    this.documentsService;
     let body = this.employeeForm.value;
-    body.contractId = '';
+    body.contractId = this.contractId;
     this.documentsService
       .addEmployee(body)
       .pipe(

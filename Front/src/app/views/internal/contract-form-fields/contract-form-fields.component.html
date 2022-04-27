@@ -1,0 +1,15 @@
+<app-add-form-field [contractId]="contractId" *ngIf="bAddFormField" (onAdded)="onFormFieldAdded($event)" (onCancel)="onFormFieldCancel()"></app-add-form-field>
+
+<div class="wrapper">
+    <section id="general-docs">
+        <h2>Documentos do Contrato</h2>
+        <div class="filter">
+            <button class="btn btn-primary" (click)="btnAddFormFieldClick()">Adicionar</button>
+            <input class="form-control" type="text" placeholder="Filtre por Documento ou Data" [(ngModel)]="filter" />
+            <button class="btn btn-outline-secondary" (click)="clearFilter()" [disabled]="!filter">Limpar filtro</button>
+        </div>
+        <div class="cards">
+            <app-form-field-card *ngFor="let doc of filteredFormFields" [data]="doc"></app-form-field-card>
+        </div>
+    </section>
+</div>

@@ -15,9 +15,9 @@ export class DocumentsService {
     return this.http.get<any>(url);
   }
 
-  getEmployeesPendingDocuments(contractId: string): Observable<any> {
+  getEmployeesPendingDocuments(contractId: string): Observable<EmployeeDocumentModel[]> {
     const url = `/api/contracts/${contractId}/employees/documents/pending`;
-    return this.http.get<any>(url);
+    return this.http.get<EmployeeDocumentModel[]>(url);
   }
 
   getSentDocuments(contractId: string): Observable<any> {
@@ -25,9 +25,9 @@ export class DocumentsService {
     return this.http.get<any>(url);
   }
 
-  getEmployeesSentDocuments(contractId: string): Observable<any> {
+  getEmployeesSentDocuments(contractId: string): Observable<EmployeeDocumentModel[]> {
     const url = `/api/contracts/${contractId}/employees/documents/sent`;
-    return this.http.get<any>(url);
+    return this.http.get<EmployeeDocumentModel[]>(url);
   }
 
   getDocument(document: DocumentModel): Observable<any> {

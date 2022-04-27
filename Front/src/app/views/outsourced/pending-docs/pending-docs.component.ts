@@ -55,46 +55,42 @@ export class PendingDocsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
+      
       map(params => {
         this.contractId = params['contractId'];
 
-        this.documentsService
-          .getPendingDocuments(this.contractId)
-          .pipe(
-            map((generalDocuments: DocumentModel[]) => {
-              generalDocuments.forEach((doc) => {
+        this.documentsService.getPendingDocuments(this.contractId).pipe(
+          map((generalDocuments: DocumentModel[]) => {
+            generalDocuments.forEach((doc) => {
+              doc.requestDate = new Date(doc.requestDate);
+            });
+
+            this.generalDocuments = generalDocuments.sort((docA, docB) => {
+              return docA.requestDate.getTime() - docB.requestDate.getTime();
+            });
+
+            this.filteredGeneralDocuments = this.generalDocuments;
+          })
+        ).subscribe();
+
+        this.documentsService.getEmployeesPendingDocuments(this.contractId).pipe(
+          map((employeesDocuments) => {
+            employeesDocuments.forEach((employee) => {
+              employee.documents.forEach((doc) => {
                 doc.requestDate = new Date(doc.requestDate);
               });
-
-              this.generalDocuments = generalDocuments.sort((docA, docB) => {
+              employee.documents = employee.documents.sort((docA, docB) => {
                 return docA.requestDate.getTime() - docB.requestDate.getTime();
               });
+            });
 
-              this.filteredGeneralDocuments = this.generalDocuments;
-            })
-          )
-          .subscribe();
-        this.documentsService
-          .getEmployeesPendingDocuments(this.contractId)
-          .pipe(
-            map((employeesDocuments: EmployeeDocumentModel[]) => {
-              employeesDocuments.forEach((employee) => {
-                employee.documents.forEach((doc) => {
-                  doc.requestDate = new Date(doc.requestDate);
-                });
-                employee.documents = employee.documents.sort((docA, docB) => {
-                  return docA.requestDate.getTime() - docB.requestDate.getTime();
-                });
-              });
+            this.employees = employeesDocuments.sort((employeeA, employeeB) => {
+              return employeeA.fullName.localeCompare(employeeB.fullName);
+            });
 
-              this.employees = employeesDocuments.sort((employeeA, employeeB) => {
-                return employeeA.fullName.localeCompare(employeeB.fullName);
-              });
-
-              this.filteredEmployees = this.employees;
-            })
-          )
-          .subscribe();
+            this.filteredEmployees = this.employees;
+          })
+        ).subscribe();
       })
     ).subscribe()
   }

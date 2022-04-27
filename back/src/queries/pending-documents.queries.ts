@@ -1,6 +1,13 @@
 export const SELECT_PENDING_FORM_FIELDS_FROM_CONTRACT: string = `
 SELECT 
-    form_field.*
+    form_field.id,
+	form_field.title,
+	form_field.subtitle, 
+	form_field.recurrence,
+	form_field.individual,
+	form_field.required,
+	form_field.contract_id AS contractId,
+	form_field.first_request_date AS firstRequestDate
 FROM
     form_field
 WHERE 

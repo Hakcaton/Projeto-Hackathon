@@ -38,6 +38,19 @@ export class CompanyController {
     res.send(await this.companyService.getContracts(companyCNPJ, res));
   }
 
+  @Get('/contracts')
+  async getOutsourcedContracts(@Req() req: Request, @Res() res: Response): Promise<void> {
+    const userId: string = req.user['userId'];
+    const companyCNPJ: string = (await this.companyService.getCompanyByResponsableUser(userId, res)).cnpj;
+
+    if (!companyCNPJ) {
+      res.status(HttpStatus.NOT_FOUND).send();
+      return;
+    }
+
+    res.send(await this.companyService.getContracts(companyCNPJ, res));
+  }
+
   @Post()
   async addCompany(@Req() req: Request, @Res() res: Response, @Body() company: CreateCompanyDto): Promise<void> {
     if (req.user['permission'] == 1) {

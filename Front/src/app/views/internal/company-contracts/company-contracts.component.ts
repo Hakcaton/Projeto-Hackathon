@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { ContractModel } from 'src/app/models/contract.model';
 import { ContractService } from 'src/app/services/contract.service';
@@ -37,11 +37,11 @@ export class CompanyContractsComponent implements OnInit {
     this.pageIndex = this.pageIndex;
   }
 
-  constructor(private contractService: ContractService, private route: ActivatedRoute, public dateHelper: DateHelper) { }
+  constructor(private contractService: ContractService, private route: ActivatedRoute, private router: Router, public dateHelper: DateHelper) { }
   ngOnInit(): void {
     this.route.params.pipe(
       map(params => {
-        this.contractService.getRegisteredContracts(params['companyCNPJ']).pipe(
+        this.contractService.getContracts(params['companyCNPJ']).pipe(
           map((contracts) => {
             contracts.forEach(contract => {
               contract.initialDate = new Date(contract.initialDate);
@@ -65,8 +65,12 @@ export class CompanyContractsComponent implements OnInit {
     return formattedTitle.includes(formattedFilter)
   }
 
-  onEditClick(company: ContractModel) {
+  onEditClick(contract: ContractModel) {
 
+  }
+
+  onViewFormFieldsClick(contract: ContractModel){
+    this.router.navigateByUrl('/interno/contratos/' + contract.id + '/formulario');
   }
 
   firstPage() {

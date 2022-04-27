@@ -20,6 +20,19 @@ export class CompanyService {
     private contractRepository: Repository<Contract>,
   ) { }
 
+  async getCompanyByResponsableUser(responsableUserId: string, res?: Response): Promise<Company> {
+    try {
+      const rawCompany: Company = await this.companyRepository.findOne({ responsableUserId });
+
+      return rawCompany;
+    } catch (err) {
+      if (!res) {
+        throw err;
+      }
+      res.status(HttpStatus.BAD_REQUEST);
+    }
+  }
+
   async getCompanies(res: Response): Promise<GetCompanyDto[]> {
     try {
       const rawCompanies: Company[] = await this.companyRepository.find();

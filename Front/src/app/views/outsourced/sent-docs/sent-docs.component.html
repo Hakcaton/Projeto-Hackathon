@@ -1,5 +1,4 @@
-<app-add-employee *ngIf="bAddEmployee" (onAdded)="onEmployeeAdded($event)" (onCancel)="onEmployeeCancel()">
-</app-add-employee>
+<app-add-employee [contractId]="contractId" *ngIf="bAddEmployee" (onAdded)="onEmployeeAdded($event)" (onCancel)="onEmployeeCancel()"></app-add-employee>
 <div class="wrapper">
   <section id="general-docs">
     <h2>Documentação Geral</h2>

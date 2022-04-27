@@ -36,6 +36,9 @@ import { SentDocsComponent } from './views/outsourced/sent-docs/sent-docs.compon
 import { CompanyContractsComponent } from './views/internal/company-contracts/company-contracts.component';
 import { BadgeComponent } from './components/badge/badge.component';
 import { OutsourcedCompanyContractsComponent } from './views/outsourced/outsourced-company-contracts/outsourced-company-contracts.component';
+import { ContractFormFieldsComponent } from './views/internal/contract-form-fields/contract-form-fields.component';
+import { FormFieldCardComponent } from './components/form-field-card/form-field-card.component';
+import { AddFormFieldComponent } from './components/add-form-field/add-form-field.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +66,9 @@ import { OutsourcedCompanyContractsComponent } from './views/outsourced/outsourc
     CompanyContractsComponent,
     BadgeComponent,
     OutsourcedCompanyContractsComponent,
+    ContractFormFieldsComponent,
+    FormFieldCardComponent,
+    AddFormFieldComponent,
   ],
   imports: [
     AppRoutingModule,

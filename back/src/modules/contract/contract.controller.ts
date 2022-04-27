@@ -1,9 +1,10 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Req, Res } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { ContractService } from './contract.service';
 import { AddEmployeeDto } from './dto/add-employee.dto';
 import { AuthService } from 'src/tools/auth/auth.service';
 import { AddFormFieldDto } from './dto/add-formField.dto';
+import { ePermission } from 'src/tools/enum/permission.definition';
 
 @Controller('contracts')
 export class ContractController {
@@ -14,7 +15,7 @@ export class ContractController {
     const userId: string = req.user['userId'];
     const contractId: string = params.contractId;
 
-    if (await this.authService.verifyResponsablePermission(userId, contractId) == false){
+    if (await this.authService.verifyResponsablePermission(userId, contractId) == false) {
       res.status(HttpStatus.UNAUTHORIZED).send();
       return;
     }
@@ -28,7 +29,7 @@ export class ContractController {
     const userId: string = req.user['userId'];
     const contractId: string = params.contractId;
 
-    if (await this.authService.verifyResponsablePermission(userId, contractId) == false){
+    if (await this.authService.verifyResponsablePermission(userId, contractId) == false) {
       res.status(HttpStatus.UNAUTHORIZED).send();
       return;
     }
@@ -41,7 +42,7 @@ export class ContractController {
     const userId: string = req.user['userId'];
     const contractId: string = params.contractId;
 
-    if (await this.authService.verifyResponsablePermission(userId, contractId) == false){
+    if (await this.authService.verifyResponsablePermission(userId, contractId) == false) {
       res.status(HttpStatus.UNAUTHORIZED).send();
       return;
     }
@@ -55,12 +56,12 @@ export class ContractController {
     const userId: string = req.user['userId'];
     const contractId: string = params.contractId;
 
-    if (await this.authService.verifyResponsablePermission(userId, contractId) == false){
+    if (await this.authService.verifyResponsablePermission(userId, contractId) == false) {
       res.status(HttpStatus.UNAUTHORIZED).send();
       return;
     }
 
-    res.send(this.contractService.getEmployeesSentDocuments(params.contractId));
+    res.send(await this.contractService.getEmployeesSentDocuments(params.contractId));
   }
 
   @Post(':contractId/employees')
@@ -68,7 +69,7 @@ export class ContractController {
     const userId: string = req.user['userId'];
     const contractId: string = params.contractId;
 
-    if (await this.authService.verifyResponsablePermission(userId, contractId) == false){
+    if (await this.authService.verifyResponsablePermission(userId, contractId) == false) {
       res.status(HttpStatus.UNAUTHORIZED).send();
       return;
     }
@@ -77,29 +78,29 @@ export class ContractController {
     res.send(await this.contractService.addEmployee(employee, res));
   }
 
-  @Get('/contract/:contractId/documents')
-  async getFormField(@Param() params: any, @Req() req: Request, @Res() res: Response): Promise<void> {
-    const userId: string = req.user['userId'];
+  @Get(':contractId/form-fields')
+  async getFormFields(@Param() params: any, @Req() req: Request, @Res() res: Response): Promise<void> {
+    const userPermission: ePermission = req.user['permission'];
     const contractId: string = params.contractId;
 
-    if (await this.authService.verifyResponsablePermission(userId, contractId) == false){
+    if (userPermission != ePermission.internalEmployee) {
       res.status(HttpStatus.UNAUTHORIZED).send();
       return;
     }
 
-    res.send(this.contractService.getFormField(params.contractId, res));
+    res.send(await this.contractService.getFormFields(contractId, res));
   }
 
-  @Post('/contract/:contractId/documents')
+  @Post(':contractId/form-fields')
   async addFormField(@Body() formField: AddFormFieldDto, @Param() params: any, @Req() req: Request, @Res() res: Response): Promise<void> {
-    const userId: string = req.user['userId'];
+    const userPermission: ePermission = req.user['permission'];
     const contractId: string = params.contractId;
 
-    if (await this.authService.verifyResponsablePermission(userId, contractId) == false){
+    if (userPermission != ePermission.internalEmployee) {
       res.status(HttpStatus.UNAUTHORIZED).send();
       return;
     }
 
-    res.send(this.contractService.addFormField(params.contractId, formField, res));
+    res.send(await this.contractService.addFormField(contractId, formField, res));
   }
 }

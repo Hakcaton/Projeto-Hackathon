@@ -1,7 +1,7 @@
 export enum eDocumentRecurrence {
-    once,
-    annually,
-    monthly,
-    weekly,
-    daily,
-  }
+  once,
+  annually,
+  monthly,
+  weekly,
+  daily
+}

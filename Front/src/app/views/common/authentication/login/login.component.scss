@@ -60,23 +60,6 @@ input:not(input[type=checkbox]) {
     width: 100%;
 }
 
-.checkbox {
-    display: flex;
-    align-items: center;
-}
-
-.checkbox>* {
-    margin: 5px;
-}
-
-.checkbox>label {
-    margin: 0px;
-}
-
-.checkbox>input {
-    width: auto;
-}
-
 label {
     width: 100%;
     text-align: left;

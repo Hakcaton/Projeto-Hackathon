@@ -39,7 +39,7 @@ export class ContractService {
     private formFieldRepository: Repository<FormField>,
     @InjectRepository(Employee)
     private employeeRepository: Repository<Employee>,
-  ) {}
+  ) { }
 
   async generatePendingDocuments(contractId: string): Promise<void> {
     // Seleciona todos os form_fields do contrato que precisam ter pelo menos um documento gerado.
@@ -62,9 +62,7 @@ export class ContractService {
 
     // Gera os novos documentos gerais pendentes.
     pendingFormFields.forEach((pendingFormField) => {
-      const latestDocument: Document = latestRequestedDocuments.find(
-        (doc) => doc.form_field_id == pendingFormField.id,
-      );
+      const latestDocument: Document = latestRequestedDocuments.find((doc) => doc.form_field_id == pendingFormField.id);
 
       if (latestDocument) {
         if (pendingFormField.recurrence == eDocumentRecurrence.annually) {
@@ -79,7 +77,8 @@ export class ContractService {
             newDocuments.push(newDocument);
             nextRequestDate = addYears(nextRequestDate);
           }
-        } else if (pendingFormField.recurrence == eDocumentRecurrence.monthly) {
+        }
+        else if (pendingFormField.recurrence == eDocumentRecurrence.monthly) {
           let nextRequestDate: Date = addMonths(latestDocument.request_date);
           while (nextRequestDate <= today) {
             let newDocument: any = {
@@ -91,7 +90,8 @@ export class ContractService {
             newDocuments.push(newDocument);
             nextRequestDate = addMonths(nextRequestDate);
           }
-        } else if (pendingFormField.recurrence == eDocumentRecurrence.weekly) {
+        }
+        else if (pendingFormField.recurrence == eDocumentRecurrence.weekly) {
           let nextRequestDate: Date = addWeeks(latestDocument.request_date);
           while (nextRequestDate <= today) {
             let newDocument: any = {
@@ -103,7 +103,8 @@ export class ContractService {
             newDocuments.push(newDocument);
             nextRequestDate = addWeeks(nextRequestDate);
           }
-        } else if (pendingFormField.recurrence == eDocumentRecurrence.daily) {
+        }
+        else if (pendingFormField.recurrence == eDocumentRecurrence.daily) {
           let nextRequestDate: Date = addDays(latestDocument.request_date);
           while (nextRequestDate <= today) {
             let newDocument: any = {
@@ -116,11 +117,10 @@ export class ContractService {
             nextRequestDate = addDays(nextRequestDate);
           }
         }
-      } else {
+      }
+      else {
         if (pendingFormField.recurrence == eDocumentRecurrence.once) {
-          let nextRequestDate: Date = new Date(
-            pendingFormField.first_request_date,
-          );
+          let nextRequestDate: Date = new Date(pendingFormField.firstRequestDate);
           let newDocument: any = {
             status: 0,
             request_date: new Date(nextRequestDate),
@@ -129,11 +129,11 @@ export class ContractService {
 
           newDocuments.push(newDocument);
           nextRequestDate = addYears(nextRequestDate);
-        } else if (
-          pendingFormField.recurrence == eDocumentRecurrence.annually
-        ) {
+        }
+        else if (
+          pendingFormField.recurrence == eDocumentRecurrence.annually) {
           let nextRequestDate: Date = new Date(
-            pendingFormField.first_request_date,
+            pendingFormField.firstRequestDate,
           );
           while (nextRequestDate <= today) {
             let newDocument: any = {
@@ -145,10 +145,9 @@ export class ContractService {
             newDocuments.push(newDocument);
             nextRequestDate = addYears(nextRequestDate);
           }
-        } else if (pendingFormField.recurrence == eDocumentRecurrence.monthly) {
-          let nextRequestDate: Date = new Date(
-            pendingFormField.first_request_date,
-          );
+        }
+        else if (pendingFormField.recurrence == eDocumentRecurrence.monthly) {
+          let nextRequestDate: Date = new Date(pendingFormField.firstRequestDate,);
           while (nextRequestDate <= today) {
             let newDocument: any = {
               status: 0,
@@ -161,7 +160,7 @@ export class ContractService {
           }
         } else if (pendingFormField.recurrence == eDocumentRecurrence.weekly) {
           let nextRequestDate: Date = new Date(
-            pendingFormField.first_request_date,
+            pendingFormField.firstRequestDate,
           );
           while (nextRequestDate <= today) {
             let newDocument: any = {
@@ -175,7 +174,7 @@ export class ContractService {
           }
         } else if (pendingFormField.recurrence == eDocumentRecurrence.daily) {
           let nextRequestDate: Date = new Date(
-            pendingFormField.first_request_date,
+            pendingFormField.firstRequestDate,
           );
           while (nextRequestDate <= today) {
             let newDocument: any = {
@@ -201,7 +200,7 @@ export class ContractService {
 
   async generateEmployeesPendingDocuments(contractId: string): Promise<void> {
     const formFields: FormField[] = await this.formFieldRepository.find({
-      contract_id: contractId,
+      contractId: contractId,
       individual: true,
     });
     const employees: Employee[] = await this.employeeRepository.find({
@@ -235,13 +234,13 @@ export class ContractService {
           if (formField.recurrence == eDocumentRecurrence.once) {
             let newDocument: any = {
               status: 0,
-              request_date: new Date(formField.first_request_date),
+              request_date: new Date(formField.firstRequestDate),
               form_field_id: formField.id,
               employee_id: employee.id,
             };
             newDocuments.push(newDocument);
           } else if (formField.recurrence == eDocumentRecurrence.annually) {
-            let nextRequestDate: Date = new Date(formField.first_request_date);
+            let nextRequestDate: Date = new Date(formField.firstRequestDate);
             while (nextRequestDate <= today) {
               let newDocument: any = {
                 status: 0,
@@ -254,7 +253,7 @@ export class ContractService {
               nextRequestDate = addYears(nextRequestDate);
             }
           } else if (formField.recurrence == eDocumentRecurrence.monthly) {
-            let nextRequestDate: Date = new Date(formField.first_request_date);
+            let nextRequestDate: Date = new Date(formField.firstRequestDate);
             while (nextRequestDate <= today) {
               let newDocument: any = {
                 status: 0,
@@ -267,7 +266,7 @@ export class ContractService {
               nextRequestDate = addMonths(nextRequestDate);
             }
           } else if (formField.recurrence == eDocumentRecurrence.weekly) {
-            let nextRequestDate: Date = new Date(formField.first_request_date);
+            let nextRequestDate: Date = new Date(formField.firstRequestDate);
             while (nextRequestDate <= today) {
               let newDocument: any = {
                 status: 0,
@@ -280,7 +279,7 @@ export class ContractService {
               nextRequestDate = addWeeks(nextRequestDate);
             }
           } else if (formField.recurrence == eDocumentRecurrence.daily) {
-            let nextRequestDate: Date = new Date(formField.first_request_date);
+            let nextRequestDate: Date = new Date(formField.firstRequestDate);
             while (nextRequestDate <= today) {
               let newDocument: any = {
                 status: 0,
@@ -375,7 +374,7 @@ export class ContractService {
       [contractId],
     );
     const formFields: FormField[] = await this.formFieldRepository.find({
-      contract_id: contractId,
+      contractId: contractId,
     });
     let formattedDocuments: DocumentDto[] = [];
     documents.forEach((rawDoc) => {
@@ -405,7 +404,7 @@ export class ContractService {
       [contractId],
     );
     const formFields: FormField[] = await this.formFieldRepository.find({
-      contract_id: contractId,
+      contractId: contractId,
     });
     let formattedDocuments: DocumentDto[] = [];
     documents.forEach((rawDoc) => {
@@ -431,9 +430,7 @@ export class ContractService {
     return formattedDocuments;
   }
 
-  async getEmployeesPendingDocuments(
-    contractId: string,
-  ): Promise<EmployeeDocumentDto[]> {
+  async getEmployeesPendingDocuments(contractId: string): Promise<EmployeeDocumentDto[]> {
     const employees: Employee[] = await this.employeeRepository.find({
       contractId: contractId,
     });
@@ -477,9 +474,7 @@ export class ContractService {
     return documents;
   }
 
-  async getEmployeesSentDocuments(
-    contractId: string,
-  ): Promise<EmployeeDocumentDto[]> {
+  async getEmployeesSentDocuments(contractId: string): Promise<EmployeeDocumentDto[]> {
     const employees: Employee[] = await this.employeeRepository.find({
       contractId: contractId,
     });
@@ -526,15 +521,13 @@ export class ContractService {
     return documents;
   }
 
-  async addEmployee(
-    employee: AddEmployeeDto,
-    res?: Response,
-  ): Promise<Employee> {
+  async addEmployee(employee: AddEmployeeDto, res?: Response): Promise<Employee> {
     try {
       const newEmployee: Employee = this.employeeRepository.create(employee);
       await this.employeeRepository.save(newEmployee);
       return newEmployee;
-    } catch (err) {
+    }
+    catch (err) {
       if (!res) {
         throw err;
       }
@@ -555,22 +548,20 @@ export class ContractService {
     }
   }
 
-  async getFormField(
-    contractId: string,
-    res: Response,
-  ): Promise<GetFormFieldDto[]> {
+  async getFormFields(contractId: string, res: Response): Promise<GetFormFieldDto[]> {
     try {
-      const rawFormField = await this.formFieldRepository.find({
-        contract_id: contractId,
+      const rawFormFields = await this.formFieldRepository.find({
+        contractId: contractId,
       });
 
-      let formFields: GetFormFieldDto[] = rawFormField.map((formField: any) => {
+      let formFields: GetFormFieldDto[] = rawFormFields.map((formField: any) => {
         delete formField.contract_id;
         return formField;
       });
 
       return formFields;
-    } catch (err) {
+    }
+    catch (err) {
       if (!res) {
         throw err;
       }
@@ -578,47 +569,31 @@ export class ContractService {
     }
   }
 
-  async addFormField(
-    contractId: string,
-    formField: AddFormFieldDto,
-    res: Response,
-  ) {
+  async addFormField(contractId: string, formField: AddFormFieldDto, res: Response): Promise<GetFormFieldDto> {
     try {
-      if (formField.title && formField.recurrence && contractId) {
-        if(formField.individual) {
-            const newFormField = await this.formFieldRepository.create({
-                contract_id: contractId,
-                ...formField,
-                required: true,
-              });
+      const newFormField = this.formFieldRepository.create({ contractId: contractId, ...formField });
+      await this.formFieldRepository.save(newFormField);
 
-             await this.formFieldRepository.save(newFormField);
-            }
-        else if(formField.required) {
-            const newFormField = await this.formFieldRepository.create({
-                contract_id: contractId,
-                ...formField,
-                individual: false,
-              });
-
-             await this.formFieldRepository.save(newFormField);
-        }
-        else {
-        const newFormField = await this.formFieldRepository.create({
-          contract_id: contractId,
-          ...formField,
-          individual: false,
-          required: true,
-        });
-
-        await this.formFieldRepository.save(newFormField);
-        }
-      }
-    } catch (err) {
+      return newFormField;
+    }
+    catch (err) {
       if (!res) {
         throw err;
       }
-      res.status(HttpStatus.BAD_REQUEST);
+      if (err instanceof QueryFailedError) {
+        const error = err.driverError as DatabaseError;
+        switch (error.code) {
+          case 'ER_DUP_ENTRY': {
+            res.status(HttpStatus.CONFLICT);
+            break;
+          }
+
+          default: {
+            res.status(HttpStatus.BAD_REQUEST);
+            break;
+          }
+        }
+      }
     }
   }
 }

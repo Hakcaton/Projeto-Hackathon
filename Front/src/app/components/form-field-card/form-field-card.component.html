@@ -1,0 +1,76 @@
+<div class="main-card">
+    <header>
+        <div (click)="headerClick()">
+            <img class="icon" src="/assets/icons/right_arrow.svg" #cardArrow>
+        </div>
+        <div (click)="headerClick()">
+            <h3>{{ data.title }}</h3>
+        </div>
+        <div>
+            <button class="btn btn-outline-danger" (click)="btnRemoveClick()">Remover</button>
+        </div>
+    </header>
+    <div class="content " [collapse]="isCollapsed " [isAnimated]="true">
+        <form [formGroup]="documentForm">
+            <div class="form-group row">
+                <div class="form-group col">
+                    <label for="inputTitle">Nome do Documento</label>
+                    <div>
+                        <input type="text" class="form-control" id="inputTitle" formControlName="title">
+                        <button class="no-style btn-edit" *ngIf="documentForm.controls['title'].disabled"
+                            (click)="btnEditTitleClick()" type="button"><img src="assets/icons/edit.svg"
+                                class="icon"></button>
+                        <button class="no-style btn-edit" *ngIf="!documentForm.controls['title'].disabled"
+                            (click)="btnSaveTitleClick()" type="button"><img src="assets/icons/check.svg"
+                                class="icon"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="form-group col">
+                    <label for="inputSubtitle">Subtítulo</label>
+                    <div>
+                        <input type="text" class="form-control" id="inputSubtitle" formControlName="subtitle">
+                        <button class="no-style btn-edit" *ngIf="documentForm.controls['subtitle'].disabled"
+                            (click)="btnEditSubtitleClick()" type="button"><img src="assets/icons/edit.svg"
+                                class="icon"></button>
+                        <button class="no-style btn-edit" *ngIf="!documentForm.controls['subtitle'].disabled"
+                            (click)="btnSaveSubtitleClick()" type="button"><img src="assets/icons/check.svg"
+                                class="icon"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="form-group col">
+                    <label for="inputRecurrence">Recorrência</label>
+                    <div>
+                        <select class="form-control" id="inputRecurrence" formControlName="recurrence">
+                            <option>Envio único</option>
+                            <option>Anual</option>
+                            <option>Mensal</option>
+                            <option>Semanal</option>
+                            <option>Diário</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col">
+                    <label for="inputFirstRequestDate">Primeira Solicitação</label>
+                    <div>
+                        <input type="text" class="form-control" id="inputFirstRequestDate"
+                            formControlName="firstRequestDate">
+                    </div>
+                </div>
+                <div class="form-group col" id="checkboxes">
+                    <div class="checkbox">
+                        <input type="checkbox" id="checkBox" name="checkBox" formControlName="required" />
+                        <label for="checkBox">Envio obrigatório</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" id="checkBox" name="checkBox" formControlName="individual" />
+                        <label for="checkBox">Entrega individual</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

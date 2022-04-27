@@ -1,0 +1,81 @@
+.main-card {
+    width: 700px;
+    height: auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 2px 8px 4px rgba($color: #000000, $alpha: .25);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    >header {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 0;
+        >div {
+            display: flex;
+            align-items: center;
+            img {
+                height: 30px;
+            }
+        }
+        >div:nth-child(2) {
+            flex-grow: 1;
+            h3 {
+                text-align: left;
+                width: 100%;
+            }
+        }
+         :hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.content {
+    margin: 15px 10px 0px 10px;
+    height: auto;
+}
+
+img:not(.collapsed) {
+    transform: rotate(0deg);
+    transition: 500ms;
+}
+
+img.collapsed {
+    transform: rotate(90deg);
+    transition: 500ms;
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 40px;
+}
+
+.cards>* {
+    margin-bottom: 25px;
+}
+
+.form-group.col>div {
+    display: flex;
+    button {
+        margin-left: 4px;
+    }
+}
+
+.btn-edit:hover>img {
+    transition: 150ms;
+}
+
+.btn-edit:hover>img {
+    filter: invert(44%) sepia(0%) saturate(0%) hue-rotate(72deg) brightness(96%) contrast(90%);
+    transition: 150ms;
+}
+
+#checkboxes{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-end;
+}
