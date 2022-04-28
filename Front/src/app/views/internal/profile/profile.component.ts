@@ -25,7 +25,11 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.load();
+    this.accountService.getProfile().pipe(
+      map(() => {
+        this.load();
+      })
+    ).subscribe();
   }
 
   get Editing(): boolean {
@@ -54,6 +58,10 @@ export class ProfileComponent implements OnInit {
   }
   btnCancelClick() {
     this.Editing = false;
+    this.profileForm.controls['name'].setValue(this.accountService.profile.name);
+    this.profileForm.controls['lastName'].setValue(this.accountService.profile.lastName);
+    this.profileForm.controls['email'].setValue(this.accountService.profile.email);
+    this.profileForm.controls['phoneNumber'].setValue(this.accountService.profile.phoneNumber);
   }
   btnSaveClick() {
     if (!this.profileForm.controls['name'].valid) {
@@ -74,7 +82,7 @@ export class ProfileComponent implements OnInit {
     }
 
     const user: UpdateUserModel = <UpdateUserModel>this.profileForm.value;
-    this.accountService.saveProfile(user).pipe(
+    this.accountService.updateProfile(user).pipe(
       map(() => {
         this.Editing = false;
       }),
@@ -86,13 +94,12 @@ export class ProfileComponent implements OnInit {
   }
 
   async load() {
-    const profile = await lastValueFrom(this.accountService.getProfile());
     this.profileForm.setValue({
-      name: profile.name,
-      lastName: profile.lastName,
-      email: profile.email,
-      phoneNumber: profile.phoneNumber
-    })
+      name: this.accountService.profile.name,
+      lastName: this.accountService.profile.lastName,
+      email: this.accountService.profile.email,
+      phoneNumber: this.accountService.profile.phoneNumber
+    });
   }
 
 }

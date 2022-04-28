@@ -1,7 +1,5 @@
-import { calcPossibleSecurityContexts } from '@angular/compiler/src/template_parser/binding_parser';
 import { Component, Input, OnInit } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
-import { IUserModel } from 'src/app/models/user.model';
+import { map } from 'rxjs';
 import { AccountService } from 'src/app/services/account.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -17,29 +15,13 @@ export class SidebarComponent implements OnInit {
   isCollapsedDocumentos: boolean = true;
   userPermission: number = -1;
 
-  user: IUserModel = {
-    nome: '',
-    funcao: '',
-  };
-
   constructor(
-    private accountService: AccountService,
+    public accountService: AccountService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    this.accountService.getProfile().subscribe();
     this.userPermission = this.authService.getPermission();
-
-    this.load();
-  }
-
-  async load() {
-    const resultUserLogged = await lastValueFrom(
-      this.accountService.getProfile()
-    );
-    this.user = {
-      nome: resultUserLogged.name,
-      funcao: resultUserLogged.lastName,
-    };
   }
 }
