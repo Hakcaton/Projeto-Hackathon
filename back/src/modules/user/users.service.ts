@@ -4,10 +4,12 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { Cryptography } from 'src/tools/cryptography/cryptography.class';
 import * as jwt from 'jsonwebtoken';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { Response } from 'express';
 import { jwtConstants } from 'src/tools/auth/constants';
 import { eError } from 'src/tools/enum/error.definition';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { DatabaseError } from 'pg-protocol';
 @Injectable()
 export class UserService {
   constructor(
@@ -70,6 +72,69 @@ export class UserService {
     } catch (err) {
       res.status(HttpStatus.BAD_REQUEST);
     }
-
   }
+
+  async updateProfile(user: UpdateUserDto, res: Response): Promise<void> {
+    try {
+      const registeredUser = await this.userRepository.findOne({ id: user.id });
+
+      if (!registeredUser) {
+        throw eError.RESOURCE_NOT_FOUND;
+      }
+
+      if (user.email) {
+        registeredUser.email = user.email;
+      }
+
+      if (user.lastName) {
+        registeredUser.lastName = user.lastName;
+      }
+
+      if (user.name) {
+        registeredUser.name = user.name;
+      }
+
+      if (user.phoneNumber) {
+        registeredUser.phoneNumber = user.phoneNumber;
+      }
+
+      await this.userRepository.save(registeredUser);
+
+      res.status(HttpStatus.OK);
+    }
+    catch (err) {
+      if (!res) {
+        throw err;
+      }
+
+      if (err instanceof QueryFailedError) {
+        const error = err.driverError as DatabaseError;
+        switch (error.code) {
+          case 'ER_DUP_ENTRY': {
+            res.status(HttpStatus.CONFLICT);
+            break;
+          }
+
+          default: {
+            res.status(HttpStatus.BAD_REQUEST);
+            break;
+          }
+        }
+      }
+      else {
+        switch (err) {
+          case eError.RESOURCE_NOT_FOUND: {
+            res.status(HttpStatus.NOT_FOUND);
+            break;
+          }
+
+          default: {
+            res.status(HttpStatus.BAD_REQUEST);
+            break;
+          }
+        }
+      }
+    }
+  }
+
 }

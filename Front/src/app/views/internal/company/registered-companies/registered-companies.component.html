@@ -1,5 +1,6 @@
 <div class="wrapper">
     <div>
+        <h2>Empresas Cadastradas</h2>
         <div class="filter">
             <button class="btn btn-primary" (click)="btnAddCompanyClick()">Adicionar</button>
             <input class="form-control" type="text" placeholder="Filtre por Razão Social, CNPJ ou IE" [(ngModel)]="filter" />
@@ -14,6 +15,7 @@
                             <th style="width: 400px;">Razão Social</th>
                             <th style="width: 200px;">CNPJ</th>
                             <th style="width: 200px;">Inscrição Estadual</th>
+                            <th style="width: 170px; min-width: 170px;"></th>
                         </tr>
                     </thead>
                     <tbody>

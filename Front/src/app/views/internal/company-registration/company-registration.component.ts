@@ -2,6 +2,7 @@ import { ThisReceiver } from '@angular/compiler';
 import { i18nMetaToJSDoc } from '@angular/compiler/src/render3/view/i18n/meta';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { catchError, lastValueFrom, map, throwError } from 'rxjs';
 import { CreateCompanyModel } from 'src/app/models/create-company.model';
 import { CompanyService } from 'src/app/services/company.service';
@@ -23,7 +24,8 @@ export class CompanyRegistrationComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private companyService: CompanyService
+    private companyService: CompanyService,
+    private router: Router
   ) {
     //form da empresa terceira.
     this.companyForm = this.formBuilder.group({
@@ -39,8 +41,7 @@ export class CompanyRegistrationComponent implements OnInit {
       lastName: ['', Validators.required],
       name: ['', Validators.required],
       cpf: ['', Validators.required],
-      phoneNumber: [
-        '',
+      phoneNumber: ['',
         [
           Validators.required,
           Validators.pattern(
@@ -68,6 +69,7 @@ export class CompanyRegistrationComponent implements OnInit {
         map((result: any) => {
           alert('Empresa cadastrada com sucesso!');
           this.btnConfirmDisabled = false;
+          this.router.navigateByUrl('/interno/empresas');
         }),
         catchError((error) => {
           alert('Não foi possível cadastrar a empresa');

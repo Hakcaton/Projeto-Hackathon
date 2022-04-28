@@ -12,29 +12,21 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginComponent implements OnInit {
   formGroup: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {
-    this.formGroup = formBuilder.group({
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+    this.formGroup = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.maxLength(320)]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      remember: [''],
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
   ngOnInit(): void { }
 
   onLoginClick() {
-    this.authService
-      .login(this.formGroup.value)
-      .pipe(
-        map((data) => {
-          window.location.href = '';
-        })
-      )
-      .subscribe();
+    this.authService.login(this.formGroup.value).pipe(
+      map((data) => {
+        window.location.href = '';
+      })
+    ).subscribe();
   }
 
   onRecoverClick() { }

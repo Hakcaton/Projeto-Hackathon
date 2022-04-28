@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
+import { CompanyModel } from 'src/app/models/company.model';
 import { ContractModel } from 'src/app/models/contract.model';
+import { CompanyService } from 'src/app/services/company.service';
 import { ContractService } from 'src/app/services/contract.service';
 import { DateHelper } from 'src/app/tools/helpers/date.helper';
 import { clamp } from 'src/app/tools/helpers/math.helper';
@@ -12,6 +14,8 @@ import { clamp } from 'src/app/tools/helpers/math.helper';
   styleUrls: ['./company-contracts.component.scss']
 })
 export class CompanyContractsComponent implements OnInit {
+
+  companyData: CompanyModel = <CompanyModel>{};
 
   private contracts: ContractModel[] = [];
   filteredContracts: ContractModel[] = [];
@@ -37,11 +41,24 @@ export class CompanyContractsComponent implements OnInit {
     this.pageIndex = this.pageIndex;
   }
 
-  constructor(private contractService: ContractService, private route: ActivatedRoute, private router: Router, public dateHelper: DateHelper) { }
+  constructor(private contractService: ContractService,
+    private companyService: CompanyService,
+    private route: ActivatedRoute,
+    private router: Router,
+    public dateHelper: DateHelper) { }
+
   ngOnInit(): void {
     this.route.params.pipe(
       map(params => {
-        this.contractService.getContracts(params['companyCNPJ']).pipe(
+        this.companyData.cnpj = params['companyCNPJ'];
+
+        this.companyService.getCompany(this.companyData.cnpj).pipe(
+          map((company) => {
+            this.companyData = company;
+          })
+        ).subscribe();
+
+        this.contractService.getContracts(this.companyData.cnpj).pipe(
           map((contracts) => {
             contracts.forEach(contract => {
               contract.initialDate = new Date(contract.initialDate);
@@ -69,7 +86,7 @@ export class CompanyContractsComponent implements OnInit {
 
   }
 
-  onViewFormFieldsClick(contract: ContractModel){
+  onViewFormFieldsClick(contract: ContractModel) {
     this.router.navigateByUrl('/interno/contratos/' + contract.id + '/formulario');
   }
 

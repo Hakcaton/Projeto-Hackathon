@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { lastValueFrom } from 'rxjs';
+import { catchError, lastValueFrom, map, of, throwError } from 'rxjs';
+import { UpdateUserModel } from 'src/app/models/update-profile.model';
 import { AccountService } from 'src/app/services/account.service';
 
 @Component({
@@ -19,8 +20,7 @@ export class ProfileComponent implements OnInit {
       name: [{ value: '', disabled: true }, Validators.required],
       lastName: [{ value: '', disabled: true }, Validators.required],
       email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
-      phoneNumber: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(/^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$/)]],
-      position: [{ value: '', disabled: true }, Validators.required],
+      phoneNumber: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(/^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$/)]]
     });
   }
 
@@ -56,7 +56,33 @@ export class ProfileComponent implements OnInit {
     this.Editing = false;
   }
   btnSaveClick() {
-    this.Editing = true;
+    if (!this.profileForm.controls['name'].valid) {
+      alert('Nome inválido');
+      return;
+    }
+    if (!this.profileForm.controls['lastName'].valid) {
+      alert('Sobrenome inválido');
+      return;
+    }
+    if (!this.profileForm.controls['email'].valid) {
+      alert('E-Mail inválido');
+      return;
+    }
+    if (!this.profileForm.controls['phoneNumber'].valid) {
+      alert('Celular inválido');
+      return;
+    }
+
+    const user: UpdateUserModel = <UpdateUserModel>this.profileForm.value;
+    this.accountService.saveProfile(user).pipe(
+      map(() => {
+        this.Editing = false;
+      }),
+      catchError((err) => {
+        alert('Não foi possível salvar o perfil');
+        return throwError(() => err);
+      })
+    ).subscribe();
   }
 
   async load() {
@@ -65,8 +91,7 @@ export class ProfileComponent implements OnInit {
       name: profile.name,
       lastName: profile.lastName,
       email: profile.email,
-      phoneNumber: profile.phoneNumber,
-      position: 'Teste'
+      phoneNumber: profile.phoneNumber
     })
   }
 

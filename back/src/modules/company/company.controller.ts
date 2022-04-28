@@ -1,6 +1,7 @@
 import { Body, Controller, Get, HttpStatus, Param, Post, Req, Res, } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from 'src/tools/auth/auth.service';
+import { Public } from 'src/tools/auth/constants';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/users.service';
@@ -25,8 +26,21 @@ export class CompanyController {
     res.send(await this.companyService.getCompanies(res));
   }
 
-  @Get(':companyCNPJ/contracts')
-  async getContracts(@Req() req: Request, @Res() res: Response, @Param() params: any): Promise<void> {
+  @Get('contracts')
+  async getOutsourcedContracts(@Req() req: Request, @Res() res: Response): Promise<void> {
+    const userId: string = req.user['userId'];
+    const companyCNPJ: string = (await this.companyService.getCompanyByResponsableUser(userId, res)).cnpj;
+
+    if (!companyCNPJ) {
+      res.status(HttpStatus.NOT_FOUND).send();
+      return;
+    }
+
+    res.send(await this.companyService.getContracts(companyCNPJ, res));
+  }
+
+  @Get(':companyCNPJ')
+  async getCompany(@Req() req: Request, @Res() res: Response, @Param() params: any): Promise<void> {
     const userId: string = req.user['userId'];
     const companyCNPJ: string = params.companyCNPJ;
 
@@ -35,16 +49,16 @@ export class CompanyController {
       return;
     }
 
-    res.send(await this.companyService.getContracts(companyCNPJ, res));
+    res.send(await this.companyService.getCompany(companyCNPJ, res));
   }
 
-  @Get('/contracts')
-  async getOutsourcedContracts(@Req() req: Request, @Res() res: Response): Promise<void> {
+  @Get(':companyCNPJ/contracts')
+  async getContracts(@Req() req: Request, @Res() res: Response, @Param() params: any): Promise<void> {
     const userId: string = req.user['userId'];
-    const companyCNPJ: string = (await this.companyService.getCompanyByResponsableUser(userId, res)).cnpj;
+    const companyCNPJ: string = params.companyCNPJ;
 
-    if (!companyCNPJ) {
-      res.status(HttpStatus.NOT_FOUND).send();
+    if (await this.authService.verifyResponsablePermission(userId, null, companyCNPJ) == false) {
+      res.status(HttpStatus.UNAUTHORIZED).send();
       return;
     }
 

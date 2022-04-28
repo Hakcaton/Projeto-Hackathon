@@ -1,6 +1,6 @@
-.main {
+.wrapper {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,6 +13,7 @@
     border-radius: 10px;
     box-shadow: 0px 2px 8px 4px rgba($color: #000000, $alpha: .25);
     padding: 10px 25px 25px 25px;
+    margin-bottom: 10%;
 }
 
 .content {
@@ -61,4 +62,8 @@
 
 #inputEmail {
     width: 350px;
+}
+
+#inputCelular{
+    width: 250px;
 }

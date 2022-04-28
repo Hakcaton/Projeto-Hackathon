@@ -10,13 +10,13 @@ export class Contract {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   decription: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', nullable: false, name:'initial_date' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', nullable: false, name: 'initial_date' })
   initialDate: Date;
 
-  @Column({ type: 'timestamp', nullable: true, name:'final_date' })
+  @Column({ type: 'timestamp', nullable: true, name: 'final_date' })
   finalDate: Date;
 
   @Column({ name: 'company_cnpj' })

@@ -6,33 +6,12 @@
 
 @import "./partials/dashboard";
 
-
-.icon-style {
-  width: 35px;
-  height: 35px;
-  text-align: center;
-  line-height: 35px;
-  border-radius: 50%;
-  border: 1px solid;
-  font-size: .9rem;
-}
-
-body {
-  height: 100vh;
-  margin: 0;
-  padding-top: 60px;
-}
-
 .wrapper {
   height: 100%;
 
   main {
     display: flex;
     height: 100%;
-
-    .pages {
-      overflow: auto;
-    }
 
     .overlay {
       position: fixed;

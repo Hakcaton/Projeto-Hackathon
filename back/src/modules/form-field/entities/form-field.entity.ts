@@ -33,5 +33,3 @@ export class FormField {
   @JoinColumn({ name: 'contract_id' })
   contract: Contract
 }
-
-

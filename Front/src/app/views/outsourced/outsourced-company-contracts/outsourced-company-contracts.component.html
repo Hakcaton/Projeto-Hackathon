@@ -1,10 +1,9 @@
 <div class="wrapper">
   <div>
+    <h2>Contratos da Empresa</h2>
     <div class="filter">
-      <button class="btn btn-primary" (click)="btnAddContractClick()">Adicionar</button>
       <input class="form-control" type="text" placeholder="Filtre por Título ou Data" [(ngModel)]="filter" />
-      <button class="btn btn-outline-secondary" (click)="clearFilter()" [disabled]="!filter">Limpar
-        filtro</button>
+      <button class="btn btn-outline-secondary" (click)="clearFilter()" [disabled]="!filter">Limpar filtro</button>
     </div>
     <div class="table-card">
       <div class="content">

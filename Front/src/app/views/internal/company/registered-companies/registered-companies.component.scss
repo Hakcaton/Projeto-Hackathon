@@ -1,10 +1,13 @@
 .wrapper {
     width: 100%;
-    height: auto;
+    height: 100%;
+    overflow: auto;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
+    padding-top: 50px;
+
     >div {
         display: flex;
         flex-direction: column;
@@ -13,16 +16,13 @@
     }
 }
 
-.table-card {
-    width: 1080px;
-}
-
 .filter {
     display: flex;
     height: fit-content;
     margin-top: 25px;
     width: 100%;
     margin-bottom: 20px;
+
     input {
         flex-grow: 1;
         margin-left: 10px;
@@ -32,7 +32,8 @@
         background-position: 5px 6px;
         text-indent: 20px;
     }
-     :not(:nth-child(2)) {
+
+    :not(:nth-child(2)) {
         flex-grow: 0;
         width: 200px;
     }

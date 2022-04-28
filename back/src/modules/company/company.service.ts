@@ -51,6 +51,21 @@ export class CompanyService {
     }
   }
 
+  async getCompany(companyCNPJ: string, res: Response): Promise<GetCompanyDto> {
+    try {
+      const rawCompany: Company = await this.companyRepository.findOne();
+
+      let company: GetCompanyDto = <GetCompanyDto>rawCompany;
+
+      return company;
+    } catch (err) {
+      if (!res) {
+        throw err;
+      }
+      res.status(HttpStatus.BAD_REQUEST);
+    }
+  }
+
   async getContracts(companyCNPJ: string, res: Response): Promise<GetContractDto[]> {
     try {
       const rawContracts: Contract[] = await this.contractRepository.find({

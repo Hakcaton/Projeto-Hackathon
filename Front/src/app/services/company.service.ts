@@ -8,11 +8,16 @@ import { CreateCompanyModel } from '../models/create-company.model';
   providedIn: 'root',
 })
 export class CompanyService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public getRegisteredCompanies(): Observable<any> {
     const url = 'api/companies';
     return this.http.get(url);
+  }
+
+  public getCompany(companyCNPJ: string): Observable<CompanyModel> {
+    const url = 'api/companies/' + companyCNPJ.replace('/', '%2F');
+    return this.http.get<CompanyModel>(url);
   }
 
   public registerCompany(company: CreateCompanyModel): Observable<any> {

@@ -1,16 +1,22 @@
 .wrapper {
     width: 100%;
-    height: auto;
+    height: 100%;
+    overflow: auto;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
+    padding-top: 50px;
 
-    >div {
+    >section {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
+        >h3{
+            margin-top: 5px;
+            font-size: 16px;
+        }
     }
 }
 

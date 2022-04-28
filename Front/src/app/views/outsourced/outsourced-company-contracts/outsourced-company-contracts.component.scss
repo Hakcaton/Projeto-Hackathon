@@ -1,10 +1,12 @@
 .wrapper {
     width: 100%;
-    height: auto;
+    height: 100%;
+    overflow: auto;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
+    padding-top: 50px;
 
     >div {
         display: flex;
@@ -17,9 +19,8 @@
 .filter {
     display: flex;
     height: fit-content;
-    margin-top: 25px;
+    margin: 25px 0px;
     width: 100%;
-    margin-bottom: 20px;
 
     input {
         flex-grow: 1;
@@ -31,8 +32,7 @@
         text-indent: 20px;
     }
 
-    :not(:nth-child(2)) {
-        flex-grow: 0;
+    button {
         width: 200px;
     }
 }
