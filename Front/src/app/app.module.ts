@@ -39,6 +39,7 @@ import { OutsourcedCompanyContractsComponent } from './views/outsourced/outsourc
 import { ContractFormFieldsComponent } from './views/internal/contract-form-fields/contract-form-fields.component';
 import { FormFieldCardComponent } from './components/form-field-card/form-field-card.component';
 import { AddFormFieldComponent } from './components/add-form-field/add-form-field.component';
+import { ContractsRegistrationModalComponent } from './views/internal/contracts-registration-modal/contracts-registration-modal.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { AddFormFieldComponent } from './components/add-form-field/add-form-fiel
     ContractFormFieldsComponent,
     FormFieldCardComponent,
     AddFormFieldComponent,
+    ContractsRegistrationModalComponent,
   ],
   imports: [
     AppRoutingModule,

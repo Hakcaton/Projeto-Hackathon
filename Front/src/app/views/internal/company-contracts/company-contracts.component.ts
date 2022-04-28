@@ -11,14 +11,15 @@ import { clamp } from 'src/app/tools/helpers/math.helper';
 @Component({
   selector: 'app-company-contracts',
   templateUrl: './company-contracts.component.html',
-  styleUrls: ['./company-contracts.component.scss']
+  styleUrls: ['./company-contracts.component.scss'],
 })
 export class CompanyContractsComponent implements OnInit {
-
   companyData: CompanyModel = <CompanyModel>{};
 
   private contracts: ContractModel[] = [];
   filteredContracts: ContractModel[] = [];
+  companyCnpj: string = '';
+  bAddContract: boolean = false;
 
   private _pageIndex: number = 0;
   get pageIndex() {
@@ -35,66 +36,84 @@ export class CompanyContractsComponent implements OnInit {
   }
   set filter(value: string) {
     this._filter = value;
-    this.filteredContracts = this.contracts.filter(contract => {
+    this.filteredContracts = this.contracts.filter((contract) => {
       return this.checkFilter(contract);
     });
     this.pageIndex = this.pageIndex;
   }
 
-  constructor(private contractService: ContractService,
+  constructor(
+    private contractService: ContractService,
     private companyService: CompanyService,
     private route: ActivatedRoute,
     private router: Router,
-    public dateHelper: DateHelper) { }
+    public dateHelper: DateHelper
+  ) {}
 
   ngOnInit(): void {
-    this.route.params.pipe(
-      map(params => {
-        this.companyData.cnpj = params['companyCNPJ'];
+    this.route.params
+      .pipe(
+        map((params) => {
+          this.companyData.cnpj = params['companyCNPJ'];
 
-        this.companyService.getCompany(this.companyData.cnpj).pipe(
-          map((company) => {
-            this.companyData = company;
-          })
-        ).subscribe();
+          this.companyService
+            .getCompany(this.companyData.cnpj)
+            .pipe(
+              map((company) => {
+                this.companyData = company;
+              })
+            )
+            .subscribe();
 
-        this.contractService.getContracts(this.companyData.cnpj).pipe(
-          map((contracts) => {
-            contracts.forEach(contract => {
-              contract.initialDate = new Date(contract.initialDate);
-              if (contract.finalDate) {
-                contract.finalDate = new Date(contract.finalDate);
-              }
-            });
+          this.contractService
+            .getContracts(this.companyData.cnpj)
+            .pipe(
+              map((contracts) => {
+                contracts.forEach((contract) => {
+                  contract.initialDate = new Date(contract.initialDate);
+                  if (contract.finalDate) {
+                    contract.finalDate = new Date(contract.finalDate);
+                  }
+                });
 
-            this.contracts = contracts;
-            this.filteredContracts = this.contracts;
-          })
-        ).subscribe();
-      })
-    ).subscribe();
+                this.contracts = contracts;
+                this.filteredContracts = this.contracts;
+              })
+            )
+            .subscribe();
+        })
+      )
+      .subscribe();
   }
 
   checkFilter(contract: ContractModel) {
-    let formattedFilter = this.filter.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/[.,\-\s]/g, '');
-    let formattedTitle = contract.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/[.,\-\s]/g, '');
+    let formattedFilter = this.filter
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[.,\-\s]/g, '');
+    let formattedTitle = contract.title
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[.,\-\s]/g, '');
 
-    return formattedTitle.includes(formattedFilter)
+    return formattedTitle.includes(formattedFilter);
   }
 
-  onEditClick(contract: ContractModel) {
-
-  }
+  onEditClick(contract: ContractModel) {}
 
   onViewFormFieldsClick(contract: ContractModel) {
-    this.router.navigateByUrl('/interno/contratos/' + contract.id + '/formulario');
+    this.router.navigateByUrl(
+      '/interno/contratos/' + contract.id + '/formulario'
+    );
   }
 
   firstPage() {
     this.pageIndex = 0;
   }
   lastPage() {
-    this.pageIndex = Math.floor(this.filteredContracts.length / 10)
+    this.pageIndex = Math.floor(this.filteredContracts.length / 10);
   }
   previousPage() {
     this.pageIndex--;
@@ -108,7 +127,16 @@ export class CompanyContractsComponent implements OnInit {
   }
 
   btnAddContractClick() {
-
+    this.bAddContract = true;
   }
 
+  onContractAdded(contracts: any) {
+    this.bAddContract = false;
+    this.contracts.push(contracts);
+    this.filter = this.filter;
+  }
+
+  onContractCancel() {
+    this.bAddContract = false;
+  }
 }

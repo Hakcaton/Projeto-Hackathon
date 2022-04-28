@@ -1,76 +1,79 @@
+<app-contracts-registration-modal [companyCnpj]="companyData.cnpj" *ngIf="bAddContract"
+  (onAdded)="onContractAdded($event)"
+  (onCancel)="onContractCancel()">
+</app-contracts-registration-modal>
 <div class="wrapper">
-    <section>
-        <h2>Contratos da Empresa</h2>
-        <h3>{{ companyData.fantasyName +' - ' + companyData.cnpj }}</h3>
-        <div class="filter">
-            <button class="btn btn-primary" (click)="btnAddContractClick()">Adicionar</button>
-            <input class="form-control" type="text" placeholder="Filtre por Título ou Data" [(ngModel)]="filter" />
-            <button class="btn btn-outline-secondary" (click)="clearFilter()" [disabled]="!filter">Limpar
-                filtro</button>
+  <section>
+    <h2>Contratos da Empresa</h2>
+    <h3>{{ companyData.fantasyName +' - ' + companyData.cnpj }}</h3>
+    <div class="filter">
+      <button class="btn btn-primary" (click)="btnAddContractClick()">Adicionar</button>
+      <input class="form-control" type="text" placeholder="Filtre por Título ou Data" [(ngModel)]="filter" />
+      <button class="btn btn-outline-secondary" (click)="clearFilter()" [disabled]="!filter">Limpar filtro</button>
+    </div>
+    <div class="table-card">
+      <div class="content">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 400px; min-width: 400px;">Título</th>
+              <th style="width: 150px; min-width: 150px;">Data Inicial</th>
+              <th style="width: 150px; min-width: 150px;">Data Final</th>
+              <th style="width: 170px; min-width: 170px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let contract of filteredContracts.slice(pageIndex*10, pageIndex*10+10)">
+              <tr>
+                <td>{{ contract.title }}</td>
+                <td>{{ dateHelper.DateToString(contract.initialDate) }}</td>
+                <td>{{ contract.finalDate? dateHelper.DateToString(contract.finalDate):'--/--/----'}}
+                </td>
+                <td class="td-btn">
+                  <button class="no-style" (click)="onEditClick(contract)"
+                    tooltip="Editar dados do contrato">
+                    <img src="/assets/icons/edit_square.svg" class="icon">
+                  </button>
+                  <button class="no-style" (click)="onViewFormFieldsClick(contract)"
+                    tooltip="Documentos para solicitação">
+                    <img src="/assets/icons/documents_folder.svg" class="icon">
+                  </button>
+                  <div class="badge-btn">
+                    <button class="no-style" tooltip="Validar documentos">
+                      <img src="/assets/icons/document_check.svg" class="icon">
+                    </button>
+                    <app-badge
+                      [tooltip]="(contract.documentsToValidate) && (contract.documentsToValidate > 0) ? $any(contract.documentsToValidate) + ' documentos para validação' : 'Nenhum documento para validação'"
+                      [text]="(contract.documentsToValidate) && (contract.documentsToValidate > 0) ? $any(contract.documentsToValidate) : '✓'"
+                      [color]="(contract.documentsToValidate) && (contract.documentsToValidate > 0) ? '#D9534F' : '#5CB85C'">
+                    </app-badge>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <div class="footer">
+        <div class="table-resume">
+          <span>{{ "Total: " + filteredContracts.length }}</span>
         </div>
-        <div class="table-card">
-            <div class="content">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 400px; min-width: 400px;">Título</th>
-                            <th style="width: 150px; min-width: 150px;">Data Inicial</th>
-                            <th style="width: 150px; min-width: 150px;">Data Final</th>
-                            <th style="width: 170px; min-width: 170px;"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <ng-container *ngFor="let contract of filteredContracts.slice(pageIndex*10, pageIndex*10+10)">
-                            <tr>
-                                <td>{{ contract.title }}</td>
-                                <td>{{ dateHelper.DateToString(contract.initialDate) }}</td>
-                                <td>{{ contract.finalDate? dateHelper.DateToString(contract.finalDate):'--/--/----'}}
-                                </td>
-                                <td class="td-btn">
-                                    <button class="no-style" (click)="onEditClick(contract)"
-                                        tooltip="Editar dados do contrato">
-                                        <img src="/assets/icons/edit_square.svg" class="icon">
-                                    </button>
-                                    <button class="no-style" (click)="onViewFormFieldsClick(contract)"
-                                        tooltip="Documentos para solicitação">
-                                        <img src="/assets/icons/documents_folder.svg" class="icon">
-                                    </button>
-                                    <div class="badge-btn">
-                                        <button class="no-style" tooltip="Validar documentos">
-                                            <img src="/assets/icons/document_check.svg" class="icon">
-                                        </button>
-                                        <app-badge
-                                            [tooltip]="(contract.documentsToValidate) && (contract.documentsToValidate > 0) ? $any(contract.documentsToValidate) + ' documentos para validação' : 'Nenhum documento para validação'"
-                                            [text]="(contract.documentsToValidate) && (contract.documentsToValidate > 0) ? $any(contract.documentsToValidate) : '✓'"
-                                            [color]="(contract.documentsToValidate) && (contract.documentsToValidate > 0) ? '#D9534F' : '#5CB85C'">
-                                        </app-badge>
-                                    </div>
-                                </td>
-                            </tr>
-                        </ng-container>
-                    </tbody>
-                </table>
-            </div>
-            <div class="footer">
-                <div class="table-resume">
-                    <span>{{ "Total: " + filteredContracts.length }}</span>
-                </div>
-                <div class="page-selector">
-                    <button class="no-style" (click)="firstPage()">
-                        <img src="/assets/icons/first_page.svg" class="icon">
-                    </button>
-                    <button class="no-style" (click)="previousPage()">
-                        <img src="/assets/icons/left_arrow.svg" class="icon">
-                    </button>
-                    <span>{{ pageIndex + 1 }}</span>
-                    <button class="no-style" (click)="nextPage()">
-                        <img src="/assets/icons/right_arrow.svg" class="icon">
-                    </button>
-                    <button class="no-style" (click)="lastPage()">
-                        <img src="/assets/icons/last_page.svg" class="icon">
-                    </button>
-                </div>
-            </div>
+        <div class="page-selector">
+          <button class="no-style" (click)="firstPage()">
+            <img src="/assets/icons/first_page.svg" class="icon">
+          </button>
+          <button class="no-style" (click)="previousPage()">
+            <img src="/assets/icons/left_arrow.svg" class="icon">
+          </button>
+          <span>{{ pageIndex + 1 }}</span>
+          <button class="no-style" (click)="nextPage()">
+            <img src="/assets/icons/right_arrow.svg" class="icon">
+          </button>
+          <button class="no-style" (click)="lastPage()">
+            <img src="/assets/icons/last_page.svg" class="icon">
+          </button>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </div>
