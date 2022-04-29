@@ -1,0 +1,13 @@
+<div class="main-card" *ngIf="data.status === 1 || data.status === 3">
+    <header>
+        <div>
+            <h3>{{ data.title }}</h3>
+            <div>
+                <h6>{{ data.subtitle }}</h6>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary" id="btn-validate" (click)="btnValidateClick()">Conferir</button>
+        </div>
+    </header>
+</div>

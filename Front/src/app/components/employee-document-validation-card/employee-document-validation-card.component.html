@@ -1,0 +1,33 @@
+<div class="main-card">
+    <header>
+        <div (click)="headerClick()">
+            <img class="icon" src="/assets/icons/right_arrow.svg" #cardArrow>
+        </div>
+        <div (click)="headerClick()">
+            <h3>{{ data.fullName }}</h3>
+        </div>
+    </header>
+    <div class="content " [collapse]="isCollapsed " [isAnimated]="true">
+        <form [formGroup]="employeeForm">
+            <div class="form-group row">
+                <div class="form-group col">
+                    <label for="inputFullName">Nome Completo</label>
+                    <div>
+                        <input type="text" class="form-control" id="inputFullName" formControlName="fullName">
+                    </div>
+                </div>
+                <div class="form-group col">
+                    <label for="inputCPF">CPF</label>
+                    <div>
+                        <input type="text" class="form-control" id="inputCPF" formControlName="cpf"
+                            mask="000.000.000-00" [dropSpecialCharacters]="false">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="cards">
+            <app-document-validation-card *ngFor="let employeeDoc of data.documents" [data]="employeeDoc">
+            </app-document-validation-card>
+        </div>
+    </div>
+</div>

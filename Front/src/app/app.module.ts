@@ -41,6 +41,9 @@ import { FormFieldCardComponent } from './components/form-field-card/form-field-
 import { AddFormFieldComponent } from './components/add-form-field/add-form-field.component';
 import { ContractsRegistrationModalComponent } from './views/internal/contracts-registration-modal/contracts-registration-modal.component';
 import { IconComponent } from './components/icon/icon.component';
+import { DocumentsValidationComponent } from './views/internal/documents-validation/documents-validation.component';
+import { DocumentValidationCardComponent } from './components/document-validation-card/document-validation-card.component';
+import { EmployeeDocumentValidationCardComponent } from './components/employee-document-validation-card/employee-document-validation-card.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +76,9 @@ import { IconComponent } from './components/icon/icon.component';
     AddFormFieldComponent,
     ContractsRegistrationModalComponent,
     IconComponent,
+    DocumentsValidationComponent,
+    DocumentValidationCardComponent,
+    EmployeeDocumentValidationCardComponent,
   ],
   imports: [
     AppRoutingModule,

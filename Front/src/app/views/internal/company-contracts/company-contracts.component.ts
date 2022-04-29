@@ -109,6 +109,12 @@ export class CompanyContractsComponent implements OnInit {
     );
   }
 
+  onValidateDocumentsClick(contract: ContractModel) {
+    this.router.navigateByUrl(
+      '/interno/contratos/' + contract.id + '/validar'
+    );
+  }
+
   firstPage() {
     this.pageIndex = 0;
   }

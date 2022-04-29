@@ -109,7 +109,8 @@ FROM
 		AND (form_field.contract_id = ?)
 		AND (form_field.individual = 0)
 WHERE
-	(document.status in (1, 3))`
+	(document.status = 1)
+	AND (document.file_stream IS NOT NULL)`
 
 export const SELECT_EMPLOYEES_PENDING_DOCUMENTS_FROM_CONTRACT = `
 SELECT 

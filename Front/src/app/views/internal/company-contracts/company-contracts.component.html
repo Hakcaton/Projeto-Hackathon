@@ -1,6 +1,5 @@
 <app-contracts-registration-modal [companyCnpj]="companyData.cnpj" *ngIf="bAddContract"
-  (onAdded)="onContractAdded($event)"
-  (onCancel)="onContractCancel()">
+  (onAdded)="onContractAdded($event)" (onCancel)="onContractCancel()">
 </app-contracts-registration-modal>
 <div class="wrapper">
   <section>
@@ -30,8 +29,7 @@
                 <td>{{ contract.finalDate? dateHelper.DateToString(contract.finalDate):'--/--/----'}}
                 </td>
                 <td class="td-btn">
-                  <button class="no-style" (click)="onEditClick(contract)"
-                    tooltip="Editar dados do contrato">
+                  <button class="no-style" (click)="onEditClick(contract)" tooltip="Editar dados do contrato">
                     <img src="/assets/icons/edit_square.svg" class="icon">
                   </button>
                   <button class="no-style" (click)="onViewFormFieldsClick(contract)"
@@ -39,7 +37,7 @@
                     <img src="/assets/icons/documents_folder.svg" class="icon">
                   </button>
                   <div class="badge-btn">
-                    <button class="no-style" tooltip="Validar documentos">
+                    <button class="no-style" (click)="onValidateDocumentsClick(contract)" tooltip=" Validar documentos">
                       <img src="/assets/icons/document_check.svg" class="icon">
                     </button>
                     <app-badge
