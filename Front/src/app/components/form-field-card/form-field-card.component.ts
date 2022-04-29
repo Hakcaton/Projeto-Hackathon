@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs';
-import { recurrence } from 'src/app/constants/recurrence.constants';
+import { recurrence } from 'src/app/constants/recurrence.constant';
 import { tags } from 'src/app/constants/tags.constant';
 import { FormFieldModel } from 'src/app/models/form-field.model';
 import { UpdateFormFieldModel } from 'src/app/models/update-formField.model';

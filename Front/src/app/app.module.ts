@@ -40,6 +40,7 @@ import { ContractFormFieldsComponent } from './views/internal/contract-form-fiel
 import { FormFieldCardComponent } from './components/form-field-card/form-field-card.component';
 import { AddFormFieldComponent } from './components/add-form-field/add-form-field.component';
 import { ContractsRegistrationModalComponent } from './views/internal/contracts-registration-modal/contracts-registration-modal.component';
+import { IconComponent } from './components/icon/icon.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { ContractsRegistrationModalComponent } from './views/internal/contracts-
     FormFieldCardComponent,
     AddFormFieldComponent,
     ContractsRegistrationModalComponent,
+    IconComponent,
   ],
   imports: [
     AppRoutingModule,
