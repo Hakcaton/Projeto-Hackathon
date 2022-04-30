@@ -1,4 +1,12 @@
-<app-modal-confirm (onCancel)="onRemoveCancel()" (onConfirm)="onRemoveConfirm()" *ngIf="bRemoveModal"></app-modal-confirm>
+<app-modal-confirm 
+    title="Remover Funcionário"
+    text="Deseja realmente remover o funcionário do contrato?"
+    btnConfirmText="Sim"
+    btnCancelText="Não"
+    (onCancel)="onRemoveCancel()" 
+    (onConfirm)="onRemoveConfirm()" 
+    *ngIf="bRemoveModal"></app-modal-confirm>
+
 <div class="main-card">
     <header>
         <div (click)="headerClick()">

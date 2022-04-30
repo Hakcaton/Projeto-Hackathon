@@ -29,6 +29,10 @@ import { DatabaseError } from 'pg-protocol';
 import { Response } from 'express';
 import { GetFormFieldDto } from './dto/get-formField.dto';
 import { AddFormFieldDto } from './dto/add-formField.dto';
+import { GetContractDto } from './dto/get-contract.dto';
+import { Contract } from './entities/contract.entity';
+import { eError } from 'src/tools/enum/error.definition';
+import { UpdateContractDto } from './dto/update-contract.dto';
 
 @Injectable()
 export class ContractService {
@@ -39,6 +43,8 @@ export class ContractService {
     private formFieldRepository: Repository<FormField>,
     @InjectRepository(Employee)
     private employeeRepository: Repository<Employee>,
+    @InjectRepository(Contract)
+    private contractRepository: Repository<Contract>
   ) { }
 
   async generatePendingDocuments(contractId: string): Promise<void> {
@@ -596,4 +602,114 @@ export class ContractService {
       }
     }
   }
+
+  async getContract(contractId: string, res?: Response): Promise<GetContractDto> {
+    try {
+      const rawContract: Contract = await this.contractRepository.findOne({ id: contractId });
+
+      if (!rawContract) {
+        throw eError.NOT_ENOUGTH_PARAMETERS;
+      }
+
+      let contract: GetContractDto = <GetContractDto>rawContract;
+
+      return contract;
+    }
+    catch (err) {
+      if (!res) {
+        throw err;
+      }
+      switch (err) {
+        case eError.NOT_ENOUGTH_PARAMETERS:
+          res.status(HttpStatus.NOT_FOUND);
+          break;
+
+        default:
+          res.status(HttpStatus.BAD_REQUEST);
+          break;
+      }
+    }
+  }
+
+  async updateContract(contract: UpdateContractDto, res: Response): Promise<GetContractDto> {
+    try {
+      const registeredContract = await this.contractRepository.findOne({ id: contract.id });
+
+      if (!registeredContract) {
+        throw eError.RESOURCE_NOT_FOUND;
+      }
+
+      registeredContract.title = contract.title;
+      registeredContract.description = contract.description;
+
+
+      return this.contractRepository.save(registeredContract);
+    }
+    catch (err) {
+      if (!res) {
+        throw err;
+      }
+
+      if (err instanceof QueryFailedError) {
+        const error = err.driverError as DatabaseError;
+        switch (error.code) {
+          case 'ER_DUP_ENTRY': {
+            res.status(HttpStatus.CONFLICT);
+            break;
+          }
+
+          default: {
+            res.status(HttpStatus.BAD_REQUEST);
+            break;
+          }
+        }
+      }
+      else {
+        switch (err) {
+          case eError.RESOURCE_NOT_FOUND: {
+            res.status(HttpStatus.NOT_FOUND);
+            break;
+          }
+
+          default: {
+            res.status(HttpStatus.BAD_REQUEST);
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  async terminateContract(contractId: string, res?: Response): Promise<GetContractDto> {
+    try {
+      const rawContract: Contract = await this.contractRepository.findOne({ id: contractId });
+
+      if (!rawContract) {
+        throw eError.NOT_ENOUGTH_PARAMETERS;
+      }
+
+      rawContract.finalDate = new Date();
+
+      await this.contractRepository.save(rawContract);
+
+      let contract: GetContractDto = <GetContractDto>rawContract;
+
+      return contract;
+    }
+    catch (err) {
+      if (!res) {
+        throw err;
+      }
+      switch (err) {
+        case eError.NOT_ENOUGTH_PARAMETERS:
+          res.status(HttpStatus.NOT_FOUND);
+          break;
+
+        default:
+          res.status(HttpStatus.BAD_REQUEST);
+          break;
+      }
+    }
+  }
+
 }

@@ -96,6 +96,4 @@ export class RegisteredCompaniesComponent {
   clearFilter() {
     this.filter = '';
   }
-
-  btnAddCompanyClick() { }
 }

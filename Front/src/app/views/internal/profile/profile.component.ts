@@ -13,7 +13,6 @@ export class ProfileComponent implements OnInit {
 
   profileForm: FormGroup;
   profileImageSource: string = 'assets/images/default-profile.svg';
-  private bEditing = false;
 
   constructor(private formBuilder: FormBuilder, private accountService: AccountService) {
     this.profileForm = this.formBuilder.group({
@@ -32,14 +31,14 @@ export class ProfileComponent implements OnInit {
     ).subscribe();
   }
 
-  get Editing(): boolean {
-    return this.bEditing;
+  private _bEditing = false;
+  get bEditing(): boolean {
+    return this._bEditing;
   }
+  private set bEditing(value: boolean) {
+    this._bEditing = value;
 
-  private set Editing(value: boolean) {
-    this.bEditing = value;
-
-    if (this.bEditing) {
+    if (this._bEditing) {
       this.profileForm.controls['name'].enable();
       this.profileForm.controls['lastName'].enable();
       this.profileForm.controls['email'].enable();
@@ -54,10 +53,10 @@ export class ProfileComponent implements OnInit {
   }
 
   btnEditClick() {
-    this.Editing = true;
+    this.bEditing = true;
   }
   btnCancelClick() {
-    this.Editing = false;
+    this.bEditing = false;
     this.profileForm.controls['name'].setValue(this.accountService.profile.name);
     this.profileForm.controls['lastName'].setValue(this.accountService.profile.lastName);
     this.profileForm.controls['email'].setValue(this.accountService.profile.email);
@@ -84,7 +83,7 @@ export class ProfileComponent implements OnInit {
     const user: UpdateUserModel = <UpdateUserModel>this.profileForm.value;
     this.accountService.updateProfile(user).pipe(
       map(() => {
-        this.Editing = false;
+        this.bEditing = false;
       }),
       catchError((err) => {
         alert('Não foi possível salvar o perfil');

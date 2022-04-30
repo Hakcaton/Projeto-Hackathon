@@ -44,6 +44,7 @@ import { IconComponent } from './components/icon/icon.component';
 import { DocumentsValidationComponent } from './views/internal/documents-validation/documents-validation.component';
 import { DocumentValidationCardComponent } from './components/document-validation-card/document-validation-card.component';
 import { EmployeeDocumentValidationCardComponent } from './components/employee-document-validation-card/employee-document-validation-card.component';
+import { ContractInfoComponent } from './views/internal/contract-info/contract-info.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { EmployeeDocumentValidationCardComponent } from './components/employee-d
     DocumentsValidationComponent,
     DocumentValidationCardComponent,
     EmployeeDocumentValidationCardComponent,
+    ContractInfoComponent,
   ],
   imports: [
     AppRoutingModule,

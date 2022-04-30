@@ -35,10 +35,10 @@
             </div>
         </div>
         <div class="footer">
-            <div class="show" [hidden]="Editing">
+            <div class="show" [hidden]="bEditing">
                 <button type="button" class="btn btn-outline-secondary" (click)="btnEditClick()">Editar</button>
             </div>
-            <div class="edit" [hidden]="!Editing">
+            <div class="edit" [hidden]="!bEditing">
                 <button type="button" class="btn btn-outline-secondary" (click)="btnCancelClick()">Cancelar</button>
                 <button type="button" class="btn btn-primary" (click)="btnSaveClick()">Salvar</button>
             </div>

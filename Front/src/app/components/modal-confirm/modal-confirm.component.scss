@@ -1,3 +1,7 @@
+:host{
+    z-index: 10;
+}
+
 .wrapper {
     width: 100vw;
     height: 100vh;
@@ -9,7 +13,6 @@
     backdrop-filter: blur(4px);
     left: 0;
     top:0;
-    z-index: 1;
 }
 
 .main-card {
@@ -29,6 +32,7 @@ h3 {
 
 p {
     text-align: center;
+    white-space: pre-line;
 }
 
 .main-card>div:nth-child(2) {

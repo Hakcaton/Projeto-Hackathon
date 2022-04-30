@@ -1,0 +1,69 @@
+<app-modal-confirm 
+    title="Encerrar Contrato" 
+    text="Deseja realmente encerrar o contrato?&#10;&#13; A operação não poderá ser desfeita." 
+    btnConfirmText="Sim" 
+    btnCancelText="Não" 
+    (onConfirm)="onTerminateContractConfirmClick()"
+    (onCancel)="onTerminateContractCancelClick()"
+    
+    *ngIf="bTerminateContract">
+</app-modal-confirm>
+
+<div class="wrapper">
+    <div class="main-card">
+        <div class="header">
+            <h2>Informações do Contrato</h2>
+            <hr>
+        </div>
+        <div class="content">
+            <form [formGroup]="contractForm">
+                <div class="form-group row">
+                    <div class="form-group col">
+                        <label for="inputTitle">Titulo</label>
+                        <div>
+                            <input type="text" class="form-control" id="inputTitle" formControlName="title" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-group col">
+                        <label for="inputDescription">Descrição</label>
+                        <div>
+                            <textarea class="form-control" id="inputDescription" formControlName="description"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row dates">
+                    <div>
+                        <label for="inputInitialDate">Data inicial</label>
+                        <div>
+                            <input type="text" class="form-control" id="inputInitialDate" formControlName="initialDate">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="inputFinalDate">Data final</label>
+                        <div>
+                            <input type="text" class="form-control" id="inputFinalDate" formControlName="finalDate">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="footer">
+            <div class="left">
+                <div *ngIf="!contract.finalDate">
+                    <button type="button" class="btn btn-outline-danger" (click)="btnTerminateClick()" [hidden]="bEditing">Encerrar Contrato</button>
+                </div>
+            </div>
+            <div class="right">
+                <div [hidden]="bEditing">
+                    <button type="button" class="btn btn-outline-secondary" (click)="btnEditClick()">Editar</button>
+                </div>
+                <div class="edit" [hidden]="!bEditing">
+                    <button type="button" class="btn btn-outline-secondary" (click)="btnCancelClick()">Cancelar</button>
+                    <button type="button" class="btn btn-primary" (click)="btnSaveClick()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

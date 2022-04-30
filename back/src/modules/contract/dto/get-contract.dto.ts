@@ -3,5 +3,5 @@ export class GetContractDto {
     title: string;
     description: string;
     initialDate: Date;
-    finalDate: Date;
+    finalDate?: Date;
 }

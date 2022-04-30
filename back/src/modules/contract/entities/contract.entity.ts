@@ -4,6 +4,9 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 't
 
 @Entity()
 export class Contract {
+  map(arg0: (contract: any) => any): import("../dto/get-contract.dto").GetContractDto {
+    throw new Error('Method not implemented.');
+  }
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -11,7 +14,7 @@ export class Contract {
   title: string;
 
   @Column({ nullable: true })
-  decription: string;
+  description: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', nullable: false, name: 'initial_date' })
   initialDate: Date;

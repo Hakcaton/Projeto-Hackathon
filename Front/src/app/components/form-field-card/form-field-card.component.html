@@ -17,12 +17,8 @@
                     <label for="inputTitle">Nome do Documento</label>
                     <div>
                         <input type="text" class="form-control" id="inputTitle" formControlName="title">
-                        <button class="no-style btn-edit" *ngIf="documentForm.controls['title'].disabled"
-                            (click)="btnEditTitleClick()" type="button"><img src="assets/icons/edit.svg"
-                                class="icon"></button>
-                        <button class="no-style btn-edit" *ngIf="!documentForm.controls['title'].disabled"
-                            (click)="btnSaveTitleClick()" type="button"><img src="assets/icons/check.svg"
-                                class="icon"></button>
+                        <button class="no-style btn-edit" *ngIf="documentForm.controls['title'].disabled" (click)="btnEditTitleClick()" type="button"><img src="assets/icons/edit.svg" class="icon"></button>
+                        <button class="no-style btn-edit" *ngIf="!documentForm.controls['title'].disabled" (click)="btnSaveTitleClick()" type="button"><img src="assets/icons/check.svg" class="icon"></button>
                     </div>
                 </div>
             </div>
@@ -31,12 +27,8 @@
                     <label for="inputSubtitle">Subtítulo</label>
                     <div>
                         <input type="text" class="form-control" id="inputSubtitle" formControlName="subtitle">
-                        <button class="no-style btn-edit" *ngIf="documentForm.controls['subtitle'].disabled"
-                            (click)="btnEditSubtitleClick()" type="button"><img src="assets/icons/edit.svg"
-                                class="icon"></button>
-                        <button class="no-style btn-edit" *ngIf="!documentForm.controls['subtitle'].disabled"
-                            (click)="btnSaveSubtitleClick()" type="button"><img src="assets/icons/check.svg"
-                                class="icon"></button>
+                        <button class="no-style btn-edit" *ngIf="documentForm.controls['subtitle'].disabled" (click)="btnEditSubtitleClick()" type="button"><img src="assets/icons/edit.svg" class="icon"></button>
+                        <button class="no-style btn-edit" *ngIf="!documentForm.controls['subtitle'].disabled" (click)="btnSaveSubtitleClick()" type="button"><img src="assets/icons/check.svg" class="icon"></button>
                     </div>
                 </div>
             </div>
@@ -56,8 +48,7 @@
                 <div class="form-group col">
                     <label for="inputFirstRequestDate">Primeira Solicitação</label>
                     <div>
-                        <input type="text" class="form-control" id="inputFirstRequestDate"
-                            formControlName="firstRequestDate">
+                        <input type="text" class="form-control" id="inputFirstRequestDate" formControlName="firstRequestDate">
                     </div>
                 </div>
                 <div class="form-group col" id="checkboxes">

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { FormFieldModel } from '../models/form-field.model';
 import { ContractModel } from '../models/contract.model';
 import { AddFormFieldModel } from '../models/add-form-field.model';
+import { UpdateContractModel } from '../models/update-contract.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,22 @@ export class ContractService {
       var url = '/api/companies/contracts';
     }
     return this.http.get<ContractModel[]>(url);
+  }
+
+  getContract(contractId: string): Observable<ContractModel> {
+    var url = '/api/contracts/' + contractId;
+    return this.http.get<ContractModel>(url);
+  }
+
+  updateContract(contractId: string, contract: UpdateContractModel): Observable<ContractModel> {
+    var url = '/api/contracts/' + contractId;
+    const headers = new HttpHeaders().set('content-type', 'application/json');
+    return this.http.patch<ContractModel>(url, contract, { headers: headers });
+  }
+
+  terminateContract(contractId: string): Observable<ContractModel> {
+    var url = '/api/contracts/' + contractId;
+    return this.http.delete<ContractModel>(url);
   }
 
   getContractFormFields(contractId: string): Observable<FormFieldModel[]> {

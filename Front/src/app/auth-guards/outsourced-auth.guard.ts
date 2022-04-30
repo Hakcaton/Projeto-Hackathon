@@ -28,8 +28,6 @@ export class OutsourcedAuthGuard implements CanActivate {
 				this.router.navigateByUrl('/interno');
 			}
 
-			console.log(permission);
-
 			return permission === 1;
 		}
 	}

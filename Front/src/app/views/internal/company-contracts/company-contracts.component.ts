@@ -101,7 +101,9 @@ export class CompanyContractsComponent implements OnInit {
     return formattedTitle.includes(formattedFilter);
   }
 
-  onEditClick(contract: ContractModel) {}
+  onEditClick(contract: ContractModel) {
+    this.router.navigateByUrl('/interno/contratos/' + contract.id);
+  }
 
   onViewFormFieldsClick(contract: ContractModel) {
     this.router.navigateByUrl(

@@ -1,10 +1,12 @@
-import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Req, Res } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { ContractService } from './contract.service';
 import { AddEmployeeDto } from './dto/add-employee.dto';
 import { AuthService } from 'src/tools/auth/auth.service';
 import { AddFormFieldDto } from './dto/add-formField.dto';
 import { ePermission } from 'src/tools/enum/permission.definition';
+import { GetContractDto } from './dto/get-contract.dto';
+import { UpdateContractDto } from './dto/update-contract.dto';
 
 @Controller('contracts')
 export class ContractController {
@@ -103,4 +105,46 @@ export class ContractController {
 
     res.send(await this.contractService.addFormField(contractId, formField, res));
   }
+
+  @Get(':contractId')
+  async getContract(@Param() params: any, @Req() req: Request, @Res() res: Response): Promise<void> {
+    const userId: string = req.user['userId'];
+    const contractId: string = params.contractId;
+
+    if (await this.authService.verifyResponsablePermission(userId, contractId) == false) {
+      res.status(HttpStatus.UNAUTHORIZED).send();
+      return;
+    }
+
+    res.send(await this.contractService.getContract(contractId, res));
+  }
+
+  @Patch(':contractId')
+  async updateContract(@Body() contract: UpdateContractDto, @Param() params: any, @Req() req: Request, @Res() res: Response): Promise<void> {
+    const userPermission: ePermission = req.user['permission'];
+    const contractId: string = params.contractId;
+
+    if (userPermission != ePermission.internalEmployee) {
+      res.status(HttpStatus.UNAUTHORIZED).send();
+      return;
+    }
+
+    contract.id = contractId;
+
+    res.send(await this.contractService.updateContract(contract, res));
+  }
+
+  @Delete(':contractId')
+  async terminateContract(@Param() params: any, @Req() req: Request, @Res() res: Response): Promise<void> {
+    const userPermission: ePermission = req.user['permission'];
+    const contractId: string = params.contractId;
+
+    if (userPermission != ePermission.internalEmployee) {
+      res.status(HttpStatus.UNAUTHORIZED).send();
+      return;
+    }
+
+    res.send(await this.contractService.terminateContract(contractId, res));
+  }
+
 }
