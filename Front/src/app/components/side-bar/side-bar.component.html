@@ -1,0 +1,9 @@
+<div class="main" [ngClass]="{'collapsed': bCollapsed}">
+    <div class="header">
+        <span>NeoDocs</span>
+    </div>
+    <hr>
+    <div class="items">
+        <app-side-bar-item *ngFor="let item of items" [data]="item" [level]="0"></app-side-bar-item>
+    </div>
+</div>

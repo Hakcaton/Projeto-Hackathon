@@ -113,7 +113,7 @@ export class CompanyContractsComponent implements OnInit {
 
   onValidateDocumentsClick(contract: ContractModel) {
     this.router.navigateByUrl(
-      '/interno/contratos/' + contract.id + '/validar'
+      '/interno/contratos/' + contract.id + '/validar-documentos'
     );
   }
 

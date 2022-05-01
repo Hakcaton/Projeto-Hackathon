@@ -429,7 +429,8 @@ export class ContractService {
       newDoc.tooltipText = rawDoc.comment;
       newDoc.requestDate = rawDoc.request_date;
       newDoc.file.base64 = Buffer.from(rawDoc.file_stream).toString('base64');
-      newDoc.file.name = rawDoc.file_name;
+      newDoc.file.format = rawDoc.file_format;
+
       formattedDocuments.push(newDoc);
     });
 
@@ -501,7 +502,7 @@ export class ContractService {
       rawDocuments
         .filter(
           (doc) =>
-            doc.contract_id == contractId && doc.employee_id == employee.id,
+            doc.contract_id == contractId && doc.employee_id == employee.id
         )
         .forEach((rawDoc) => {
           const newDoc: DocumentDto = new DocumentDto();
@@ -518,7 +519,7 @@ export class ContractService {
           newDoc.file.base64 = Buffer.from(rawDoc.file_stream).toString(
             'base64',
           );
-          newDoc.file.name = rawDoc.file_name;
+          newDoc.file.format = rawDoc.file_name;
           newEmployeeSentDoc.documents.push(newDoc);
         });
       documents.push(newEmployeeSentDoc);

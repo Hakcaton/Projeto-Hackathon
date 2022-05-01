@@ -1,0 +1,29 @@
+:host{
+    z-index: 2;
+}
+
+.main{
+    background-color: white;
+    width: 250px;
+    height: 100%;
+    transition: .25s;
+    box-shadow: 4px 0px 4px 0px rgba($color: #000000, $alpha: .25);
+    overflow: hidden;
+
+    .header{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 75px;
+
+        >span{
+            font-size: 28px;
+        }
+    }
+}
+
+.main.collapsed{
+    width: 0;
+    transition: .25s;
+    box-shadow: none
+}

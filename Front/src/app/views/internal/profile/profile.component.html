@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <div class="main-card">
+    <div class="main-card card">
         <div class="header">
             <h2>Meu Perfil</h2>
             <hr>
@@ -35,10 +35,10 @@
             </div>
         </div>
         <div class="footer">
-            <div class="show" [hidden]="bEditing">
+            <div [hidden]="bEditing">
                 <button type="button" class="btn btn-outline-secondary" (click)="btnEditClick()">Editar</button>
             </div>
-            <div class="edit" [hidden]="!bEditing">
+            <div [hidden]="!bEditing">
                 <button type="button" class="btn btn-outline-secondary" (click)="btnCancelClick()">Cancelar</button>
                 <button type="button" class="btn btn-primary" (click)="btnSaveClick()">Salvar</button>
             </div>

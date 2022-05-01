@@ -10,5 +10,6 @@ export interface DocumentModel {
 
 export interface FileModel {
   base64: string;
+  format: string;
   name: string;
 }

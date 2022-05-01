@@ -6,7 +6,7 @@
             <input class="form-control" type="text" placeholder="Filtre por Razão Social, CNPJ ou IE" [(ngModel)]="filter" />
             <button class="btn btn-outline-secondary" (click)="clearFilter()" [disabled]="!filter">Limpar filtro</button>
         </div>
-        <div class="table-card">
+        <div class="table-card card">
             <div class="content">
                 <table>
                     <thead>
@@ -14,7 +14,7 @@
                             <th style="width: 400px;">Razão Social</th>
                             <th style="width: 200px;">CNPJ</th>
                             <th style="width: 200px;">Inscrição Estadual</th>
-                            <th style="width: 170px; min-width: 170px;"></th>
+                            <th style="width: 175px; min-width: 175px;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -24,10 +24,11 @@
                                 <td>{{ company.cnpj }}</td>
                                 <td>{{ company.stateRegistration }}</td>
                                 <td class="td-btn">
-                                    <button class="no-style" (click)="onEditClick(company)" tooltip="Editar dados da empresa">
-                                        <img src="/assets/icons/edit_square.svg" class="icon">
-                                    </button><button class="no-style" (click)="onContractsClick(company)" tooltip="Visualizar contratos da empresa">
-                                        <img src="/assets/icons/edit-contract.svg" class="icon">
+                                    <button class="no-style" (click)="onEditClick(company)" tooltip="Visualizar cadastro da empresa">
+                                        <app-icon icon="business-view"></app-icon>
+                                    </button>
+                                    <button class="no-style" (click)="onContractsClick(company)" tooltip="Visualizar contratos da empresa">
+                                        <app-icon icon="folder-documents" [scale]="0.9"></app-icon>
                                     </button>
                                 </td>
                             </tr>

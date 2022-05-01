@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom, observable, Observable } from 'rxjs';
+import { DocumentValidationModel } from '../models/document-validation.model';
 import { DocumentModel } from '../models/document.model';
 import { EmployeeDocumentModel } from '../models/employee-document.model';
 
@@ -8,7 +9,7 @@ import { EmployeeDocumentModel } from '../models/employee-document.model';
   providedIn: 'root',
 })
 export class DocumentsService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getPendingDocuments(contractId: string): Observable<any> {
     const url = `/api/contracts/${contractId}/documents/pending`;
@@ -73,5 +74,11 @@ export class DocumentsService {
   removeEmployee(employeeId: string): Observable<any> {
     const url = `/api/employees/${employeeId}`;
     return this.http.delete(url);
+  }
+
+  validateDocument(documentId: string, documentValidation: DocumentValidationModel): Observable<void> {
+    const url = '/api/documents/' + documentId;
+    const headers = new HttpHeaders().set('content-type', 'application/json');
+    return this.http.patch<void>(url, documentValidation, { headers: headers });
   }
 }

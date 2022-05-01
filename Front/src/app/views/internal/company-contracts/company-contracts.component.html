@@ -1,5 +1,4 @@
-<app-contracts-registration-modal [companyCnpj]="companyData.cnpj" *ngIf="bAddContract"
-  (onAdded)="onContractAdded($event)" (onCancel)="onContractCancel()">
+<app-contracts-registration-modal [companyCnpj]="companyData.cnpj" *ngIf="bAddContract" (onAdded)="onContractAdded($event)" (onCancel)="onContractCancel()">
 </app-contracts-registration-modal>
 <div class="wrapper">
   <section>
@@ -10,7 +9,7 @@
       <input class="form-control" type="text" placeholder="Filtre por Título ou Data" [(ngModel)]="filter" />
       <button class="btn btn-outline-secondary" (click)="clearFilter()" [disabled]="!filter">Limpar filtro</button>
     </div>
-    <div class="table-card">
+    <div class="table-card card">
       <div class="content">
         <table>
           <thead>
@@ -30,22 +29,14 @@
                 </td>
                 <td class="td-btn">
                   <button class="no-style" (click)="onEditClick(contract)" tooltip="Editar dados do contrato">
-                    <img src="/assets/icons/edit_square.svg" class="icon">
+                    <app-icon icon="document-edit"></app-icon>
                   </button>
-                  <button class="no-style" (click)="onViewFormFieldsClick(contract)"
-                    tooltip="Documentos para solicitação">
-                    <img src="/assets/icons/documents_folder.svg" class="icon">
+                  <button class="no-style" (click)="onViewFormFieldsClick(contract)" tooltip="Documentos para solicitação">
+                    <app-icon icon="list" [scale]="1"></app-icon>
                   </button>
-                  <div class="badge-btn">
-                    <button class="no-style" (click)="onValidateDocumentsClick(contract)" tooltip=" Validar documentos">
-                      <img src="/assets/icons/document_check.svg" class="icon">
-                    </button>
-                    <app-badge
-                      [tooltip]="(contract.documentsToValidate) && (contract.documentsToValidate > 0) ? $any(contract.documentsToValidate) + ' documentos para validação' : 'Nenhum documento para validação'"
-                      [text]="(contract.documentsToValidate) && (contract.documentsToValidate > 0) ? $any(contract.documentsToValidate) : '✓'"
-                      [color]="(contract.documentsToValidate) && (contract.documentsToValidate > 0) ? '#D9534F' : '#5CB85C'">
-                    </app-badge>
-                  </div>
+                  <button class="no-style" (click)="onValidateDocumentsClick(contract)" tooltip="Validar documentos">
+                    <app-icon icon="folder-validate"></app-icon>
+                  </button>
                 </td>
               </tr>
             </ng-container>

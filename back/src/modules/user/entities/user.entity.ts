@@ -16,6 +16,7 @@ export class User {
   @Column() 
   lastName: string;
 
+
   @Column({nullable: true}) 
   phoneNumber?: string;
 
@@ -24,6 +25,9 @@ export class User {
 
   @Column()
   permission: ePermission;
+
+  @Column()
+  cpf: string;
 
   @Column({ default: true })
   isActive?: boolean;

@@ -1,0 +1,45 @@
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(83,83,83,.25);
+    backdrop-filter: blur(4px);
+    left: 0;
+    top:0;
+    z-index: 1;
+}
+
+.main-card {
+    width: fit-content;
+    min-height: 100px;
+    background-color: white;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    margin-bottom: 10px;
+}
+
+
+.main-card>div:nth-child(2) {
+    flex-grow: 1;
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+.main-card>div:nth-child(3) {
+    display: flex;
+    justify-content: center;
+    *{
+        margin: 5px;
+        width: 100px;
+    }
+}
+
+#inputReason {
+    width: 450px;
+}

@@ -75,7 +75,9 @@ export class RegisteredCompaniesComponent {
     );
   }
 
-  onEditClick(company: CompanyModel) { }
+  onEditClick(company: CompanyModel) { 
+    this.router.navigateByUrl('/interno/empresas/' + company.cnpj.replace('/', '%2F'));
+  }
   onContractsClick(company: CompanyModel) {
     this.router.navigateByUrl('/interno/empresas/' + company.cnpj.replace('/', '%2F') + '/contratos');
   }

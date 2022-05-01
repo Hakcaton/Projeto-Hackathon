@@ -26,8 +26,9 @@ export class SendDocCardComponent implements OnInit {
     tooltipText: '',
     status: -1,
     file: {
-      base64: "",
-      name: ""
+      base64: '',
+      format: '',
+      name: ''
     },
     requestDate: new Date()
   };
@@ -39,13 +40,14 @@ export class SendDocCardComponent implements OnInit {
   onFileChanges(event: any) {
     this.data.file = {
       base64: event[0].base64,
+      format: event[0].type,
       name: event[0].name
     };
   }
 
   btnCancelClick() {
     this.data.file.base64 = "";
-    this.data.file.name = "";
+    this.data.file.format = "";
   }
 
   btnSendClick() {

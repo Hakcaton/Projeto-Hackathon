@@ -19,7 +19,7 @@ export class Document {
   file_stream: Buffer;
 
   @Column({ nullable: true })
-  file_name: string;
+  file_format: string;
 
   @Column({ nullable: true })
   employee_id: string;

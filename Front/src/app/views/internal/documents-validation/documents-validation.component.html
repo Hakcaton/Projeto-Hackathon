@@ -2,28 +2,22 @@
     <section id="general-docs">
         <h2>Documentação Geral</h2>
         <div class="filter">
-            <input class="form-control" type="text" placeholder="Filtre por Documento ou Data"
-                [(ngModel)]="generalDocumentsFilter" />
-            <button class="btn btn-outline-secondary" (click)="clearGeneralDocumentsFilter()"
-                [disabled]="!generalDocumentsFilter">Limpar filtro</button>
+            <input class="form-control" type="text" placeholder="Filtre por Documento ou Data" [(ngModel)]="generalDocumentsFilter" />
+            <button class="btn btn-outline-secondary" (click)="clearGeneralDocumentsFilter()" [disabled]="!generalDocumentsFilter">Limpar filtro</button>
         </div>
         <div class="cards">
-            <app-document-validation-card *ngFor="let doc of filteredGeneralDocuments" [data]="doc">
-            </app-document-validation-card>
+            <app-document-validation-card *ngFor="let doc of filteredGeneralDocuments" [data]="doc"></app-document-validation-card>
         </div>
     </section>
     <section id="employees-doc">
         <h2>Funcionários</h2>
         <div class="filter">
-            <input class="form-control" type="text" placeholder="Filtre por nome, CPF ou documento"
-                [(ngModel)]="employeesFilter" />
-            <button class="btn btn-outline-secondary" (click)="clearEmployeesFilter()"
-                [disabled]="!employeesFilter">Limpar filtro</button>
+            <input class="form-control" type="text" placeholder="Filtre por nome, CPF ou documento" [(ngModel)]="employeesFilter" />
+            <button class="btn btn-outline-secondary" (click)="clearEmployeesFilter()" [disabled]="!employeesFilter">Limpar filtro</button>
         </div>
         <div class="cards">
             <ng-container *ngFor="let employeeDoc of filteredEmployees">
-                <app-employee-document-validation-card [data]="employeeDoc" *ngIf="employeeDoc.active">
-                </app-employee-document-validation-card>
+                <app-employee-document-validation-card [data]="employeeDoc" *ngIf="employeeDoc.active"></app-employee-document-validation-card>
             </ng-container>
         </div>
     </section>

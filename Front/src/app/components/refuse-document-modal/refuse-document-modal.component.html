@@ -1,0 +1,24 @@
+<div class="wrapper">
+    <div class="main-card card">
+        <div>
+            <h2>Recusar Documento</h2>
+            <hr>
+        </div>
+        <div>
+            <form [formGroup]="refuseForm">
+                <div class="form-group row">
+                    <div class="form-group col">
+                        <label for="inputReason">Motivo</label>
+                        <div>
+                            <input type="text" class="form-control" id="inputReason" formControlName="reason" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div>
+            <button class="btn btn-outline-secondary" (click)="btnCancelClick()">Cancelar</button>
+            <button class="btn btn-primary" (click)="btnConfirmClick()">Confirmar</button>
+        </div>
+    </div>
+</div>

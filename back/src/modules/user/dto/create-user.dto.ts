@@ -6,4 +6,6 @@ export class CreateUserDto {
   permission: ePermission;
   name: string;
   lastName: string;
+  phoneNumber: string;
+  cpf: string;
 }

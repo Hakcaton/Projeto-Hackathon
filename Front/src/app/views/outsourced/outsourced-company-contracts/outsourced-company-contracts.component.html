@@ -5,7 +5,7 @@
       <input class="form-control" type="text" placeholder="Filtre por Título ou Data" [(ngModel)]="filter" />
       <button class="btn btn-outline-secondary" (click)="clearFilter()" [disabled]="!filter">Limpar filtro</button>
     </div>
-    <div class="table-card">
+    <div class="table-card card">
       <div class="content">
         <table>
           <thead>
@@ -24,11 +24,11 @@
                 <td>{{ contract.finalDate ? dateHelper.DateToString(contract.finalDate) : '--/--/----'}}</td>
                 <td class="td-btn">
                   <button class="no-style" (click)="onClickOpenDocsSent(contract)" tooltip="Documentos enviados">
-                    <img src="/assets/icons/document_check.svg" class="icon">
+                    <app-icon icon="document-check"></app-icon>
                   </button>
                   <div class="badge-btn">
-                    <button class="no-style" (click)="onClickOpenPendingDocs(contract)" tooltip="Documentos pendentes">
-                      <img src="/assets/icons/upload_file.svg" class="icon">
+                    <button class="no-style" (click)="onClickOpenPendingDocs(contract)" tooltip="Enviar Documentos">
+                      <app-icon icon="document-send"></app-icon>
                     </button>
                   </div>
                 </td>

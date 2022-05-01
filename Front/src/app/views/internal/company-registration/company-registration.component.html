@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <div class="main-card">
+  <div class="main-card card">
     <div class="header">
       <h2>Dados da Empresa</h2>
       <hr>
@@ -11,14 +11,14 @@
             <div class="form-group col">
               <div>
                 <label for="inputRazaoSocial">Razão Social</label>
-                <span tooltip="Nome registrado da empresa"><img src="/assets/icons/info.svg"></span>
+                <app-icon icon="info" [scale]=".75" tooltip="Nome registrado da empresa"></app-icon>
               </div>
               <input type="text" class="form-control" id="inputRazaoSocial" formControlName="corporateName">
             </div>
             <div class="form-group col">
               <div>
                 <label for="inputNomeFantasia">Nome Fantasia</label>
-                <span tooltip="Nome comercial da empresa"><img src="/assets/icons/info.svg"></span>
+                <app-icon icon="info" [scale]=".75" tooltip="Nome comercial da empresa"></app-icon>
               </div>
               <input type="text" class="form-control" id="inputNomeFantasia" formControlName="fantasyName">
             </div>
@@ -26,23 +26,19 @@
           <div class="form-group row">
             <div class="form-group col">
               <label for="inputCNPJ">CNPJ</label>
-              <input type="text" mask="00.000.000/0000-00" [dropSpecialCharacters]="false" class="form-control"
-                id="inputCNPJ" formControlName="cnpj">
+              <input type="text" mask="00.000.000/0000-00" [dropSpecialCharacters]="false" class="form-control" id="inputCNPJ" formControlName="cnpj">
             </div>
             <div class="form-group col">
               <div>
                 <label for="inputInscricaoEstadual">Inscrição Estadual</label>
-                <span tooltip="Registro do contribuinte no cadastro do ICMS" id='tooltip_razao_social'><img
-                    src="/assets/icons/info.svg"></span>
+                <app-icon icon="info" [scale]=".75" tooltip="Número inscrição liberado pela Secretária da Fazenda no Estado em que o registro da empresa foi realizado"></app-icon>
               </div>
-              <input type="text" mask="000.000.000.000" [dropSpecialCharacters]="false" class="form-control"
-                id="inputInscricaoEstadual" formControlName="stateRegistration">
+              <input type="text" mask="000.000.000.000" [dropSpecialCharacters]="false" class="form-control" id="inputInscricaoEstadual" formControlName="stateRegistration">
             </div>
           </div>
         </form>
       </div>
     </div>
-    <!-- FORM DO RESPONSAVEL DO TERCEIRO -->
     <div class="mt-4">
       <div class="header">
         <h2>Dados do Responsável</h2>
@@ -53,14 +49,14 @@
           <div class="form-group col">
             <div>
               <label for="inputNome">Nome</label>
-              <span tooltip="Nome do Responsável"><img src="/assets/icons/info.svg"></span>
+              <app-icon icon="info" [scale]=".75" tooltip="Nome do responsável pelo envio de documentos da empresa"></app-icon>
             </div>
             <input type="text" class="form-control" id="inputNome" formControlName="name">
           </div>
           <div class="form-group col">
             <div>
               <label for="inputSobreNome">Sobrenome</label>
-              <span tooltip="Sobrenome do Responsável"><img src="/assets/icons/info.svg"></span>
+              <app-icon icon="info" [scale]=".75" tooltip="Sobrenome do responsável pelo envio de documentos da empresa"></app-icon>
             </div>
             <input type="text" class="form-control" id="inputSobreNome" formControlName="lastName">
           </div>
@@ -68,25 +64,21 @@
         <div class="form-group row">
           <div class="form-group col">
             <label for="inputCPF">CPF</label>
-            <input type="text" mask="000.000.000-00" [dropSpecialCharacters]="false" class="form-control" id="inputCPF"
-              formControlName="cpf">
+            <input type="text" mask="000.000.000-00" [dropSpecialCharacters]="false" class="form-control" id="inputCPF" formControlName="cpf">
           </div>
           <div class="form-group col">
             <div>
               <label for="inputCelular">Celular</label>
-              <span tooltip="Celular do responável pelo envio de documetos da empresa"><img
-                  src="/assets/icons/info.svg"></span>
+              <app-icon icon="info" [scale]=".75" tooltip="Celular do responável pelo envio de documetos da empresa"></app-icon>
             </div>
-            <input type="text" mask="(00) 00000-0000" [dropSpecialCharacters]="false" class="form-control"
-              id="inputCelular" formControlName="phoneNumber">
+            <input type="text" mask="(00) 00000-0000" [dropSpecialCharacters]="false" class="form-control" id="inputCelular" formControlName="phoneNumber">
           </div>
         </div>
         <div class="form-group row">
           <div class="form-group col-md-12">
             <div>
               <label for="inputEmail">E-Mail</label>
-              <span tooltip="Email do responável pelo envio de documetos da empresa"><img
-                  src="/assets/icons/info.svg"></span>
+              <app-icon icon="info" [scale]=".75" tooltip="E-Mail do responável pelo envio de documetos da empresa"></app-icon>
             </div>
             <input type="email" class="form-control" id="inputEmail" formControlName="email">
           </div>
@@ -96,8 +88,18 @@
     </div>
 
     <div class="footer">
-      <button type="button" class="btn btn-primary" [disabled]="btnConfirmDisabled"
-        (click)="btnConfrmiClick()">Confirmar</button>
+      <div *ngIf="bRegistering">
+        <button type="button" class="btn btn-primary" [disabled]="btnConfirmDisabled" (click)="btnConfrmiClick()">Confirmar</button>
+      </div>
+      <div *ngIf="!bRegistering">
+        <div [hidden]="bEditing">
+          <button type="button" class="btn btn-outline-secondary" (click)="btnEditClick()">Editar</button>
+        </div>
+        <div [hidden]="!bEditing">
+          <button type="button" class="btn btn-outline-secondary" (click)="btnCancelClick()">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="btnSaveClick()">Salvar</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

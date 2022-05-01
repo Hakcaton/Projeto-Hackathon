@@ -10,6 +10,7 @@ import { CompanyRegistrationComponent } from './views/internal/company-registrat
 import { RegisteredCompaniesComponent } from './views/internal/company/registered-companies/registered-companies.component';
 import { ContractFormFieldsComponent } from './views/internal/contract-form-fields/contract-form-fields.component';
 import { ContractInfoComponent } from './views/internal/contract-info/contract-info.component';
+import { DocumentsValidationComponent } from './views/internal/documents-validation/documents-validation.component';
 import { ProfileComponent } from './views/internal/profile/profile.component';
 import { OutsourcedCompanyContractsComponent } from './views/outsourced/outsourced-company-contracts/outsourced-company-contracts.component';
 import { PendingDocsComponent } from './views/outsourced/pending-docs/pending-docs.component';
@@ -28,29 +29,46 @@ const routes: Routes = [
       {
         path: 'empresas',
         component: RegisteredCompaniesComponent,
+        data: {title: 'Empresas Cadastradas'}
       },
       {
         path: 'empresas/cadastrar',
         component: CompanyRegistrationComponent,
+        data: {title: 'Cadastro de Empresa'}
+      },
+      {
+        path: 'empresas/:companyCNPJ',
+        component: CompanyRegistrationComponent,
+        data: {title: 'Cadastro da Empresa'}
       },
       {
         path: 'empresas/:companyCNPJ/contratos',
         component: CompanyContractsComponent,
+        data: {title: 'Contratos da Empresa'}
       },
       {
         path: 'contratos/:contractId',
-        component: ContractInfoComponent
+        component: ContractInfoComponent,
+        data: {title: 'Infrmações do Contrato'}
       },
       {
         path: 'contratos/:contractId/formulario',
-        component: ContractFormFieldsComponent
+        component: ContractFormFieldsComponent,
+        data: {title: 'Solicitação de Documentos'}
+      },
+      {
+        path: 'contratos/:contractId/validar-documentos',
+        component: DocumentsValidationComponent,
+        data: {title: 'Validação de Documentos'}
       },
       {
         path: 'perfil',
         component: ProfileComponent,
+        data: {title: 'Meu Perfil'}
       },
     ],
     canActivate: [InternalAuthGuard],
+    data: {title: 'Dashboard'}
   },
   {
     path: 'externo',

@@ -1,9 +1,10 @@
 <i [ngStyle]="{
     'background-size': 'cover', 
     'background-repeat': 'no-repeat',
-    'background-position': 'center center' ,
+    'background-position': 'center center',
     'width': width + 'px',
     'height': heigth + 'px',
     'display': 'block',
-    'background-image': 'url(\''+ iconSource +'\')'
+    'background-image': iconSource? 'url(\''+ iconSource +'\')': 'none',
+    'filter': filter
 }"></i>

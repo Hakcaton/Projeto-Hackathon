@@ -1,0 +1,21 @@
+:host{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    display: inline-block;
+}
+:host.left{
+    justify-content: left;
+}
+
+:host.rotated-90p-250 i{
+    transform: rotate(90deg);
+    transition: 250ms;
+}
+
+:host.rotated-0p-250 i{
+    transform: rotate(0deg);
+    transition: 250ms;
+}

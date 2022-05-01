@@ -1,0 +1,33 @@
+<div class="main">
+    <div class="fill">
+        <div class="menu-hamburger" [ngClass]="{'collapsed': sideBarCollapsed}" (click)="onSideBarCollapseClick()">
+            <div>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <h1>{{ pageTitle }}</h1>
+    </div>
+    <div class="right">
+        <div class="profile">
+            <div>
+                <span id="name">{{ accountServise.profile.name }}</span>
+                <span id="lastName">{{ accountServise.profile.lastName ? accountServise.profile.lastName.trim().split(' ')[accountServise.profile.lastName.split(' ').length - 1]: '' }}</span>
+            </div>
+            <div class="hover" (click)="profileOptionsCollapsed = !profileOptionsCollapsed">
+                <img src="/assets/images/profile.svg">
+            </div>
+            <div class="profile-options" [collapse]="profileOptionsCollapsed" [isAnimated]="true">
+                <div class="hover" (click)="onProfileClick()">
+                    <app-icon icon="person"></app-icon>
+                    <span>Meu Perfil</span>
+                </div>
+                <div class="hover"  (click)="onLogoutClick()">
+                    <app-icon icon="logout"></app-icon>
+                    <span>Sair</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

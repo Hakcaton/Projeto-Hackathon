@@ -1,0 +1,14 @@
+.main {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    padding-right: 10px;
+    cursor: pointer;
+    transition: 50ms;
+
+    :nth-child(2) {
+        flex-grow: 1;
+        margin-left: 10px;
+    }
+}

@@ -1,12 +1,12 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Req, Res, } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Req, Res, } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from 'src/tools/auth/auth.service';
-import { Public } from 'src/tools/auth/constants';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/users.service';
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
+import { UpdateCompanyDto } from './dto/update-company.dto';
 
 @Controller('companies')
 export class CompanyController {
@@ -51,6 +51,18 @@ export class CompanyController {
 
     res.send(await this.companyService.getCompany(companyCNPJ, res));
   }
+  @Patch(':companyCNPJ')
+  async updateCompany(@Req() req: Request, @Res() res: Response, @Param() params: any, @Body() company: UpdateCompanyDto): Promise<void> {
+    if (req.user['permission'] == 1) {
+      res.status(HttpStatus.UNAUTHORIZED).send();
+      return;
+    }
+
+    const companyCNPJ: string = params.companyCNPJ;
+    company.companyData.cnpj = companyCNPJ;
+
+    res.send(await this.companyService.updateCompany(company, res));
+  }
 
   @Get(':companyCNPJ/contracts')
   async getContracts(@Req() req: Request, @Res() res: Response, @Param() params: any): Promise<void> {
@@ -76,8 +88,10 @@ export class CompanyController {
       email: company.userData.email,
       lastName: company.userData.lastName,
       name: company.userData.name,
+      phoneNumber: company.userData.phoneNumber,
       permission: 1,
-      password: 'a'
+      password: 'a',
+      cpf: company.userData.cpf
     };
 
     await this.userService.addUser(userCreate, res);

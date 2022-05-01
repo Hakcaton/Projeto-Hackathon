@@ -1,6 +1,6 @@
 <input type="file" name="" #inputFile hidden="true" alife-file-to-base64 (onFileChanged)="onFileChanges($event)" />
 
-<div class="main-card" *ngIf="data.status === 0 || data.status === 2">
+<div class="main-card card" *ngIf="data.status === 0 || data.status === 2">
     <header>
         <div>
             <h3>{{ data.title }}</h3>
@@ -32,7 +32,7 @@
     </div>
 </div>
 
-<div class="main-card sent" *ngIf="data.status === 1 || data.status === 3">
+<div class="main-card sent card" *ngIf="data.status === 1 || data.status === 3">
     <header>
         <div>
             <h3>{{ data.title }}</h3>

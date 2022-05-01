@@ -1,9 +1,7 @@
-<div class="wrapper default-theme" [ngClass]="getClasses()">
-  <app-navbar></app-navbar>
+<app-side-bar #sideBar ></app-side-bar>
+<div class="wrapper">
+  <app-top-bar (sideBarCollapseClick)="onSideBarCollapseClick($event)"></app-top-bar>
   <main>
-    <app-sidebar></app-sidebar>
-    <div class="pages">
-      <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
   </main>
 </div>

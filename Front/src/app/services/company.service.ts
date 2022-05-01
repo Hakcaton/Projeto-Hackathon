@@ -5,35 +5,40 @@ import { AddContractModel } from '../models/add-contract.model';
 import { CompanyModel } from '../models/company.model';
 import { ContractModel } from '../models/contract.model';
 import { CreateCompanyModel } from '../models/create-company.model';
+import { GetCompanyModel } from '../models/get-company.model';
+import { UpdateCompanyModel } from '../models/update-company.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CompanyService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  public getRegisteredCompanies(): Observable<any> {
+  getRegisteredCompanies(): Observable<any> {
     const url = 'api/companies';
     return this.http.get(url);
   }
 
-  public getCompany(companyCNPJ: string): Observable<CompanyModel> {
+  getCompany(companyCNPJ: string): Observable<GetCompanyModel> {
     const url = 'api/companies/' + companyCNPJ.replace('/', '%2F');
-    return this.http.get<CompanyModel>(url);
+    return this.http.get<GetCompanyModel>(url);
   }
 
-  public registerCompany(company: CreateCompanyModel): Observable<any> {
+  registerCompany(company: CreateCompanyModel): Observable<any> {
     const url = 'api/companies';
     const headers = new HttpHeaders().set('content-type', 'application/json');
     return this.http.post(url, company, { headers: headers });
   }
 
-  public registerContract(
-    contract: AddContractModel,
-    companyCnpj: string
-  ): Observable<ContractModel> {
-    const url = `/api/companies/${companyCnpj}/contracts`;
+  registerContract(contract: AddContractModel, companyCNPJ: string): Observable<ContractModel> {
+    const url = '/api/companies/' + companyCNPJ.replace('/', '%2F') + '/contracts';
     const headers = new HttpHeaders().set('content-type', 'application/json');
     return this.http.post<ContractModel>(url, contract, { headers: headers });
+  }
+
+  updateCompany(companyCNPJ: string, company: UpdateCompanyModel): Observable<GetCompanyModel> {
+    const url = '/api/companies/' + companyCNPJ.replace('/', '%2F');
+    const headers = new HttpHeaders().set('content-type', 'application/json');
+    return this.http.patch<GetCompanyModel>(url, company, { headers: headers });
   }
 }

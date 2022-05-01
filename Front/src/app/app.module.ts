@@ -19,9 +19,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenRefresherInterceptor } from './interceptors/token-refresher.interceptor';
 import { TokenSenderInterceptor } from './interceptors/token-sender.interceptor';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
-import { SidebarComponent } from './components/menu/sidebar/sidebar.component';
-import { NavbarComponent } from './components/menu/navbar/navbar.component';
-import { FooterComponent } from './components/menu/footer/footer.component';
 import { ToastrModule } from 'ngx-toastr';
 import { UnauthenticatedLayoutComponent } from './layouts/unauthenticated-layout/unauthenticated-layout.component';
 import { AuthenticatedLayoutComponent } from './layouts/authenticated-layout/authenticated-layout.component';
@@ -45,6 +42,11 @@ import { DocumentsValidationComponent } from './views/internal/documents-validat
 import { DocumentValidationCardComponent } from './components/document-validation-card/document-validation-card.component';
 import { EmployeeDocumentValidationCardComponent } from './components/employee-document-validation-card/employee-document-validation-card.component';
 import { ContractInfoComponent } from './views/internal/contract-info/contract-info.component';
+import { TopBarComponent } from './components/top-bar/top-bar.component';
+import { SideBarComponent } from './components/side-bar/side-bar.component';
+import { SideBarItemComponent } from './components/side-bar/side-bar-item/side-bar-item.component';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+import { RefuseDocumentModalComponent } from './components/refuse-document-modal/refuse-document-modal.component';
 
 @NgModule({
   declarations: [
@@ -58,9 +60,6 @@ import { ContractInfoComponent } from './views/internal/contract-info/contract-i
     SendDocCardComponent,
     PendingDocsComponent,
     ProfileComponent,
-    SidebarComponent,
-    NavbarComponent,
-    FooterComponent,
     UnauthenticatedLayoutComponent,
     AuthenticatedLayoutComponent,
     HomePageComponent,
@@ -81,6 +80,10 @@ import { ContractInfoComponent } from './views/internal/contract-info/contract-i
     DocumentValidationCardComponent,
     EmployeeDocumentValidationCardComponent,
     ContractInfoComponent,
+    TopBarComponent,
+    SideBarComponent,
+    SideBarItemComponent,
+    RefuseDocumentModalComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -90,9 +93,13 @@ import { ContractInfoComponent } from './views/internal/contract-info/contract-i
     FormsModule,
     HttpClientModule,
     CollapseModule.forRoot(),
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      timeOut: 10000
+    }),
     NgxMaskModule.forRoot(),
     AlifeFileToBase64Module,
+    PopoverModule.forRoot(),
   ],
   providers: [
     FormBuilder,
@@ -114,4 +121,4 @@ import { ContractInfoComponent } from './views/internal/contract-info/contract-i
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
