@@ -138,7 +138,7 @@ export class CompanyContractsComponent implements OnInit {
     this.bAddContract = true;
   }
 
-  onContractAdded(contracts: any) {
+  onContractAdded(contracts: ContractModel) {
     this.bAddContract = false;
     this.contracts.push(contracts);
     this.filter = this.filter;

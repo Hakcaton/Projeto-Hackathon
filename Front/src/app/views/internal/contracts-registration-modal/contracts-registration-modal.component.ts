@@ -39,6 +39,7 @@ export class ContractsRegistrationModalComponent implements OnInit {
       .registerContract(this.contractRegistrationForm.value, this.companyCnpj)
       .pipe(
         map((contract) => {
+          contract.initialDate = new Date(contract.initialDate);
           this.onAdded.emit(contract);
         }),
         catchError((err) => {
