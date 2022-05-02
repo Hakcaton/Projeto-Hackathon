@@ -1,6 +1,6 @@
 <app-refuse-document-modal *ngIf="bRefuseModal" (onConfirmClick)="onRefuseConfirm($event)" (onCancelClick)="onRefuseCancel()"></app-refuse-document-modal>
 
-<div class="main-card card" *ngIf="data.status === 1">
+<div class="main-card card" *ngIf="data.status == 1">
     <div>
         <div>
             <h3 tooltip="Abrir documento em uma nova guia" [delay]="1000" (click)="openDocumentFile()">{{ data.title }}</h3>
