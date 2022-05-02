@@ -11,6 +11,8 @@ import { TokenRefresherMiddleware } from './auth.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Contract } from 'src/modules/contract/entities/contract.entity';
 import { Company } from 'src/modules/company/entities/company.entity';
+import { Auth } from './entities/auth.entity';
+import { Emails } from '../emails/emails.service';
 
 @Module({
   imports: [
@@ -22,10 +24,11 @@ import { Company } from 'src/modules/company/entities/company.entity';
       signOptions: { expiresIn: '12h' },
     }),
     forwardRef(() => TypeOrmModule.forFeature([Contract])),
-    forwardRef(() => TypeOrmModule.forFeature([Company]))
+    forwardRef(() => TypeOrmModule.forFeature([Company])),
+    forwardRef(() => TypeOrmModule.forFeature([Auth])),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, TokenRefresherMiddleware],
+  providers: [AuthService, LocalStrategy, JwtStrategy, TokenRefresherMiddleware, Emails],
   exports: [AuthService],
 })
 export class AuthModule {}
