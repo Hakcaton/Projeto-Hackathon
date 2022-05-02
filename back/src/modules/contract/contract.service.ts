@@ -469,7 +469,7 @@ export class ContractService {
 					newDoc.tooltipText = rawDoc.comment;
 					newDoc.requestDate = rawDoc.request_date;
 					newDoc.file.base64 = Buffer.from(rawDoc.file_stream).toString("base64");
-					newDoc.file.format = rawDoc.file_name;
+					newDoc.file.format = rawDoc.file_format;
 					newEmployeeSentDoc.documents.push(newDoc);
 				});
 			documents.push(newEmployeeSentDoc);

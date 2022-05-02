@@ -73,6 +73,7 @@ export class DocumentsValidationComponent implements OnInit {
 
         this.documentsService.getEmployeesSentDocuments(this.contractId).pipe(
           map((employeesDocuments) => {
+            console.log(employeesDocuments)
             employeesDocuments.forEach((employee) => {
               employee.documents.forEach((doc) => {
                 doc.requestDate = new Date(doc.requestDate);

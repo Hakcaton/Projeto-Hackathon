@@ -24,6 +24,7 @@ export class DocumentValidationCardComponent implements OnInit {
   btnApproveClick() {
     this.documentService.validateDocument(this.data.id, { approved: true }).pipe(
       map(() => {
+        this.data.status = 3;
         this.toastr.success('Documento validado com sucesso!', 'Validação de documento');
       }),
       catchError((err) => {
