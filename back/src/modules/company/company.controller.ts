@@ -1,11 +1,15 @@
 import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Req, Res, } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from 'src/tools/auth/auth.service';
+import { eError } from 'src/tools/enum/error.definition';
+import { ePermission } from 'src/tools/enum/permission.definition';
+import { GetContractDto } from '../contract/dto/get-contract.dto';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/users.service';
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
+import { CreateContractDto } from './dto/create-contract.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 
 @Controller('companies')
@@ -77,6 +81,21 @@ export class CompanyController {
     res.send(await this.companyService.getContracts(companyCNPJ, res));
   }
 
+  @Post(':companyCNPJ/contracts')
+  async addContract(@Body() contract: CreateContractDto, @Req() req: Request, @Res() res: Response, @Param() params: any): Promise<void> {
+    const userPermission: ePermission = req.user['permission'];
+    const companyCNPJ: string = params.companyCNPJ;
+
+    contract.companyCNPJ = companyCNPJ;
+
+    if (userPermission != ePermission.internalEmployee) {
+      res.status(HttpStatus.UNAUTHORIZED).send();
+      return;
+    }
+
+    res.send(await this.companyService.addContract(contract, res));
+  }
+
   @Post()
   async addCompany(@Req() req: Request, @Res() res: Response, @Body() company: CreateCompanyDto): Promise<void> {
     if (req.user['permission'] == 1) {
@@ -106,4 +125,5 @@ export class CompanyController {
 
     res.send();
   }
+
 }

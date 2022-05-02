@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, map, throwError } from 'rxjs';
 import { CreateCompanyModel } from 'src/app/models/create-company.model';
 import { GetCompanyModel } from 'src/app/models/get-company.model';
@@ -47,7 +48,8 @@ export class CompanyRegistrationComponent implements OnInit {
     private formBuilder: FormBuilder,
     private companyService: CompanyService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute, 
+    private toastr: ToastrService
   ) {
     //form da empresa terceira.
     this.companyForm = this.formBuilder.group({
@@ -127,12 +129,12 @@ export class CompanyRegistrationComponent implements OnInit {
       .registerCompany(companyCreate)
       .pipe(
         map((result: any) => {
-          alert('Empresa cadastrada com sucesso!');
+          this.toastr.success('Empresa cadastrada com sucesso!', 'Cadastro de Empresa');
           this.btnConfirmDisabled = false;
           this.router.navigateByUrl('/interno/empresas');
         }),
         catchError((error) => {
-          alert('Não foi possível cadastrar a empresa');
+          this.toastr.error('Não foi possível cadastrar a empresa', 'Cadastro de Empresa');
           this.btnConfirmDisabled = false;
           return throwError(() => error);
         })
@@ -231,7 +233,7 @@ export class CompanyRegistrationComponent implements OnInit {
         this.bEditing = false;
       }),
       catchError((err) => {
-        alert('Não foi possível salvar as alterações');
+        this.toastr.error('Não foi possível salvar as alterações', 'Dados da Empresa');
         return throwError(() => err);
       })
     ).subscribe();

@@ -8,6 +8,7 @@ import { GetContractDto } from '../contract/dto/get-contract.dto';
 import { Contract } from '../contract/entities/contract.entity';
 import { User } from '../user/entities/user.entity';
 import { CreateCompanyDto } from './dto/create-company.dto';
+import { CreateContractDto } from './dto/create-contract.dto';
 import { GetCompanyDto, GetResponsableModel } from './dto/get-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { Company } from './entities/company.entity';
@@ -192,6 +193,32 @@ export class CompanyService {
         switch (err) {
           case eError.RESOURCE_NOT_FOUND: {
             res.status(HttpStatus.NOT_FOUND);
+            break;
+          }
+
+          default: {
+            res.status(HttpStatus.BAD_REQUEST);
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  async addContract(contract: CreateContractDto, res?: Response): Promise<GetContractDto> {
+    try {
+      const newContract: Contract = this.contractRepository.create(contract);
+      return await this.contractRepository.save(newContract);
+    }
+    catch (err) {
+      if (!res) {
+        throw err;
+      }
+      if (err instanceof QueryFailedError) {
+        const error = err.driverError as DatabaseError;
+        switch (error.code) {
+          case 'ER_DUP_ENTRY': {
+            res.status(HttpStatus.CONFLICT);
             break;
           }
 
