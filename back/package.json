@@ -33,6 +33,7 @@
         "@types/passport-local": "^1.0.34",
         "bcrypt": "^5.0.1",
         "mysql2": "^2.3.3",
+        "nodemailer": "^6.7.4",
         "passport": "^0.5.2",
         "passport-jwt": "^4.0.0",
         "passport-local": "^1.0.0",
