@@ -58,11 +58,30 @@ export class DocumentValidationCardComponent implements OnInit {
   openDocumentFile() {
     const uri: string = 'data:' + this.data.file.format + ';base64,' + encodeURI(this.data.file.base64);
 
-    let newWindow = window.open(uri);
-    if (newWindow) {
-      newWindow.document.write("<style>body{margin: 0}</style>");
-      newWindow.document.write("<style>iframe{border: none}</style>");
-      newWindow.document.write("<iframe width='100%' height='100%' src='" + uri + "'></iframe>");
+    let newWindow = window.open();
+
+    if (['application/pdf', 'image/png'].includes(this.data.file.format)) {
+      if (newWindow) {
+        newWindow.document.write("<style>body{margin: 0}</style>");
+        newWindow.document.write("<style>iframe{border: none}</style>");
+        newWindow.document.write("<iframe width='100%' height='100%' src='" + uri + "'></iframe>");
+      }
+    }
+
+    else {
+      const link: any = document.createElement("a");
+      link.href = uri;
+      document.body.appendChild(link);
+
+      link.dispatchEvent(
+        new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window
+        })
+      );
+
+      document.body.removeChild(link);
     }
   }
 

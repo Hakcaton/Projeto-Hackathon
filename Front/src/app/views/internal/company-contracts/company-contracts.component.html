@@ -3,7 +3,7 @@
 <div class="wrapper">
   <section>
     <h2>Contratos da Empresa</h2>
-    <h3>{{ companyData.fantasyName +' - ' + companyData.cnpj }}</h3>
+    <h3>{{ companyData.fantasyName ? (companyData.fantasyName + ' - ' + companyData.cnpj) : '' }}</h3>
     <div class="filter">
       <button class="btn btn-primary" (click)="btnAddContractClick()">Adicionar</button>
       <input class="form-control" type="text" placeholder="Filtre por Título ou Data" [(ngModel)]="filter" />

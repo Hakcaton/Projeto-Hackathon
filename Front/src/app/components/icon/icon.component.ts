@@ -29,10 +29,13 @@ export class IconComponent implements OnInit {
       case 'green':
         this.filter = 'invert(69%) sepia(13%) saturate(1668%) hue-rotate(71deg) brightness(89%) contrast(91%)';
         break;
-        case 'red':
-          this.filter = 'invert(49%) sepia(12%) saturate(2633%) hue-rotate(314deg) brightness(88%) contrast(101%)';
-          break;
-    
+      case 'red':
+        this.filter = 'invert(49%) sepia(12%) saturate(2633%) hue-rotate(314deg) brightness(88%) contrast(101%)';
+        break;
+      case 'light':
+        this.filter = 'invert(95%) sepia(15%) saturate(54%) hue-rotate(186deg) brightness(99%) contrast(96%)';
+        break;
+
       default:
         break;
     }

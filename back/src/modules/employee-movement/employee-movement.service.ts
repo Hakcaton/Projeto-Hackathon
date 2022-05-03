@@ -29,7 +29,6 @@ export class EmployeeMovementService {
 			await this.employeeMovementRepository.save(employee);
 			return true;
 		} catch (err) {
-			console.log(err);
 			throw new Error(err);
 		}
 	}

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { catchError, map, of } from 'rxjs';
+import { catchError, map, of, throwError } from 'rxjs';
 import { EmployeeDocumentModel } from 'src/app/models/employee-document.model';
 import { DocumentsService } from 'src/app/services/documents.service';
 
@@ -52,7 +52,7 @@ export class AddEmployeeComponent {
           if (error.status === 409) {
             alert('CPF já cadastrado');
           }
-          return of(0);
+          return throwError(() => error);
         })
       )
       .subscribe();

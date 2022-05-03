@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, map, throwError } from 'rxjs';
 import { ContractModel } from 'src/app/models/contract.model';
 import { UpdateContractModel } from 'src/app/models/update-contract.model';
@@ -37,7 +38,7 @@ export class ContractInfoComponent implements OnInit {
     }
   }
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private contractService: ContractService, private dateHelper: DateHelper) {
+  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private contractService: ContractService, private dateHelper: DateHelper, private toastr: ToastrService) {
     this.contractForm = this.formBuilder.group({
       title: [{ value: '', disabled: true }, Validators.required],
       description: [{ value: '', disabled: true }, Validators.nullValidator],
@@ -74,7 +75,7 @@ export class ContractInfoComponent implements OnInit {
   }
   btnSaveClick() {
     if (!this.contractForm.controls['title'].valid) {
-      alert('Título inválido');
+      this.toastr.error('O campo "Título" deve ser preenchido', "Informações do Contrato");
       return;
     }
 
@@ -83,9 +84,10 @@ export class ContractInfoComponent implements OnInit {
       map((contract) => {
         this.contract = contract;
         this.bEditing = false;
+        this.toastr.success('As informações do contrato foram salvas com sucesso', "Informações do Contrato");
       }),
       catchError((err) => {
-        alert('Não foi possível salvar as informações do contracto');
+        this.toastr.error('Ocorreu um erro inesperado ao salvar as informações do contrato', "Informações do Contrato");
         return throwError(() => err);
       })
     ).subscribe();

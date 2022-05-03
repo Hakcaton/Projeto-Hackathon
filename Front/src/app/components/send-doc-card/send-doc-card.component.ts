@@ -12,6 +12,7 @@ import { DocumentsService } from 'src/app/services/documents.service';
 export class SendDocCardComponent implements OnInit {
   file: FileModel = <FileModel>{};
 
+  @ViewChild('inputFile') inputFile: any;
   @ViewChild('imgSendCancel') imgSendCancel: any;
   @ViewChild('spanSendCancel') spanSendCancel: any;
   @ViewChild('imgCancel') imgCancel: any;
@@ -48,6 +49,7 @@ export class SendDocCardComponent implements OnInit {
   btnCancelClick() {
     this.data.file.base64 = "";
     this.data.file.format = "";
+    this.inputFile.nativeElement.value = null;
   }
 
   btnSendClick() {

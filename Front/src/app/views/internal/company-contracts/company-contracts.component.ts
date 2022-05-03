@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, map, throwError } from 'rxjs';
 import { CompanyModel } from 'src/app/models/company.model';
 import { ContractModel } from 'src/app/models/contract.model';
 import { CompanyService } from 'src/app/services/company.service';
@@ -47,7 +48,8 @@ export class CompanyContractsComponent implements OnInit {
     private companyService: CompanyService,
     private route: ActivatedRoute,
     private router: Router,
-    public dateHelper: DateHelper
+    public dateHelper: DateHelper,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +63,11 @@ export class CompanyContractsComponent implements OnInit {
             .pipe(
               map((company) => {
                 this.companyData = company;
+              }),
+              catchError((err)=>{
+                this.toastr.error('Não foi possível obter os contratos da empresa');
+                this.router.navigateByUrl('/interno/empresas');
+                return throwError(()=>err);
               })
             )
             .subscribe();
@@ -78,6 +85,11 @@ export class CompanyContractsComponent implements OnInit {
 
                 this.contracts = contracts;
                 this.filteredContracts = this.contracts;
+              }),
+              catchError((err)=>{
+                this.toastr.error('Não foi possível obter os contratos da empresa');
+                this.router.navigateByUrl('/interno/empresas');
+                return throwError(()=>err);
               })
             )
             .subscribe();

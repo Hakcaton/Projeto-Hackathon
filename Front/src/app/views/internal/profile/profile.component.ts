@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, lastValueFrom, map, of, throwError } from 'rxjs';
 import { UpdateUserModel } from 'src/app/models/update-profile.model';
 import { AccountService } from 'src/app/services/account.service';
@@ -14,7 +15,7 @@ export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   profileImageSource: string = 'assets/images/default-profile.svg';
 
-  constructor(private formBuilder: FormBuilder, private accountService: AccountService) {
+  constructor(private formBuilder: FormBuilder, private accountService: AccountService, private toastr: ToastrService) {
     this.profileForm = this.formBuilder.group({
       name: [{ value: '', disabled: true }, Validators.required],
       lastName: [{ value: '', disabled: true }, Validators.required],
@@ -64,19 +65,19 @@ export class ProfileComponent implements OnInit {
   }
   btnSaveClick() {
     if (!this.profileForm.controls['name'].valid) {
-      alert('Nome inválido');
+      this.toastr.error('O campo "Nome" deve ser preenchido', 'Meu Perfil');
       return;
     }
     if (!this.profileForm.controls['lastName'].valid) {
-      alert('Sobrenome inválido');
+      this.toastr.error('O campo "Sobrenome" deve ser preenchido', 'Meu Perfil');
       return;
     }
     if (!this.profileForm.controls['email'].valid) {
-      alert('E-Mail inválido');
+      this.toastr.error('O E-Mail informado é inválido', 'Meu Perfil');
       return;
     }
     if (!this.profileForm.controls['phoneNumber'].valid) {
-      alert('Celular inválido');
+      this.toastr.error('O Celular informado é inválido', 'Meu Perfil');
       return;
     }
 
@@ -84,9 +85,16 @@ export class ProfileComponent implements OnInit {
     this.accountService.updateProfile(user).pipe(
       map(() => {
         this.bEditing = false;
+        this.toastr.clear();
+        this.toastr.success('Perfil salvo com sucesso', 'Meu Perfil');
       }),
       catchError((err) => {
-        alert('Não foi possível salvar o perfil');
+        if (err.status == 409) {
+          this.toastr.error('O E-Mail informado já está sendo usado por outro usuário', 'Meu Perfil');
+        }
+        else {
+          this.toastr.error('Ocorreu um erro inesperado ao salvar o perfil', 'Meu Perfil');
+        }
         return throwError(() => err);
       })
     ).subscribe();

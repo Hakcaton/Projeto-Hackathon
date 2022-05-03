@@ -1,12 +1,12 @@
 <div class="main" (click)="onClick()" (mouseover)="bHovered = true" (mouseout)="bHovered = false" [ngStyle]="
     {   
         'padding-left': (level * 15 + 10 + (data.icon != '' ? 0 : 25)).toString() + 'px',
-        'background': !bHovered?(level == 0 ? '#ffffff' : '#f0f0f0'):'#e1e1e1',
+        'background-color': !bHovered?(level == 0 ? '#242939' : '#253040'):'#2d3848',
         'transition': '100ms'
     }">
-    <app-icon [icon]="data.icon"></app-icon>
+    <app-icon [icon]="data.icon" color="light"></app-icon>
     <span>{{ data.text }}</span>
-    <app-icon icon="rigth-arrow" [ngClass]="{'rotated-90p-250': !bCollapsed, 'rotated-0p-250': bCollapsed}" *ngIf="data.items.length > 0"></app-icon>
+    <app-icon icon="rigth-arrow" color="light" [ngClass]="{'rotated-90p-250': !bCollapsed, 'rotated-0p-250': bCollapsed}" *ngIf="data.items.length > 0"></app-icon>
 </div>
 <div class="items" [collapse]="bCollapsed " [isAnimated]="true">
     <app-side-bar-item *ngFor="let item of data.items" [data]="item" [level]="level + 1"></app-side-bar-item>

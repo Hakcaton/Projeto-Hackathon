@@ -6,7 +6,8 @@
             <h3 tooltip="Abrir documento em uma nova guia" [delay]="1000" (click)="openDocumentFile()">{{ data.title }}</h3>
             <ng-template #popTemplate id="more-info-template">
                 <div class="more-info-template-row">Data de solicitação: {{ dateHelper.DateToString(data.requestDate) }}</div>
-                <div class="more-info-template-row"><button class="btn btn-primary" (click)="openDocumentFile()">Visualizar</button></div>
+                <div class="more-info-template-row">Comentário: {{ data.tooltipText }}</div>
+                <!-- <div class="more-info-template-row"><button class="btn btn-primary" (click)="openDocumentFile()">Visualizar</button></div> -->
             </ng-template>
             <span [popover]="popTemplate" popoverTitle="Dados do documento" placement="top">
                 <app-icon icon="comment" [scale]=".75"></app-icon>

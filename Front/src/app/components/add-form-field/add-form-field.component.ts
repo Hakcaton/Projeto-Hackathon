@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { catchError, map, of } from 'rxjs';
+import { catchError, map, of, throwError } from 'rxjs';
 import { AddFormFieldModel } from 'src/app/models/add-form-field.model';
 import { FormFieldModel } from 'src/app/models/form-field.model';
 import { ContractService } from 'src/app/services/contract.service';
@@ -61,7 +61,7 @@ export class AddFormFieldComponent {
         if (error.status === 409) {
           alert('Título já cadastrado');
         }
-        return of(0);
+        return throwError(() => error);
       })
     ).subscribe();
   }

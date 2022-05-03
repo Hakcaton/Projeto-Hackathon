@@ -1,4 +1,7 @@
+@import "../../../../_variables";
+
 .main {
+    background-color: $bg-color-2;
     display: flex;
     align-items: center;
     width: 100%;
@@ -6,6 +9,10 @@
     padding-right: 10px;
     cursor: pointer;
     transition: 50ms;
+
+    *{
+        color: $font-color-2;
+    }
 
     :nth-child(2) {
         flex-grow: 1;

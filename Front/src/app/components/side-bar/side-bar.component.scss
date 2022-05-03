@@ -1,14 +1,20 @@
+@import "../../../_variables";
+
 :host{
     z-index: 2;
 }
 
 .main{
-    background-color: white;
+    background-color: $bg-color-2;
     width: 250px;
     height: 100%;
     transition: .25s;
     box-shadow: 4px 0px 4px 0px rgba($color: #000000, $alpha: .25);
     overflow: hidden;
+
+    *{
+        color: $font-color-2;
+    }
 
     .header{
         display: flex;
