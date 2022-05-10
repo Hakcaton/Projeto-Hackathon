@@ -36,6 +36,7 @@
         text-align: left;
         margin-right: 10px;
         cursor: pointer;
+        width: fit-content;
     }
 
     >h3:hover {
@@ -44,6 +45,7 @@
 
     >span {
         cursor: pointer;
+        height: 100%;
     }
 }
 
@@ -52,8 +54,12 @@
     margin: 0;
 }
 
-.main-card>div:nth-child(2)>* {
-    margin: 5px;
+.main-card>div:nth-child(2) {
+    margin-left: 10px;
+    min-width: 70px;
+    >*{
+        margin: 5px;
+    }
 }
 
 .more-info-template-row {

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, map, of, throwError } from 'rxjs';
 import { EmployeeDocumentModel } from 'src/app/models/employee-document.model';
 import { DocumentsService } from 'src/app/services/documents.service';
@@ -21,7 +22,8 @@ export class AddEmployeeComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private documentsService: DocumentsService
+    private documentsService: DocumentsService,
+    private toastr: ToastrService
   ) {
     this.employeeForm = this.formBuilder.group({
       fullName: [{ value: '', disabled: false }, [Validators.required]],
@@ -47,10 +49,14 @@ export class AddEmployeeComponent {
       .pipe(
         map((employee: any) => {
           this.onAdded.emit(employee);
+          this.toastr.success('Funcionário cadastrado com sucesso', 'Cadastro de Funcionário')
         }),
         catchError((error) => {
           if (error.status === 409) {
-            alert('CPF já cadastrado');
+            this.toastr.error('CPF já cadastrado', 'Cadatsro de Funcionário');
+          }
+          else{
+            this.toastr.error('Ocorreu um erro inesperado ao cadastrar o funcionário', 'Cadatsro de Funcionário');
           }
           return throwError(() => error);
         })

@@ -231,6 +231,7 @@ export class CompanyRegistrationComponent implements OnInit {
         this.company = company;
         this.resetForm();
         this.bEditing = false;
+        this.toastr.success('Dados da Empresa/Responsável salvos com sucesso', 'Dados da Empresa');
       }),
       catchError((err) => {
         this.toastr.error('Não foi possível salvar as alterações', 'Dados da Empresa');

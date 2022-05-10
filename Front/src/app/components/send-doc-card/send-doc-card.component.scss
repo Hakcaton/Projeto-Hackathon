@@ -1,6 +1,6 @@
 .main-card {
     width: 650px;
-    height: 150px;
+    height: auto;
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -40,9 +40,12 @@
     flex-grow: 1;
 }
 
-.main-card>header>div:nth-child(1)>div>h6 {
-    text-align: left;
-    margin: 0;
+.main-card>header>div:nth-child(1)>div {
+    margin: 15px 0px;
+    >h6 {
+        text-align: left;
+        margin: 0;
+    }
 }
 
 .main-card>div {

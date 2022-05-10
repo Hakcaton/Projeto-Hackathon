@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, map, of, throwError } from 'rxjs';
 import { EmployeeDocumentModel } from 'src/app/models/employee-document.model';
 import { DocumentsService } from 'src/app/services/documents.service';
@@ -28,9 +29,10 @@ export class EmployeeSendDocCardComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private documentsService: DocumentsService
+    private documentsService: DocumentsService,
+    private toastr: ToastrService
   ) {
-    this.employeeForm = formBuilder.group({
+    this.employeeForm = this.formBuilder.group({
       fullName: [{ value: '', disabled: true }, [Validators.required]],
       cpf: [
         { value: '', disabled: true },
@@ -57,16 +59,18 @@ export class EmployeeSendDocCardComponent implements OnInit {
   }
   btnSaveFullNameClick() {
     if (!this.employeeForm.controls['fullName'].valid) {
-      alert('Nenhum nome informado');
+      this.toastr.error('Nenhum nome informado');
       return;
     }
     this.employeeForm.controls['fullName'].disable();
     this.documentsService.updateEmployeeFullName(this.employeeForm.controls['fullName'].value, this.data.id).pipe(
       map((employee: any) => {
         this.data.fullName = employee.fullName;
+        this.toastr.success('Nome salvo com sucesso');
       }),
       catchError(err => {
         this.employeeForm.controls['fullName'].enable();
+        this.toastr.error('Ocorreu um erro ao salvar o nome');
         return throwError(() => err);
       })
     ).subscribe();
@@ -77,16 +81,18 @@ export class EmployeeSendDocCardComponent implements OnInit {
   }
   btnSaveCPFClick() {
     if (!this.employeeForm.controls['cpf'].valid) {
-      alert('CPF inválido');
+      this.toastr.error('CPF inválido');
       return;
     }
     this.employeeForm.controls['cpf'].disable();
     this.documentsService.updateEmployeeCPF(this.employeeForm.controls['cpf'].value, this.data.id).pipe(
       map((employee: any) => {
         this.data.cpf = employee.cpf;
+        this.toastr.success('CPF salvo com sucesso');
       }),
       catchError(err => {
         this.employeeForm.controls['cpf'].enable();
+        this.toastr.error('Ocorreu um erro ao salvar o CPF');
         return throwError(() => err);
       })
     ).subscribe();

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs';
 import { recurrence } from 'src/app/constants/recurrence.constant';
 import { tags } from 'src/app/constants/tags.constant';
@@ -24,10 +25,10 @@ export class FormFieldCardComponent implements OnInit {
 
   @ViewChild('cardArrow') cardArrow: any;
 
-  constructor(private contractService: ContractService, private formFieldService: FormFieldService, private formBuilder: FormBuilder, private dateHelper: DateHelper) {
+  constructor(private contractService: ContractService, private formFieldService: FormFieldService, private formBuilder: FormBuilder, private dateHelper: DateHelper, private toastr: ToastrService) {
     this.documentForm = formBuilder.group({
       title: [{ value: '', disabled: true }, [Validators.required]],
-      subtitle: [{ value: '', disabled: true }, [Validators.required]],
+      subtitle: [{ value: '', disabled: true }, [Validators.nullValidator]],
       recurrence: [{ value: '', disabled: true }, [Validators.required]],
       firstRequestDate: [{ value: '--/--/----', disabled: true }, [Validators.required]],
       required: [{ value: true, disabled: true }, [Validators.required]],
@@ -72,7 +73,8 @@ export class FormFieldCardComponent implements OnInit {
 
   btnSaveTitleClick() {
     if (!this.documentForm.controls['title'].valid) {
-      alert('Título inválido');
+      this.toastr.error('Título inválido');
+      return;
     }
 
     const formField: UpdateFormFieldModel = {
@@ -93,7 +95,8 @@ export class FormFieldCardComponent implements OnInit {
 
   btnSaveSubtitleClick() {
     if (!this.documentForm.controls['subtitle'].valid) {
-      alert('Subtítulo inválido');
+      this.toastr.error('Subtítulo inválido');
+      return;
     }
 
     const formField: UpdateFormFieldModel = {

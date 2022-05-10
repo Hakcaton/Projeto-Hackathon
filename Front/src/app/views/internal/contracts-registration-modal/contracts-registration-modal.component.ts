@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, map, throwError } from 'rxjs';
 import { ContractModel } from 'src/app/models/contract.model';
 import { CompanyService } from 'src/app/services/company.service';
@@ -20,7 +21,8 @@ export class ContractsRegistrationModalComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private companyService: CompanyService
+    private companyService: CompanyService,
+    private toastr: ToastrService
   ) {
     this.contractRegistrationForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -31,7 +33,7 @@ export class ContractsRegistrationModalComponent implements OnInit {
 
   btnConfirmClick() {
     if (!this.contractRegistrationForm.controls['title'].valid) {
-      alert('Titulo Inválido.');
+      this.toastr.error('Titulo Inválido.', 'Cadastrp de Contrato');
       return;
     }
 
@@ -41,9 +43,10 @@ export class ContractsRegistrationModalComponent implements OnInit {
         map((contract) => {
           contract.initialDate = new Date(contract.initialDate);
           this.onAdded.emit(contract);
+          this.toastr.success('Contrato cadastrado com sucesso', 'Cadastro de Contrato');
         }),
         catchError((err) => {
-          alert('Não foi possível adicionar o contrato');
+          this.toastr.error('Não foi possível adicionar o contrato', 'Cadastro de Contrato');
           return throwError(() => err);
         })
       )
