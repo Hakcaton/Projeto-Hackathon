@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { map } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, map, throwError } from 'rxjs';
 import { tags } from 'src/app/constants/tags.constant';
 import { DocumentModel, FileModel } from 'src/app/models/document.model';
 import { DocumentsService } from 'src/app/services/documents.service';
@@ -18,7 +19,7 @@ export class SendDocCardComponent implements OnInit {
   @ViewChild('imgCancel') imgCancel: any;
   @ViewChild('spanCancel') spanCancel: any;
 
-  constructor(private documentService: DocumentsService) { }
+  constructor(private documentService: DocumentsService, private toastr: ToastrService) { }
 
   @Input() data: DocumentModel = {
     id: '',
@@ -58,8 +59,17 @@ export class SendDocCardComponent implements OnInit {
         this.documentService.getDocument(this.data).pipe(
           map((document: DocumentModel) => {
             this.data = document;
+            this.toastr.success('Documento enviado com sucesso', 'Envio de Documentos');
+          }),
+          catchError((err) => {
+            this.toastr.error('Ocorreu um erro ao retornar o documento enviado', 'Envio de Documentos');
+            return throwError(() => err);
           })
         ).subscribe();
+      }),
+      catchError((err) => {
+        this.toastr.error('Ocorreu um erro ao enviar o documento', 'Envio de Documentos');
+        return throwError(() => err);
       })
     ).subscribe();
   }

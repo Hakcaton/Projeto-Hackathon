@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, map, of, throwError } from 'rxjs';
 import { AddFormFieldModel } from 'src/app/models/add-form-field.model';
 import { FormFieldModel } from 'src/app/models/form-field.model';
@@ -20,7 +21,7 @@ export class AddFormFieldComponent {
 
   @Input() contractId: string = '';
 
-  constructor(private formBuilder: FormBuilder, private contractService: ContractService, private dateHelper: DateHelper) {
+  constructor(private formBuilder: FormBuilder, private contractService: ContractService, private dateHelper: DateHelper, private toastr: ToastrService) {
     this.formFieldForm = this.formBuilder.group({
       title: ['', Validators.required],
       subtitle: ['', Validators.required],
@@ -56,11 +57,10 @@ export class AddFormFieldComponent {
       map((formField) => {
         formField.firstRequestDate = new Date(formField.firstRequestDate);
         this.onAdded.emit(formField);
+        this.toastr.success('Documento solicitado com sucesso', 'Solicitação de Documentos');
       }),
       catchError((error) => {
-        if (error.status === 409) {
-          alert('Título já cadastrado');
-        }
+        this.toastr.success('Ocorreu um erro inesperado ao solicitar o documento', 'Solicitação de Documentos');
         return throwError(() => error);
       })
     ).subscribe();

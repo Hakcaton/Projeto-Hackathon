@@ -77,14 +77,17 @@ const routes: Routes = [
       {
         path: 'contratos',
         component: OutsourcedCompanyContractsComponent,
+        data: {title: 'Contratos da Empresa'}
       },
       {
         path: 'contratos/:contractId/documentos/pendentes',
         component: PendingDocsComponent,
+        data: {title: 'Envio de Documentos'}
       },
       {
         path: 'contratos/:contractId/documentos/enviados',
         component: SentDocsComponent,
+        data: {title: 'Documentos Enviados'}
       },
     ],
     canActivate: [OutsourcedAuthGuard],

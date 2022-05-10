@@ -105,6 +105,11 @@ export class ContractInfoComponent implements OnInit {
         this.contract = contract;
         this.resetFormValues();
         this.bTerminateContract = false;
+      }),
+      catchError((err)=>{ 
+        this.toastr.error('Não foi possível encerrar o contrato');
+
+        return throwError(()=> err);
       })
     ).subscribe();
   }

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { map } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 import { recurrence } from 'src/app/constants/recurrence.constant';
 import { tags } from 'src/app/constants/tags.constant';
 import { FormFieldModel } from 'src/app/models/form-field.model';
@@ -85,6 +85,11 @@ export class FormFieldCardComponent implements OnInit {
       map(() => {
         this.documentForm.controls['title'].disable();
         this.data.title = this.documentForm.controls['title'].value;
+        this.toastr.success('Tilulo alterado com sucesso', 'Solicitação de Documentos');
+      }),
+      catchError((err) => {
+        this.toastr.error('Ocorreu um erro ao salvar o Título', 'Solicitação de Documentos');
+        return throwError(()=>err);
       })
     ).subscribe();
   }

@@ -39,7 +39,7 @@ export class AddEmployeeComponent {
 
   btnConfirmClick() {
     if (!this.employeeForm.controls['cpf'].valid) {
-      alert('CPF inválido');
+      this.toastr.error('CPF inválido', 'Cadastro de Funcionário');
       return;
     }
     let body = this.employeeForm.value;
