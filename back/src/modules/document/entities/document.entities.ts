@@ -12,7 +12,7 @@ export class Document {
   @Column()
   status: eDocumentStatus;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 1000 })
   comment: string
 
   @Column({ nullable: true, type: 'longblob' })
