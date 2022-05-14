@@ -1,11 +1,10 @@
-export interface FormFieldModel {
+export interface FormFieldTemplateModel {
     id: string;
-    contractId: string;
     title: string;
-    subtitle: string;
+    subtitle: number;
     description: string;
     recurrence: number;
     individual: boolean;
     required: boolean;
-    firstRequestDate: Date;
+    customizable: boolean;
 }

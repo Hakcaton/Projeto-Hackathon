@@ -11,7 +11,7 @@ export class FormField {
   @Column()
   title: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   subtitle: string;
 
   @Column()

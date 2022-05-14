@@ -40,6 +40,7 @@ export class FormFieldCardComponent implements OnInit {
     id: '',
     title: '',
     subtitle: '',
+    description: '',
     recurrence: 0,
     individual: false,
     required: true,

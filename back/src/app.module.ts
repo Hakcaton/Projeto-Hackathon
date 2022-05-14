@@ -21,6 +21,8 @@ import { EmployeeMovement } from "./modules/employee-movement/entities/employee-
 import { TokenRefresherMiddleware } from "./tools/auth/auth.middleware";
 import { Emails } from "./tools/emails/emails.service";
 import { Auth } from "./tools/auth/entities/auth.entity";
+import { FormFieldTemplate } from "./modules/form-field-template/entities/form-field-template.entity";
+import { FormFieldTemplateModule } from "./modules/form-field-template/form-field-template.module";
 
 @Module({
 	imports: [
@@ -31,6 +33,7 @@ import { Auth } from "./tools/auth/entities/auth.entity";
 		EmployeeModule,
 		FormFieldModule,
 		DocumentsModule,
+		FormFieldTemplateModule,
 		TypeOrmModule.forRoot({
 			type: "mysql",
 			host: "localhost",
@@ -38,7 +41,7 @@ import { Auth } from "./tools/auth/entities/auth.entity";
 			username: "root",
 			password: "",
 			database: "test",
-			entities: [User, Company, Contract, Employee, FormField, Document, EmployeeMovement, Auth],
+			entities: [User, Company, Contract, Employee, FormField, Document, EmployeeMovement, Auth, FormFieldTemplate],
 			synchronize: true,
 		}),
 	],

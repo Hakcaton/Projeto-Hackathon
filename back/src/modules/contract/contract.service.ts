@@ -34,6 +34,8 @@ import { Contract } from "./entities/contract.entity";
 import { eError } from "src/tools/enum/error.definition";
 import { UpdateContractDto } from "./dto/update-contract.dto";
 import { EmployeeMovementService } from "../employee-movement/employee-movement.service";
+import { title } from "process";
+import { FormFieldTemplate } from "../form-field-template/entities/form-field-template.entity";
 
 @Injectable()
 export class ContractService {
@@ -42,13 +44,15 @@ export class ContractService {
 		private documentRepository: Repository<Document>,
 		@InjectRepository(FormField)
 		private formFieldRepository: Repository<FormField>,
+		@InjectRepository(FormFieldTemplate)
+		private formFieldTemplateRepository: Repository<FormFieldTemplate>,
 		@InjectRepository(Employee)
 		private employeeRepository: Repository<Employee>,
 		@InjectRepository(Contract)
 		private contractRepository: Repository<Contract>,
 
 		private employeeMovementService: EmployeeMovementService
-	) {}
+	) { }
 
 	async generatePendingDocuments(contractId: string): Promise<void> {
 		// Seleciona todos os form_fields do contrato que precisam ter pelo menos um documento gerado.
@@ -530,13 +534,32 @@ export class ContractService {
 		}
 	}
 
-	async addFormField(
-		contractId: string,
-		formField: AddFormFieldDto,
-		res: Response
-	): Promise<GetFormFieldDto> {
+	async addFormField(contractId: string, formField: AddFormFieldDto, res: Response): Promise<GetFormFieldDto> {
 		try {
-			const newFormField = this.formFieldRepository.create({ contractId: contractId, ...formField });
+			const formFieldTemplate = await this.formFieldTemplateRepository.findOne({ id: formField.title });
+
+			if (!formFieldTemplate) {
+				throw eError.INVALID_PARAMETERS;
+			}
+
+			const newRawFormField: FormField = {} as FormField;
+
+			newRawFormField.title = formFieldTemplate.title;
+
+			if (formField.subtitle == 1) {
+				newRawFormField.subtitle = '<request-date>';
+			}
+			else if (formField.subtitle == 0) {
+				newRawFormField.subtitle = formField.description;
+			}
+
+			newRawFormField.recurrence = formField.recurrence;
+			newRawFormField.individual = formField.individual;
+			newRawFormField.required = formField.required;
+			newRawFormField.firstRequestDate = formField.firstRequestDate;
+			newRawFormField.contractId = contractId;
+
+			const newFormField: FormField = this.formFieldRepository.create(newRawFormField);
 			await this.formFieldRepository.save(newFormField);
 
 			return newFormField;
