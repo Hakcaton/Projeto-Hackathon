@@ -9,6 +9,7 @@ export const IconData: Map<string, any> = new Map<string, any>([
     ['document-edit', { source: '/assets/icons/document_edit.svg', w: 1, h: 1.027}],
     ['document-send', { source: '/assets/icons/document_sent.svg', w: 0.868, h: 1}],
     ['document-check', { source: '/assets/icons/document_check.svg', w: 0.921, h: 1}],
+    ['trash', { source: '/assets/icons/trash.svg', w: 0.7368, h: 1}],
     ['folder-documents', { source: '/assets/icons/folder_documents.svg', w: 1.3, h: 1}],
     ['folder-validate', { source: '/assets/icons/folder_validate.svg', w: 1.3, h: 1}],
     ['info', { source: '/assets/icons/info.svg', w: 1, h: 1}],

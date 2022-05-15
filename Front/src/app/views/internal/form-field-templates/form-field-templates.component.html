@@ -1,0 +1,78 @@
+<div class="wrapper">
+  <section>
+    <h2>Tipos de Documentos</h2>
+    <div class="filter">
+      <button class="btn btn-primary" (click)="btnAddContractClick()">Adicionar</button>
+      <input class="form-control" type="text" placeholder="Filtre por Nome ou Recorrência" [(ngModel)]="filter" />
+      <button class="btn btn-outline-secondary" (click)="clearFilter()" [disabled]="!filter">Limpar filtro</button>
+    </div>
+    <div class="table-card card">
+      <div class="content">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 400px; min-width: 400px;">Nome</th>
+              <th style="width: 150px; min-width: 150px;">Recorrência</th>
+              <th style="width: 150px; min-width: 150px;">Individual</th>
+              <th style="width: 150px; min-width: 150px;">Obrigatório</th>
+              <th style="width: 170px; min-width: 170px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container
+              *ngFor="let formFieldTemplate of filteredFormFieldTemplates.slice(pageIndex*10, pageIndex*10+10)">
+              <tr>
+                <td>{{ formFieldTemplate.title }}</td>
+                <td>{{ formatRecurrence(formFieldTemplate.recurrence) }}</td>
+                <td>
+                  <div>
+                    <input type="checkbox" class="form-check-input" [checked]="formFieldTemplate.individual"
+                      disabled
+                      id="individual">
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <input type="checkbox" class="form-check-input" [checked]="formFieldTemplate.required"
+                      disabled
+                      id="required">
+                  </div>
+                </td>
+                <td class="td-btn">
+                  <button class="no-style" (click)="onEditClick(formFieldTemplate)"
+                    tooltip="Visualizar documento cadastrado">
+                    <app-icon icon="document-edit"></app-icon>
+                  </button>
+                  <button class="no-style" (click)="onDeleteClick(formFieldTemplate)"
+                    tooltip="Excluir documento cadastrado">
+                    <app-icon icon="trash"></app-icon>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <div class="footer">
+        <div class="table-resume">
+          <span>{{ "Total: " + filteredFormFieldTemplates.length }}</span>
+        </div>
+        <div class="page-selector">
+          <button class="no-style" (click)="firstPage()">
+            <img src="/assets/icons/first_page.svg" class="icon">
+          </button>
+          <button class="no-style" (click)="previousPage()">
+            <img src="/assets/icons/left_arrow.svg" class="icon">
+          </button>
+          <span>{{ pageIndex + 1 }}</span>
+          <button class="no-style" (click)="nextPage()">
+            <img src="/assets/icons/right_arrow.svg" class="icon">
+          </button>
+          <button class="no-style" (click)="lastPage()">
+            <img src="/assets/icons/last_page.svg" class="icon">
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

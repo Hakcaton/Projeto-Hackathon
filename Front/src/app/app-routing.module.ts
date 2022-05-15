@@ -11,6 +11,7 @@ import { RegisteredCompaniesComponent } from './views/internal/company/registere
 import { ContractFormFieldsComponent } from './views/internal/contract-form-fields/contract-form-fields.component';
 import { ContractInfoComponent } from './views/internal/contract-info/contract-info.component';
 import { DocumentsValidationComponent } from './views/internal/documents-validation/documents-validation.component';
+import { FormFieldTemplatesComponent } from './views/internal/form-field-templates/form-field-templates.component';
 import { ProfileComponent } from './views/internal/profile/profile.component';
 import { OutsourcedCompanyContractsComponent } from './views/outsourced/outsourced-company-contracts/outsourced-company-contracts.component';
 import { PendingDocsComponent } from './views/outsourced/pending-docs/pending-docs.component';
@@ -29,46 +30,51 @@ const routes: Routes = [
       {
         path: 'empresas',
         component: RegisteredCompaniesComponent,
-        data: {title: 'Empresas Cadastradas'}
+        data: { title: 'Empresas Cadastradas' },
       },
       {
         path: 'empresas/cadastrar',
         component: CompanyRegistrationComponent,
-        data: {title: 'Cadastro de Empresa'}
+        data: { title: 'Cadastro de Empresa' },
       },
       {
         path: 'empresas/:companyCNPJ',
         component: CompanyRegistrationComponent,
-        data: {title: 'Cadastro da Empresa'}
+        data: { title: 'Cadastro da Empresa' },
       },
       {
         path: 'empresas/:companyCNPJ/contratos',
         component: CompanyContractsComponent,
-        data: {title: 'Contratos da Empresa'}
+        data: { title: 'Contratos da Empresa' },
       },
       {
         path: 'contratos/:contractId',
         component: ContractInfoComponent,
-        data: {title: 'Infrmações do Contrato'}
+        data: { title: 'Infrmações do Contrato' },
       },
       {
         path: 'contratos/:contractId/formulario',
         component: ContractFormFieldsComponent,
-        data: {title: 'Solicitação de Documentos'}
+        data: { title: 'Solicitação de Documentos' },
       },
       {
         path: 'contratos/:contractId/validar-documentos',
         component: DocumentsValidationComponent,
-        data: {title: 'Validação de Documentos'}
+        data: { title: 'Validação de Documentos' },
       },
       {
         path: 'perfil',
         component: ProfileComponent,
-        data: {title: 'Meu Perfil'}
+        data: { title: 'Meu Perfil' },
+      },
+      {
+        path: 'documentos',
+        component: FormFieldTemplatesComponent,
+        data: { title: 'Documentos Cadastrados' },
       },
     ],
     canActivate: [InternalAuthGuard],
-    data: {title: 'Dashboard'}
+    data: { title: 'Dashboard' },
   },
   {
     path: 'externo',
@@ -77,17 +83,17 @@ const routes: Routes = [
       {
         path: 'contratos',
         component: OutsourcedCompanyContractsComponent,
-        data: {title: 'Contratos da Empresa'}
+        data: { title: 'Contratos da Empresa' },
       },
       {
         path: 'contratos/:contractId/documentos/pendentes',
         component: PendingDocsComponent,
-        data: {title: 'Envio de Documentos'}
+        data: { title: 'Envio de Documentos' },
       },
       {
         path: 'contratos/:contractId/documentos/enviados',
         component: SentDocsComponent,
-        data: {title: 'Documentos Enviados'}
+        data: { title: 'Documentos Enviados' },
       },
     ],
     canActivate: [OutsourcedAuthGuard],

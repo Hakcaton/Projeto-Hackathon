@@ -47,6 +47,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { SideBarItemComponent } from './components/side-bar/side-bar-item/side-bar-item.component';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { RefuseDocumentModalComponent } from './components/refuse-document-modal/refuse-document-modal.component';
+import { FormFieldTemplatesComponent } from './views/internal/form-field-templates/form-field-templates.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { RefuseDocumentModalComponent } from './components/refuse-document-modal
     SideBarComponent,
     SideBarItemComponent,
     RefuseDocumentModalComponent,
+    FormFieldTemplatesComponent,
   ],
   imports: [
     AppRoutingModule,
