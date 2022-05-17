@@ -15,7 +15,7 @@ import { clamp } from 'src/app/tools/helpers/math.helper';
 })
 export class FormFieldTemplatesComponent implements OnInit {
 
-  bAddContract: boolean = false;
+  bAddFormField: boolean = false;
   private formFiledTemplates: FormFieldTemplateModel[] = [];
   filteredFormFieldTemplates: FormFieldTemplateModel[] = [];
 
@@ -103,8 +103,7 @@ export class FormFieldTemplatesComponent implements OnInit {
   }
 
   btnAddContractClick() {
-    this.bAddContract = true;
-    //Add Um novo Form Field Template atraves de um modal que vai ser criado.
+    this.bAddFormField = true;
   }
 
   onEditClick(formFieldTemplate: FormFieldTemplateModel) {
@@ -119,5 +118,15 @@ export class FormFieldTemplatesComponent implements OnInit {
     return recurrence.get(value) as string;
   }
 
+  onFormFieldAdded(formField: FormFieldTemplateModel) {
+    this.bAddFormField = false;
+    this.formFiledTemplates.push(formField);
+    this.filteredFormFieldTemplates = this.formFiledTemplates;
+    this.filter = this.filter;
+  }
+
+  onFormFieldCancel() {
+    this.bAddFormField = false;
+  }
  
 }
