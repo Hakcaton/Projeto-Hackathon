@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { map } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, map, throwError } from 'rxjs';
 import { FormFieldTemplateModel } from 'src/app/models/form-field-template.model';
 import { FormFieldService } from 'src/app/services/form-field.service';
 
@@ -19,7 +20,7 @@ export class NewFormFieldComponent implements OnInit {
 
   @Output() onCancel: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private formBuilder: FormBuilder, private formFieldService: FormFieldService) { }
+  constructor(private formBuilder: FormBuilder, private formFieldService: FormFieldService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.formNewFieldForm = this.formBuilder.group({
@@ -38,8 +39,6 @@ export class NewFormFieldComponent implements OnInit {
   ngAfterViewInit(): void{
     this.formNewFieldForm.controls['subtitle'].valueChanges.subscribe(
       (value) => {
-        console.log(value);
-       
         if(value == 1){
           this.bDescricao = false;
         }
@@ -50,8 +49,16 @@ export class NewFormFieldComponent implements OnInit {
   }
 
   btnConfirmClick() {
-    console.log(this.formNewFieldForm);
-    this.onAdded.emit();
+    this.formFieldService.addFormFieldTemplate(this.formNewFieldForm.value).pipe(
+      map( (formFieldTemplate) => {
+        this.onAdded.emit(formFieldTemplate);
+        this.toastr.success('Tipo de documento cadastrado com sucesso');
+      }),
+      catchError((error) => {
+        this.toastr.error('Ocorreu um erro inesperado ao cadastrar tipo de documento');
+        return throwError(() => error);
+      })
+    ).subscribe();
   }
 
   btnCancelClick() {

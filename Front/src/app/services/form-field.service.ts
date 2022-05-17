@@ -21,4 +21,10 @@ export class FormFieldService {
     const headers = new HttpHeaders().set('content-type', 'application/json');
     return this.http.patch<void>(url, formField, { headers: headers });
   }
+
+  addFormFieldTemplate(formFieldTemplate: FormFieldTemplateModel): Observable<FormFieldTemplateModel>{
+    const url = '/api/form-field-templates';
+    const headers = new HttpHeaders().set('content-type', 'application/json');
+    return this.http.post<FormFieldTemplateModel>(url, formFieldTemplate, { headers: headers });
+  }
 }
