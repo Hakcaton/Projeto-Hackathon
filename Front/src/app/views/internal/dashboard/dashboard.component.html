@@ -5,7 +5,7 @@
                 <h4>Total de empresas</h4>
             </div>
             <div class="content">
-                <div><span>07</span></div>
+                <div><span>{{ zerosLeft(dashboardData.totalCompaniesCount, 2) }}</span></div>
                 <div>
                     <app-icon icon="business" [scale]="1.25" color="primary-blue"></app-icon>
                 </div>
@@ -16,7 +16,7 @@
                 <h4 tooltip="Empresas registradas nos últimos 30 dias">Novas empresas*</h4>
             </div>
             <div class="content">
-                <div><span>01</span></div>
+                <div><span>{{ zerosLeft(dashboardData.newCompaniesCount, 2) }}</span></div>
                 <div>
                     <app-icon icon="business" [scale]="1.25" color="primary-blue"></app-icon>
                 </div>
@@ -27,7 +27,7 @@
                 <h4>Total de contratos</h4>
             </div>
             <div class="content">
-                <div><span>11</span></div>
+                <div><span>{{ zerosLeft(dashboardData.totalContractsCount, 2) }}</span></div>
                 <div>
                     <app-icon icon="document-edit" [scale]="1.25" color="primary-blue"></app-icon>
                 </div>
@@ -38,7 +38,7 @@
                 <h4 tooltip="Contratos registrados nos últimos 30 dias">Novos contratos*</h4>
             </div>
             <div class="content">
-                <div><span>11</span></div>
+                <div><span>{{ zerosLeft(dashboardData.newContractsCount, 2) }}</span></div>
                 <div>
                     <app-icon icon="document-edit" [scale]="1.25" color="primary-blue"></app-icon>
                 </div>
@@ -49,7 +49,7 @@
                 <h4>Total de documentos solicitados</h4>
             </div>
             <div class="content">
-                <div><span>115</span></div>
+                <div><span>{{ zerosLeft(dashboardData.totalRequestedDocumentsCount, 3) }}</span></div>
                 <div>
                     <app-icon icon="document" [scale]="1.25" color="primary-blue"></app-icon>
                 </div>
@@ -57,10 +57,10 @@
         </div>
         <div class="card card-a">
             <div class="header">
-                <h4>Total de documentos validados</h4>
+                <h4>Total de documentos aprovados</h4>
             </div>
             <div class="content">
-                <div><span>98</span></div>
+                <div><span>{{ zerosLeft(dashboardData.totalApprovedDocumentsCount, 3) }}</span></div>
                 <div>
                     <app-icon icon="document" [scale]="1.25" color="primary-blue"></app-icon>
                 </div>
@@ -71,7 +71,7 @@
                 <h4 tooltip="Documentos solicitados nos últimos 30 dias">Documentos solicitados*</h4>
             </div>
             <div class="content">
-                <div><span>34</span></div>
+                <div><span>{{ zerosLeft(dashboardData.newRequestedDocumentsCount, 3) }}</span></div>
                 <div>
                     <app-icon icon="document" [scale]="1.25" color="primary-blue"></app-icon>
                 </div>
@@ -79,13 +79,31 @@
         </div>
         <div class="card card-a">
             <div class="header">
-                <h4 tooltip="Documentos validados nos últimos 30 dias">Documentos validados*</h4>
+                <h4 tooltip="Documentos validados nos últimos 30 dias">Documentos aprovados*</h4>
             </div>
             <div class="content">
-                <div><span>14</span></div>
+                <div><span>{{ zerosLeft(dashboardData.newApprovedDocumentsCount, 3) }}</span></div>
                 <div>
                     <app-icon icon="document" [scale]="1.25" color="primary-blue"></app-icon>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="charts">
+        <div class="card card-b">
+            <div class="header">
+                <h4>Visão geral dos documentos</h4>
+            </div>
+            <div class="content">
+                <p-chart type="doughnut" [data]="totalDocumentsData" [options]="options" [style]="{'width': '350px'}"></p-chart>
+            </div>
+        </div>
+        <div class="card card-b">
+            <div class="header">
+                <h4 tooltip="Visão geral dos documentos nos últimos 30 dias">Visão geral dos documentos*</h4>
+            </div>
+            <div class="content">
+                <p-chart type="doughnut" [data]="newDocumentsData" [options]="options" [style]="{'width': '350px'}"></p-chart>
             </div>
         </div>
     </div>

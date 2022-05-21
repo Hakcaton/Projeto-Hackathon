@@ -50,6 +50,7 @@ import { RefuseDocumentModalComponent } from './components/refuse-document-modal
 import { FormFieldTemplatesComponent } from './views/internal/form-field-templates/form-field-templates.component';
 import { NewFormFieldComponent } from './components/new-form-field/new-form-field.component';
 import { DashboardComponent } from './views/internal/dashboard/dashboard.component';
+import {ChartModule} from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { DashboardComponent } from './views/internal/dashboard/dashboard.compone
     NgxMaskModule.forRoot(),
     AlifeFileToBase64Module,
     PopoverModule.forRoot(),
+    ChartModule
   ],
   providers: [
     FormBuilder,

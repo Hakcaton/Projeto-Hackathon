@@ -9,18 +9,25 @@
     padding-top: 50px;
 }
 
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: calc((315px + 30px) * 4);
+    justify-content: center;
+}
+
+.charts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .card {
     margin: 15px;
 
     h4 {
         font-size: 18px;
     }
-}
-
-.cards {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: calc((315px + 30px) * 4);
 }
 
 .card-a {
@@ -32,6 +39,29 @@
         display: flex;
         flex-grow: 1;
         align-items: center;
+        width: 100%;
+
+        div:nth-child(1) {
+            flex-grow: 1;
+
+            span {
+                font-size: 26px;
+                font-weight: 500;
+            }
+        }
+    }
+}
+
+.card-b {
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+
+    div.content {
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
+        justify-content: center;
         width: 100%;
 
         div:nth-child(1) {
