@@ -6,6 +6,7 @@ export const IconData: Map<string, any> = new Map<string, any>([
     ['circle-cross', { source: '/assets/icons/circle_cross.svg', w: 1, h: 1}],
     ['comment', { source: '/assets/icons/comment.svg', w: 1, h: 1}],
     ['dashboard', { source: '/assets/icons/dashboard.svg', w: 1, h: 1}],
+    ['document', { source: '/assets/icons/document.svg', w: 0.7894, h: 1}],
     ['document-edit', { source: '/assets/icons/document_edit.svg', w: 1, h: 1.027}],
     ['document-send', { source: '/assets/icons/document_sent.svg', w: 0.868, h: 1}],
     ['document-check', { source: '/assets/icons/document_check.svg', w: 0.921, h: 1}],

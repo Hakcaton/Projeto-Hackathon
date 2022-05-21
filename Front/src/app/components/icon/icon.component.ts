@@ -35,6 +35,9 @@ export class IconComponent implements OnInit {
       case 'light':
         this.filter = 'invert(95%) sepia(15%) saturate(54%) hue-rotate(186deg) brightness(99%) contrast(96%)';
         break;
+      case "primary-blue":
+        this.filter = 'invert(32%) sepia(79%) saturate(2949%) hue-rotate(207deg) brightness(97%) contrast(103%)';
+        break;
 
       default:
         break;

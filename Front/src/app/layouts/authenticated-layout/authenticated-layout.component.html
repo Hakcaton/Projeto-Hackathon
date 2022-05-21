@@ -2,6 +2,7 @@
 <div class="wrapper">
   <app-top-bar (sideBarCollapseClick)="onSideBarCollapseClick($event)"></app-top-bar>
   <main>
-    <router-outlet></router-outlet>
+    <router-outlet *ngIf="!bDashboard"></router-outlet>
+    <app-dashboard *ngIf="bDashboard"></app-dashboard>
   </main>
 </div>

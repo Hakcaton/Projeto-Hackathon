@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SideBarComponent } from 'src/app/components/side-bar/side-bar.component';
 
 @Component({
@@ -10,7 +11,15 @@ export class AuthenticatedLayoutComponent {
 
   @ViewChild('sideBar') sideBar!: SideBarComponent;
 
-  onSideBarCollapseClick(collapsed: boolean){
+  bDashboard: boolean = true;
+
+  constructor(private route: ActivatedRoute) {
+    this.route.url.subscribe(() => {
+      this.bDashboard = !this.route.snapshot.firstChild;
+    });
+  }
+
+  onSideBarCollapseClick(collapsed: boolean) {
     this.sideBar.bCollapsed = collapsed;
   }
 }
