@@ -20,6 +20,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    width: 100%;
+    padding: 0px 50px;
 }
 
 .card {
@@ -53,8 +55,8 @@
 }
 
 .card-b {
-    width: fit-content;
-    height: fit-content;
+    width: 315px;
+    height: 350px;
     display: flex;
 
     div.content {
@@ -64,13 +66,31 @@
         justify-content: center;
         width: 100%;
 
-        div:nth-child(1) {
-            flex-grow: 1;
-
-            span {
-                font-size: 26px;
-                font-weight: 500;
-            }
+        p-chart {
+            height: 100%;
+            width: 100%;
         }
     }
+}
+
+.card-c {
+    height: 350px;
+    min-width: 650px;
+    max-width: 1005px;
+    flex-grow: 1;
+    display: flex;
+
+    div.content {
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+        p-chart {
+            height: 100%;
+            width: 100%;
+        }
+    }
+
 }

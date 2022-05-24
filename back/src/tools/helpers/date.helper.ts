@@ -18,8 +18,13 @@ export function DateToString(date: Date, format: string = 'dd/mm/yyyy'): string 
     let formattedDate: string = format;
 
     formattedDate = formattedDate.replace('dd', ('00' + (date.getDate()).toString()).slice(-2));
-    formattedDate = formattedDate.replace('mm', ('00' + (date.getMonth()+1).toString()).slice(-2));
+    formattedDate = formattedDate.replace('mm', ('00' + (date.getMonth() + 1).toString()).slice(-2));
     formattedDate = formattedDate.replace('yyyy', ('0000' + (date.getFullYear()).toString()).slice(-4));
 
     return formattedDate;
+}
+
+export function diffDays(dateA: Date, dateB: Date): number {
+    var diff = Math.abs(dateA.getTime() - dateB.getTime());
+    return Math.ceil(diff / (1000 * 3600 * 24)); 
 }

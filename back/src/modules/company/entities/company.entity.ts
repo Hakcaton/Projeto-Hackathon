@@ -15,6 +15,9 @@ export class Company {
   @Column({ name: 'state_registration' })
   stateRegistration: string;
 
+  @Column({name: 'registered_date', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', nullable: false})
+  registeredDate: Date;
+
   @Column({ name: 'responsable_user_id' })
   responsableUserId: string;
 

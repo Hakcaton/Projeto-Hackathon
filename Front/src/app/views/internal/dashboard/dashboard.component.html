@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" *ngIf="dashboardData">
     <div class="cards">
         <div class="card card-a">
             <div class="header">
@@ -95,15 +95,15 @@
                 <h4>Visão geral dos documentos</h4>
             </div>
             <div class="content">
-                <p-chart type="doughnut" [data]="totalDocumentsData" [options]="options" [style]="{'width': '350px'}"></p-chart>
+                <p-chart type="bar" [data]="dashboardData.lastMonthOverview" [options]="options" height="100%" width="100%"></p-chart>
             </div>
         </div>
-        <div class="card card-b">
+        <div class="card card-c">
             <div class="header">
-                <h4 tooltip="Visão geral dos documentos nos últimos 30 dias">Visão geral dos documentos*</h4>
+                <h4>Visão geral dos documentos</h4>
             </div>
             <div class="content">
-                <p-chart type="doughnut" [data]="newDocumentsData" [options]="options" [style]="{'width': '350px'}"></p-chart>
+                <p-chart type="bar" [data]="dashboardData.last12MonthsOverview" [options]="options" height="100%" width="100%"></p-chart>
             </div>
         </div>
     </div>

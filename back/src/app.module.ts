@@ -23,6 +23,7 @@ import { Emails } from "./tools/emails/emails.service";
 import { Auth } from "./tools/auth/entities/auth.entity";
 import { FormFieldTemplate } from "./modules/form-field-template/entities/form-field-template.entity";
 import { FormFieldTemplateModule } from "./modules/form-field-template/form-field-template.module";
+import { DashboardModule } from "./modules/dashboard/dashboard.module";
 
 @Module({
 	imports: [
@@ -34,6 +35,7 @@ import { FormFieldTemplateModule } from "./modules/form-field-template/form-fiel
 		FormFieldModule,
 		DocumentsModule,
 		FormFieldTemplateModule,
+		DashboardModule,
 		TypeOrmModule.forRoot({
 			type: "mysql",
 			host: "localhost",
@@ -45,7 +47,7 @@ import { FormFieldTemplateModule } from "./modules/form-field-template/form-fiel
 			synchronize: true,
 		}),
 	],
-	controllers: [AppController],
+	controllers: [],
 	providers: [
 		AppService,
 		Emails,

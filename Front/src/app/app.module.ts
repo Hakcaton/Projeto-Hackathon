@@ -51,6 +51,7 @@ import { FormFieldTemplatesComponent } from './views/internal/form-field-templat
 import { NewFormFieldComponent } from './components/new-form-field/new-form-field.component';
 import { DashboardComponent } from './views/internal/dashboard/dashboard.component';
 import {ChartModule} from 'primeng/chart';
+import {ScrollTopModule} from 'primeng/scrolltop';
 
 @NgModule({
   declarations: [
@@ -107,7 +108,8 @@ import {ChartModule} from 'primeng/chart';
     NgxMaskModule.forRoot(),
     AlifeFileToBase64Module,
     PopoverModule.forRoot(),
-    ChartModule
+    ChartModule,
+    ScrollTopModule
   ],
   providers: [
     FormBuilder,
