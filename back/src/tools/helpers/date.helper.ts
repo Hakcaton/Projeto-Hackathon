@@ -26,5 +26,36 @@ export function DateToString(date: Date, format: string = 'dd/mm/yyyy'): string 
 
 export function diffDays(dateA: Date, dateB: Date): number {
     var diff = Math.abs(dateA.getTime() - dateB.getTime());
-    return Math.ceil(diff / (1000 * 3600 * 24)); 
+    return Math.ceil(diff / (1000 * 3600 * 24));
+}
+
+export function MonthToString(month: number, reduced: boolean = false): string {
+    if (!reduced) {
+        if (month == 0) return 'Janeiro';
+        if (month == 1) return 'Fevereiro';
+        if (month == 2) return 'Março';
+        if (month == 3) return 'Abril';
+        if (month == 4) return 'Maio';
+        if (month == 5) return 'Junho';
+        if (month == 6) return 'Julho';
+        if (month == 7) return 'Agosto';
+        if (month == 8) return 'Setembro';
+        if (month == 9) return 'Outubro';
+        if (month == 10) return 'Novembro';
+        if (month == 11) return 'Dezembro';
+    }
+    else{
+        if (month == 0) return 'Jan';
+        if (month == 1) return 'Fev';
+        if (month == 2) return 'Mar';
+        if (month == 3) return 'Abr';
+        if (month == 4) return 'Mai';
+        if (month == 5) return 'Jun';
+        if (month == 6) return 'Jul';
+        if (month == 7) return 'Ago';
+        if (month == 8) return 'Set';
+        if (month == 9) return 'Out';
+        if (month == 10) return 'Nov';
+        if (month == 11) return 'Dez';
+    }
 }

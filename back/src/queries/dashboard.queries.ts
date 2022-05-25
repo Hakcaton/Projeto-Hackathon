@@ -1,4 +1,4 @@
-export const GET_DASHBOARD_CARDS_DATA = `
+export const SELECT_DASHBOARD_CARDS_DATA = `
 SELECT *
 FROM (
     SELECT 
@@ -59,4 +59,21 @@ LEFT JOIN (
 		datediff(current_timestamp(), document.request_date) < 30 AND
         document.status = 3
 ) AS newApprovedDocument ON (TRUE)
+`
+
+export const SELECT_LAST_30DAYS_DOCUMENTS_OVERVIEW = `
+SELECT document.status
+FROM
+	document
+WHERE
+	MONTH(CURRENT_TIMESTAMP()) = MONTH(document.request_date)
+AND
+	YEAR(CURRENT_TIMESTAMP()) = YEAR(document.request_date)
+`
+export const SELECT_LAST_12MONTHS_DOCUMENTS_OVERVIEW = `
+SELECT document.status, document.request_date
+FROM
+	document
+WHERE
+	DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL -1 YEAR) < document.request_date
 `
